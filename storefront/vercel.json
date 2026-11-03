@@ -1,7 +1,12 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "cleanUrls": true,
+  "functions": {
+    "api/render.mjs": { "includeFiles": "bundle/**" }
+  },
+  "rewrites": [
+    { "source": "/((?!assets/|cart\\.js$|api/).*)", "destination": "/api/render?__path=/$1" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

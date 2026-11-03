@@ -52,20 +52,29 @@ function loadProducts() {
       p.type = r['Type'] || '';
       p.tags = (r['Tags'] || '').split(',').map((t) => t.trim()).filter(Boolean);
       p.status = r['Status'] || '';
+      p.published = r['Published'] === 'true';
+      p.seo_title = r['SEO Title'] || '';
+      p.seo_description = r['SEO Description'] || '';
       for (let i = 1; i <= 3; i++) {
         const name = r[`Option${i} Name`];
         if (name) p.options.push(name);
       }
     }
     if (r['Option1 Value'] || r['Variant Price']) {
+      const qty = parseInt(r['Variant Inventory Qty'] || '0', 10) || 0;
+      const tracked = !!r['Variant Inventory Tracker'];
+      const policy = r['Variant Inventory Policy'] || 'deny';
       p.variants.push({
+        id: `${h}--${p.variants.length + 1}`,
         sku: r['Variant SKU'] || '',
         option1: r['Option1 Value'] || null,
         option2: r['Option2 Value'] || null,
         option3: r['Option3 Value'] || null,
         price: Math.round(parseFloat(r['Variant Price'] || '0') * 100),
         compare_at_price: r['Variant Compare At Price'] ? Math.round(parseFloat(r['Variant Compare At Price']) * 100) : null,
-        image: r['Variant Image'] || '',
+        inventory_quantity: qty,
+        available: !tracked || policy === 'continue' || qty > 0,
+        image: r['Variant Image'] ? makeImage(r['Variant Image']) : null,
       });
     }
     if (r['Image Src']) p.images.push(makeImage(r['Image Src'], r['Image Alt Text'] || p.title));
@@ -74,30 +83,55 @@ function loadProducts() {
   for (const p of byHandle.values()) {
     p.url = `/products/${p.handle}`;
     p.featured_image = p.images[0] || null;
+    p.featured_media = p.featured_image;
+    p.media = p.images;
+    for (const v of p.variants) {
+      v.title = [v.option1, v.option2, v.option3].filter(Boolean).join(' / ');
+      v.options = [v.option1, v.option2, v.option3].filter(Boolean);
+    }
     const prices = p.variants.map((v) => v.price).filter((n) => n > 0);
     p.price = prices.length ? Math.min(...prices) : 0;
     p.price_min = p.price;
     p.price_max = prices.length ? Math.max(...prices) : 0;
-    p.available = p.status === 'active';
+    const compares = p.variants.map((v) => v.compare_at_price || 0);
+    p.compare_at_price = compares.length ? Math.max(...compares) : 0;
+    p.compare_at_price_max = p.compare_at_price;
+    p.available = p.variants.some((v) => v.available);
+    p.visible = p.status === 'active' && p.published; // what Shopify's storefront shows
+    p.selected_or_first_available_variant = p.variants.find((v) => v.available) || p.variants[0] || null;
+    p.first_available_variant = p.selected_or_first_available_variant;
+    p.has_only_default_variant = p.variants.length <= 1 && (p.options.length === 0 || p.options[0] === 'Title');
     p.options_with_values = p.options.map((name, i) => ({
       name,
+      position: i + 1,
       values: [...new Set(p.variants.map((v) => v[`option${i + 1}`]).filter(Boolean))],
+      selected_value: p.selected_or_first_available_variant?.[`option${i + 1}`] ?? null,
     }));
   }
   return byHandle;
 }
 
 // ---------- collections ----------
+// Only products that are active and published appear on the storefront, as on Shopify.
+function makeCollection(c, list) {
+  return {
+    handle: c.handle, title: c.title, url: `/collections/${c.handle}`,
+    description: c.description || '', template_suffix: c.template_suffix || '',
+    seo_title: c.seo_title || '', seo_description: c.seo_description || '',
+    image: makeImage(c.image), products: list, all_products: list,
+    products_count: list.length, all_products_count: list.length,
+    sort_by: '', default_sort_by: 'manual', filters: [],
+  };
+}
+
 function loadCollections(products) {
   const map = new Map();
   for (const c of readJSON('collections/collections.json').collections) {
-    const list = c.product_handles.map((h) => products.get(h)).filter(Boolean);
-    map.set(c.handle, {
-      handle: c.handle, title: c.title, url: `/collections/${c.handle}`,
-      image: makeImage(c.image), products: list, products_count: c.product_count,
-      all_products_count: c.product_count,
-    });
+    const list = c.product_handles.map((h) => products.get(h)).filter((p) => p && p.visible);
+    map.set(c.handle, makeCollection(c, list));
   }
+  // /collections/all: every visible product
+  map.set('all', makeCollection({ handle: 'all', title: 'Products' }, [...products.values()].filter((p) => p.visible)));
   return map;
 }
 
@@ -116,9 +150,23 @@ function loadOutlets() {
   return map;
 }
 
+// ---------- URL redirects (Shopify: Navigation > URL redirects) ----------
+function loadRedirects() {
+  const rows = parse(readFileSync(`${DATA_DIR}/redirects/redirects_export.csv`), { columns: true, bom: true, skip_empty_lines: true });
+  const map = new Map();
+  for (const r of rows) {
+    const from = (r['Redirect from'] || '').trim();
+    let to = (r['Redirect to'] || '').trim();
+    if (!from || !to) continue;
+    to = to.replace(/^https?:\/\/(www\.)?jackstudio\.com\.my/, '') || '/';
+    map.set(from.toLowerCase(), to);
+  }
+  return map;
+}
+
 export function loadStore() {
   const products = loadProducts();
   const collections = loadCollections(products);
   const outlets = loadOutlets();
-  return { products, collections, metaobjects: { outlet: outlets } };
+  return { products, collections, metaobjects: { outlet: outlets }, redirects: loadRedirects() };
 }

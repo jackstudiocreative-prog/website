@@ -1,11 +1,16 @@
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
+import { existsSync } from 'node:fs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
 export const ROOT = resolve(here, '..');
-export const THEME_DIR = resolve(ROOT, '../shopify-theme');
-export const DATA_DIR = resolve(ROOT, '../data');
+// On Vercel the build copies the theme and data into ./bundle so the server function can read them.
+const BUNDLE = resolve(ROOT, 'bundle');
+const useBundle = existsSync(resolve(BUNDLE, 'shopify-theme'));
+export const THEME_DIR = useBundle ? resolve(BUNDLE, 'shopify-theme') : resolve(ROOT, '../shopify-theme');
+export const DATA_DIR = useBundle ? resolve(BUNDLE, 'data') : resolve(ROOT, '../data');
+export const BUNDLE_DIR = BUNDLE;
 export const OUT_DIR = resolve(ROOT, 'dist');
 
 // Images still live on the existing Shopify CDN until they are moved to our own storage.

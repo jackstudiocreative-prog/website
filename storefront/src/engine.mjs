@@ -169,7 +169,9 @@ export async function renderSection(engine, { id, type, data = {} }, ctx, store)
 }
 
 export async function renderTemplate(engine, name, ctx, store) {
-  const tpl = JSON.parse(readFileSync(resolve(THEME_DIR, 'templates', `${name}.json`), 'utf8'));
+  // Shopify-generated template files can start with a /* ... */ comment header.
+  const raw = readFileSync(resolve(THEME_DIR, 'templates', `${name}.json`), 'utf8').replace(/^\s*\/\*[\s\S]*?\*\//, '');
+  const tpl = JSON.parse(raw);
   const parts = [];
   for (const key of tpl.order) {
     const s = tpl.sections[key];

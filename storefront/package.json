@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "build": "node src/build.mjs",
-    "preview": "npx --yes serve dist -l 4173"
+    "dev": "node src/server.mjs",
+    "preview": "npm run build && npm run dev"
   },
   "keywords": [],
   "author": "",
