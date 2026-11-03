@@ -16,5 +16,7 @@ export const SHOP = {
   url: 'https://www.jackstudio.com.my',
   currency: 'MYR',
   money_format: 'RM{{amount}}',
-  description: '',
+  description: 'Jack Studio is a leading leather shop in Klang, Selangor, Malaysia since 2013. We offer affordable premium leather wallets, bags, belts, luggage & gift sets. FREE embossing, gift packaging & polishing. Trusted with 5,000+ 5-star reviews (2025). Visit our store in Klang Selangor, Kuala Lumpur or order online nationwide.',
+  // Homepage SEO title (Shopify: Online Store > Preferences)
+  home_title: 'Jack Studio Leather Shop | Premium Bag & Wallets & Belts in Malaysia',
 };

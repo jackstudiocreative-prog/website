@@ -14,7 +14,7 @@ for (const group of JSON.parse(readFileSync(resolve(THEME_DIR, 'config/settings_
   for (const s of group.settings || []) if (s.id) themeSettings[s.id] = s.default;
 }
 
-function baseContext(path, pageType, title) {
+function baseContext(path, pageType, title, description = SHOP.description) {
   return {
     shop: { name: SHOP.name, url: SHOP.url, description: SHOP.description, currency: SHOP.currency, brand: {} },
     routes: {
@@ -28,14 +28,14 @@ function baseContext(path, pageType, title) {
     collections: Object.fromEntries(store.collections),
     all_products: Object.fromEntries(store.products),
     page_title: title,
-    page_description: '',
+    page_description: description,
     canonical_url: SHOP.url + path,
     content_for_header: '',
   };
 }
 
 const pages = [
-  { path: '/', out: 'index.html', template: 'index', type: 'index', title: SHOP.name },
+  { path: '/', out: 'index.html', template: 'index', type: 'index', title: SHOP.home_title },
 ];
 
 rmSync(OUT_DIR, { recursive: true, force: true });

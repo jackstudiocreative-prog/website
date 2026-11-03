@@ -23,6 +23,10 @@ npm run build      # -> dist/
 npm run preview    # serve dist/ on http://localhost:4173
 ```
 
+## Before going live
+
+- Remove the `X-Robots-Tag: noindex` header from `vercel.json` (it keeps the preview out of Google while jackstudio.com.my is still on Shopify).
+
 ## Status
 
 - Done: header, footer, homepage
