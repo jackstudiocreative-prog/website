@@ -7,6 +7,7 @@ Source code for the Jack Studio website (jackstudio.com.my), being moved off Sho
 | Folder | Contents |
 |---|---|
 | `data/products/` | Shopify products CSV export (178 products, 851 variants), 3 Nov 2026. |
+| `data/redirects/` | Shopify URL redirects export (41 redirects), 3 Nov 2026. Must be carried over as 301s on the new site. |
 | `shopify-theme/` | Full export of the Shopify theme "Website design 2026 (with showroom)", exported 3 Nov 2026. Source of truth for the design. |
 
 ## Rules
