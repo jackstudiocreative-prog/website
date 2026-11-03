@@ -1,0 +1,25 @@
+{% if section.settings.enable and section.settings.whatsapp_number != blank %}
+<a class="wa-float" href="https://wa.me/{{ section.settings.whatsapp_number | remove: ' ' | remove: '-' | remove: '+' }}{% if section.settings.message != blank %}?text={{ section.settings.message | url_encode }}{% endif %}" target="_blank" rel="noopener">
+  <span class="wa-icon">
+    <svg viewBox="0 0 32 32" fill="#fff" width="26" height="26"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.362.687 4.564 1.874 6.417L4 29l7.79-1.845A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3zm0 21.818a9.77 9.77 0 0 1-4.98-1.36l-.357-.211-4.622 1.095 1.234-4.503-.233-.369A9.78 9.78 0 0 1 5.182 15c0-5.964 4.855-10.818 10.819-10.818S26.818 9.036 26.818 15 21.965 24.818 16.001 24.818zm5.66-7.324c-.31-.155-1.836-.906-2.121-1.01-.284-.104-.492-.155-.699.155-.207.31-.803 1.01-.984 1.217-.181.207-.362.233-.673.078-.31-.155-1.309-.483-2.494-1.538-.922-.822-1.545-1.837-1.726-2.147-.181-.31-.019-.478.136-.632.14-.14.31-.362.465-.543.155-.181.207-.31.31-.517.104-.207.052-.388-.026-.543-.078-.155-.699-1.684-.958-2.307-.252-.605-.508-.523-.699-.533l-.596-.01c-.207 0-.543.078-.828.388-.284.31-1.088 1.063-1.088 2.593s1.114 3.008 1.269 3.216c.155.207 2.192 3.346 5.312 4.693.742.32 1.322.512 1.774.655.745.237 1.423.204 1.959.124.598-.089 1.836-.75 2.096-1.474.259-.724.259-1.345.181-1.474-.078-.13-.284-.207-.596-.362z"/></svg>
+  </span>
+  {% if section.settings.label != blank %}<span class="wa-label">{{ section.settings.label }}</span>{% endif %}
+</a>
+<style>
+  .wa-float{position:fixed;bottom:24px;left:24px;z-index:999;display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .wa-icon{background:#25D366;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.25);flex-shrink:0;}
+  .wa-label{background:#F4EFDC;color:#2B2420;font-size:13px;font-weight:600;padding:10px 16px;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.15);white-space:nowrap;}
+  @media(max-width:600px){.wa-float{bottom:16px;left:16px;} .wa-label{display:none;} .wa-icon{width:48px;height:48px;}}
+</style>
+{% endif %}
+{% schema %}
+{
+  "name": "WhatsApp Chat Button",
+  "settings": [
+    {"type":"checkbox","id":"enable","label":"Enable","default":true},
+    {"type":"text","id":"whatsapp_number","label":"WhatsApp number (with country code)","default":"60116060127"},
+    {"type":"text","id":"label","label":"Button label","default":"Chat with us"},
+    {"type":"text","id":"message","label":"Pre-filled message (optional)","default":"Hi, I'd like to know more about Jack Studio."}
+  ]
+}
+{% endschema %}

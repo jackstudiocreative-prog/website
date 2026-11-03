@@ -1,0 +1,231 @@
+{% doc %}
+  @prompt
+    Create a Shopify Liquid section called “More Categories – Series Explorer”.
+    
+    IMPORTANT: Use **Shopify Section + Blocks**.
+    
+    ### SECTION = MORE CATEGORIES
+    
+    The section contains:
+    
+    **MORE CATEGORIES**
+    
+    A large horizontal-scroll gallery of Series cards.
+    
+    Each Series card is a **Shopify block**.
+    
+    Each block contains:
+    
+    * Series name
+    * Large image
+    * Description
+    * Accent color
+    * Border radius
+    
+    Example default blocks:
+    Urban Carry, Craft Heritage, Travel Movement, Professional, Essential, Make It Personal, Craft Innovation.
+    
+    I must be able to **add, delete and reorder Series blocks** from the Shopify Theme Editor.
+    
+    ### CLICK SERIES BLOCK
+    
+    When a Series block is clicked:
+    
+    Do NOT redirect to another page.
+    
+    Do NOT open a modal or popup.
+    
+    Instead, **expand the selected block's product content downward on the same page**.
+    
+    Only one Series can be expanded at a time.
+    
+    Example:
+    
+    [ Urban Carry ] [ Craft Heritage ] [ Travel Movement ]
+    
+    Click Urban Carry ↓
+    
+    **URBAN CARRY**
+    
+    [ Product Category ]
+    
+    BAG — View all
+    
+    [Product 1] [Product 2] [Product 3] [Product 4]
+    
+    [ Product Category ]
+    
+    BACKPACK — View all
+    
+    [Product 1] [Product 2] [Product 3] [Product 4]
+    
+    ### PRODUCT CATEGORIES
+    
+    Do NOT hardcode Bag / Backpack / Belt / Wallet.
+    
+    Inside each Series block, allow **dynamic Product Category blocks**.
+    
+    Each Product Category block must have:
+    
+    * Category name
+    * Shopify Collection selector
+    * Number of products
+    
+    I must be able to **add, delete and reorder Product Category blocks** for every Series.
+    
+    Example:
+    
+    Series Block
+    → Category Block
+    → Category Block
+    → Category Block
+    → Category Block
+    
+    ### PRODUCTS
+    
+    Products must come dynamically from the selected Shopify Collection using Liquid.
+    
+    Do not hardcode product names, images or prices.
+    
+    Desktop: 4 products per row.
+    Mobile: 2 products per row.
+    
+    ### INTERACTION
+    
+    Use Vanilla JavaScript.
+    
+    Click Series → expand its products below.
+    
+    Click another Series → collapse previous Series and expand the new Series.
+    
+    Click active Series → collapse it.
+    
+    Use smooth expand/collapse animation.
+    
+    No page refresh, no URL change, no popup, no modal.
+    
+    ### DESIGN
+    
+    Premium modern heritage style:
+    
+    Warm cream, beige, dark brown, muted green, warm orange, minimal editorial layout, large photography and rounded corners.
+    
+    The final structure must be:
+    
+    **SECTION**
+    → horizontal Series Blocks
+    
+    **SERIES BLOCK**
+    → Series information
+    → Product Category Blocks
+    → Shopify Collection Products
+    
+    Everything must be editable through the Shopify Theme Editor.
+    , Fix the existing **More Categories – Series Explorer** section.
+    
+    The Series cards already work correctly. **Do not redesign the Series cards.**
+    
+    The problem is:
+    
+    When I click a Series, it only shows the Series name, but the product content is empty.
+    
+    ### FIX THIS:
+    
+    When a Series block is expanded, it MUST render the product categories and products configured inside that Series block.
+    
+    For example:
+    
+    URBAN CARRY
+    
+    BAG — View all
+    
+    [ Product 1 ] [ Product 2 ] [ Product 3 ] [ Product 4 ]
+    
+    BACKPACK — View all
+    
+    [ Product 1 ] [ Product 2 ] [ Product 3 ] [ Product 4 ]
+    
+    ### IMPORTANT
+    
+    Do NOT hardcode BAG, BACKPACK, BELT or WALLET.
+    
+    Each Series must have editable **Product Category blocks**.
+    
+    Each Product Category block must contain:
+    
+    * Category name
+    * Shopify Collection selector
+    * Number of products to display
+    
+    When the Series expands, use Shopify Liquid to loop through the selected collection:
+    
+    `category_collection.products`
+    
+    and render:
+    
+    * Product image
+    * Product title
+    * Product price
+    * Compare-at price if available
+    * Product URL
+    
+    ### IMPORTANT SHOPIFY STRUCTURE
+    
+    Make sure the Liquid actually renders the nested category blocks inside the selected Series.
+    
+    The structure should work like:
+    
+    Section
+    → Series block
+    → Product Category block
+    → Selected Collection
+    → Collection products
+    
+    Do NOT only render the Series title.
+    
+    If Shopify section blocks cannot be nested directly, use a compatible block/data structure so that each Series still has its own multiple Product Category settings and collections.
+    
+    ### EMPTY COLLECTION HANDLING
+    
+    If no collection has been selected for a category, show:
+    
+    **Select a collection in Theme Editor**
+    
+    instead of leaving an empty area.
+    
+    If a collection is selected, its products MUST appear.
+    
+    ### FINAL BEHAVIOUR
+    
+    Click:
+    
+    **URBAN CARRY**
+    
+    ↓
+    
+    Expand:
+    
+    URBAN CARRY
+    
+    BAG — View all
+    
+    [Product 1] [Product 2] [Product 3] [Product 4]
+    
+    BACKPACK — View all
+    
+    [Product 1] [Product 2] [Product 3] [Product 4]
+    
+    Click:
+    
+    **CRAFT HERITAGE**
+    
+    ↓
+    
+    Urban Carry collapses.
+    
+    Craft Heritage expands with its OWN categories and products.
+    
+    Do not change the existing horizontal Series image scroll design. Only fix the expanded Series content so the selected Shopify Collections and their products are actually rendered.
+    
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}{% style %}.ai-explorer-{{ ai_gen_id }}{display:block;width:100%;background:#F4EFDC;color:#2B2420;padding:40px 0}.ai-explorer-{{ ai_gen_id }}__rail{display:flex;gap:16px;overflow-x:auto;padding:0 20px}.ai-explorer-{{ ai_gen_id }}__card{flex:0 0 280px;border:0;border-radius:16px;overflow:hidden;background:#F9F4E3;text-align:left;cursor:pointer}.ai-explorer-{{ ai_gen_id }}__card:focus-visible{outline:3px solid #8DA68A}.ai-explorer-{{ ai_gen_id }}__card img,.ai-explorer-{{ ai_gen_id }}__card svg{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}.ai-explorer-{{ ai_gen_id }}__copy{padding:18px;border-top:5px solid var(--accent)}.ai-explorer-{{ ai_gen_id }}__copy h3{margin:0 0 6px}.ai-explorer-{{ ai_gen_id }}__copy p{margin:0;color:#7A7263}.ai-explorer-{{ ai_gen_id }}__panel{max-height:0;overflow:hidden;opacity:0;transition:max-height .4s ease,opacity .25s ease}.ai-explorer-{{ ai_gen_id }}__panel.is-open{opacity:1}.ai-explorer-{{ ai_gen_id }}__panel-inner{padding:30px 20px}.ai-explorer-{{ ai_gen_id }}__category{margin:0 0 30px}.ai-explorer-{{ ai_gen_id }}__category-head{display:flex;justify-content:space-between;border-bottom:1px solid #C9C2AC;margin-bottom:15px}.ai-explorer-{{ ai_gen_id }}__category-head h3{margin:0 0 10px}.ai-explorer-{{ ai_gen_id }}__category-head a{color:#2B2420}.ai-explorer-{{ ai_gen_id }}__products{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.ai-explorer-{{ ai_gen_id }}__product{color:#2B2420;text-decoration:none}.ai-explorer-{{ ai_gen_id }}__product img,.ai-explorer-{{ ai_gen_id }}__product svg{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}.ai-explorer-{{ ai_gen_id }}__product-title,.ai-explorer-{{ ai_gen_id }}__product-price{display:block;margin-top:8px}.ai-explorer-{{ ai_gen_id }}__product-price{color:#7A7263}.ai-explorer-{{ ai_gen_id }}__empty{color:#7A7263}@media(max-width:749px){.ai-explorer-{{ ai_gen_id }}__products{grid-template-columns:repeat(2,1fr)}}{% endstyle %}<series-explorer-{{ ai_gen_id }} class="ai-explorer-{{ ai_gen_id }}" {{ block.shopify_attributes }}><h2>{{ block.settings.heading }}</h2><div class="ai-explorer-{{ ai_gen_id }}__rail">{% for i in (1..3) %}{% assign nk='series_'|append:i|append:'_name' %}{% assign ik='series_'|append:i|append:'_image' %}{% assign dk='series_'|append:i|append:'_description' %}{% assign ak='series_'|append:i|append:'_accent' %}<button class="ai-explorer-{{ ai_gen_id }}__card" data-id="{{ i }}" type="button" style="--accent:{{ block.settings[ak] }}">{% if block.settings[ik] %}<img src="{{ block.settings[ik] | image_url: width:700 }}" alt="{{ block.settings[nk] | escape }}">{% else %}{{ 'image' | placeholder_svg_tag }}{% endif %}<div class="ai-explorer-{{ ai_gen_id }}__copy"><h3>{{ block.settings[nk] }}</h3><p>{{ block.settings[dk] }}</p></div></button>{% endfor %}</div>{% for i in (1..3) %}{% assign nk='series_'|append:i|append:'_name' %}<div class="ai-explorer-{{ ai_gen_id }}__panel" data-panel="{{ i }}"><div class="ai-explorer-{{ ai_gen_id }}__panel-inner"><h2>{{ block.settings[nk] }}</h2>{% for c in (1..4) %}{% assign name_key='series_'|append:i|append:'_category_'|append:c|append:'_name' %}{% assign collection_key='series_'|append:i|append:'_category_'|append:c|append:'_collection' %}{% assign count_key='series_'|append:i|append:'_category_'|append:c|append:'_count' %}{% assign category_collection=block.settings[collection_key] %}{% if block.settings[name_key] != blank %}<section class="ai-explorer-{{ ai_gen_id }}__category"><div class="ai-explorer-{{ ai_gen_id }}__category-head"><h3>{{ block.settings[name_key] }}</h3>{% if category_collection %}<a href="{{ category_collection.url }}">View all</a>{% endif %}</div>{% if category_collection %}<div class="ai-explorer-{{ ai_gen_id }}__products">{% for product in category_collection.products limit: block.settings[count_key] %}<a class="ai-explorer-{{ ai_gen_id }}__product" href="{{ product.url }}">{% if product.featured_image %}<img src="{{ product.featured_image | image_url: width:500 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}">{% else %}{{ 'product-apparel-1' | placeholder_svg_tag }}{% endif %}<span class="ai-explorer-{{ ai_gen_id }}__product-title">{{ product.title }}</span><span class="ai-explorer-{{ ai_gen_id }}__product-price">{{ product.price | money }}{% if product.compare_at_price > product.price %} <s>{{ product.compare_at_price | money }}</s>{% endif %}</span></a>{% endfor %}</div>{% else %}<p class="ai-explorer-{{ ai_gen_id }}__empty">Select a collection in Theme Editor</p>{% endif %}</section>{% endif %}{% endfor %}</div></div>{% endfor %}</series-explorer-{{ ai_gen_id }}><script>(function(){class X extends HTMLElement{connectedCallback(){this.querySelectorAll('[data-id]').forEach(b=>b.addEventListener('click',()=>{this.querySelectorAll('[data-panel]').forEach(p=>{let o=p.dataset.panel===b.dataset.id&&!p.classList.contains('is-open');p.classList.toggle('is-open',o);p.style.maxHeight=o?p.scrollHeight+'px':'0px'})}))}}customElements.define('series-explorer-{{ ai_gen_id }}',X)})();</script>{% schema %}{"name":"Series explorer","tag":null,"class":"series-explorer","settings":[{"type":"text","id":"heading","label":"Heading","default":"More categories"},{"type":"range","id":"desktop_width_percent","label":"Desktop width","min":50,"max":100,"step":5,"unit":"%","default":100},{"type":"header","content":"Series 1"},{"type":"text","id":"series_1_name","label":"Name","default":"Urban Carry"},{"type":"image_picker","id":"series_1_image","label":"Image"},{"type":"textarea","id":"series_1_description","label":"Description","default":"Designed for everyday movement."},{"type":"color","id":"series_1_accent","label":"Accent","default":"#C4823A"},{"type":"header","content":"Series 2"},{"type":"text","id":"series_2_name","label":"Name","default":"Craft Heritage"},{"type":"image_picker","id":"series_2_image","label":"Image"},{"type":"textarea","id":"series_2_description","label":"Description","default":"Timeless materials and considered details."},{"type":"color","id":"series_2_accent","label":"Accent","default":"#8DA68A"},{"type":"header","content":"Series 3"},{"type":"text","id":"series_3_name","label":"Name","default":"Travel Movement"},{"type":"image_picker","id":"series_3_image","label":"Image"},{"type":"textarea","id":"series_3_description","label":"Description","default":"Made for the journey ahead."},{"type":"color","id":"series_3_accent","label":"Accent","default":"#C4823A"},{"type":"header","content":"Product categories"},{"type":"paragraph","content":"Add a category name and collection for each Series. Leave unused categories blank."},{"type":"text","id":"series_1_category_1_name","label":"Series 1 category 1","default":"Bag"},{"type":"collection","id":"series_1_category_1_collection","label":"Series 1 collection 1"},{"type":"range","id":"series_1_category_1_count","label":"Series 1 products 1","min":1,"max":12,"step":1,"default":4},{"type":"text","id":"series_1_category_2_name","label":"Series 1 category 2","default":"Backpack"},{"type":"collection","id":"series_1_category_2_collection","label":"Series 1 collection 2"},{"type":"range","id":"series_1_category_2_count","label":"Series 1 products 2","min":1,"max":12,"step":1,"default":4},{"type":"text","id":"series_2_category_1_name","label":"Series 2 category 1","default":"Category"},{"type":"collection","id":"series_2_category_1_collection","label":"Series 2 collection 1"},{"type":"range","id":"series_2_category_1_count","label":"Series 2 products 1","min":1,"max":12,"step":1,"default":4},{"type":"text","id":"series_3_category_1_name","label":"Series 3 category 1","default":"Category"},{"type":"collection","id":"series_3_category_1_collection","label":"Series 3 collection 1"},{"type":"range","id":"series_3_category_1_count","label":"Series 3 products 1","min":1,"max":12,"step":1,"default":4}],"presets":[{"name":"Series explorer"}]}{% endschema %}

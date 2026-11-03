@@ -1,0 +1,68 @@
+<div class="bp-wrap">
+  <h2>{{ section.settings.heading }}</h2>
+  <p class="bp-intro">{{ section.settings.intro }}</p>
+  <div class="bp-cols">
+    {% for block in section.blocks %}
+      <div class="bp-col" {{ block.shopify_attributes }}>
+        <h3>{{ block.settings.title }}</h3>
+        <p>{{ block.settings.desc }}</p>
+        <div class="bp-list">{{ block.settings.list | newline_to_br }}</div>
+      </div>
+    {% endfor %}
+  </div>
+  {% if section.settings.footer_text != blank %}
+    <div class="bp-footer">
+      <div>{{ section.settings.footer_text }}</div>
+      {% if section.settings.footer_link_text != blank %}
+        <a href="{{ section.settings.footer_link }}">{{ section.settings.footer_link_text }} &rarr;</a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+<style>
+  .bp-wrap{padding:48px 24px;text-align:center;background:#F4EFDC;color:#2B2420;}
+  .bp-wrap h2{font-size:26px;letter-spacing:1px;margin:0 0 12px;}
+  .bp-intro{color:#7A7263;max-width:480px;margin:0 auto 36px;font-size:14px;}
+  .bp-cols{display:flex;flex-wrap:wrap;gap:32px;justify-content:center;}
+  .bp-col{flex:1 1 220px;max-width:280px;}
+  .bp-col h3{font-size:16px;margin-bottom:8px;}
+  .bp-col p{color:#7A7263;font-size:13px;margin-bottom:12px;}
+  .bp-list{font-size:12px;color:#2B2420;line-height:1.9;}
+  .bp-footer{margin-top:48px;}
+  .bp-footer div{color:#7A7263;font-size:13px;margin-bottom:8px;}
+  .bp-footer a{color:#2B2420;font-weight:600;text-decoration:none;font-size:13px;}
+</style>
+{% schema %}
+{
+  "name": "Brand promise",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "标题", "default": "OUR BRAND PROMISE" },
+    { "type": "textarea", "id": "intro", "label": "简介", "default": "Creating better choices, meaningful experiences and relationships that last." },
+    { "type": "text", "id": "footer_text", "label": "底部文字", "default": "Discover the story behind every creation." },
+    { "type": "text", "id": "footer_link_text", "label": "底部链接文字", "default": "Discover Our Story" },
+    { "type": "url", "id": "footer_link", "label": "底部链接" }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar 栏目",
+      "settings": [
+        { "type": "text", "id": "title", "label": "标题", "default": "More Trust" },
+        { "type": "textarea", "id": "desc", "label": "描述" },
+        { "type": "textarea", "id": "list", "label": "要点列表(每行一个)" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Brand promise",
+      "blocks": [
+        { "type": "pillar", "settings": { "title": "More Trust", "desc": "Confidence in every choice. Care beyond every purchase.", "list": "Reliable Quality\nLifetime Care\nWarranty\nRepair Service" } },
+        { "type": "pillar", "settings": { "title": "More Relevant", "desc": "Designed around the way you live, work and travel.", "list": "Everyday Life\nWork\nTravel" } },
+        { "type": "pillar", "settings": { "title": "More Personal", "desc": "Made around you. Meaningful to those who matter.", "list": "Personalisation\nEngraving\nGifting" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,55 @@
+{% doc %}
+  @prompt
+    title and content section template
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% style %}
+  .ai-title-content-{{ ai_gen_id }} { display:block; width:{{ block.settings.desktop_width_percent }}%; max-width:100%; margin:0 auto; background:{{ block.settings.background_color }}; color:{{ block.settings.text_color }}; padding:{{ block.settings.vertical_padding }}px {{ block.settings.horizontal_padding }}px; text-align:{{ block.settings.text_alignment }}; box-sizing:border-box; }
+  .ai-title-content-{{ ai_gen_id }}__inner { max-width:{{ block.settings.content_width }}px; margin:0 auto; }
+  .ai-title-content-{{ ai_gen_id }}__eyebrow { margin:0 0 12px; color:{{ block.settings.eyebrow_color }}; font-size:12px; font-weight:700; letter-spacing:.14em; line-height:1.4; text-transform:uppercase; }
+  .ai-title-content-{{ ai_gen_id }}__title { margin:0; color:{{ block.settings.heading_color }}; font-size:{{ block.settings.heading_size }}px; font-weight:600; letter-spacing:-.025em; line-height:1.08; }
+  .ai-title-content-{{ ai_gen_id }}__content { max-width:720px; margin:22px auto 0; color:{{ block.settings.text_color }}; font-size:{{ block.settings.body_size }}px; line-height:1.7; }
+  .ai-title-content-{{ ai_gen_id }}[data-alignment="left"] .ai-title-content-{{ ai_gen_id }}__content { margin-left:0; }
+  .ai-title-content-{{ ai_gen_id }}[data-alignment="right"] .ai-title-content-{{ ai_gen_id }}__content { margin-right:0; }
+  .ai-title-content-{{ ai_gen_id }}__content p { margin:0 0 1em; }
+  .ai-title-content-{{ ai_gen_id }}__content p:last-child { margin-bottom:0; }
+  @media screen and (max-width:749px) { .ai-title-content-{{ ai_gen_id }} { width:100%; padding:{{ block.settings.mobile_vertical_padding }}px 20px; } .ai-title-content-{{ ai_gen_id }}__title { font-size:{{ block.settings.mobile_heading_size }}px; } .ai-title-content-{{ ai_gen_id }}__content { font-size:{{ block.settings.mobile_body_size }}px; margin-top:16px; } }
+{% endstyle %}
+<div class="ai-title-content-{{ ai_gen_id }}" data-alignment="{{ block.settings.text_alignment }}" {{ block.shopify_attributes }}>
+  <div class="ai-title-content-{{ ai_gen_id }}__inner">
+    {% if block.settings.eyebrow != blank %}<p class="ai-title-content-{{ ai_gen_id }}__eyebrow">{{ block.settings.eyebrow | escape }}</p>{% endif %}
+    {% if block.settings.title != blank %}<h2 class="ai-title-content-{{ ai_gen_id }}__title">{{ block.settings.title | escape }}</h2>{% endif %}
+    {% if block.settings.content != blank %}<div class="ai-title-content-{{ ai_gen_id }}__content">{{ block.settings.content }}</div>{% endif %}
+  </div>
+</div>
+{% schema %}
+{
+  "name":"Title and content",
+  "settings":[
+    {"type":"header","content":"Content"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Our story"},
+    {"type":"text","id":"title","label":"Title","default":"Designed for everyday journeys"},
+    {"type":"richtext","id":"content","label":"Content","default":"<p>Thoughtful details, considered materials, and timeless design come together in pieces made to move with you.</p>"},
+    {"type":"header","content":"Layout"},
+    {"type":"select","id":"text_alignment","label":"Alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}],"default":"center"},
+    {"type":"range","id":"desktop_width_percent","label":"Desktop width","min":50,"max":100,"step":5,"unit":"%","default":100},
+    {"type":"range","id":"content_width","label":"Content width","min":400,"max":1200,"step":50,"unit":"px","default":750},
+    {"type":"range","id":"vertical_padding","label":"Vertical spacing","min":20,"max":120,"step":10,"unit":"px","default":60},
+    {"type":"range","id":"horizontal_padding","label":"Horizontal spacing","min":20,"max":100,"step":10,"unit":"px","default":40},
+    {"type":"range","id":"mobile_vertical_padding","label":"Mobile spacing","min":20,"max":80,"step":10,"unit":"px","default":40},
+    {"type":"header","content":"Typography"},
+    {"type":"range","id":"heading_size","label":"Heading size","min":28,"max":80,"step":4,"unit":"px","default":52},
+    {"type":"range","id":"mobile_heading_size","label":"Mobile heading size","min":24,"max":52,"step":4,"unit":"px","default":36},
+    {"type":"range","id":"body_size","label":"Body size","min":14,"max":24,"step":1,"unit":"px","default":17},
+    {"type":"range","id":"mobile_body_size","label":"Mobile body size","min":14,"max":20,"step":1,"unit":"px","default":16},
+    {"type":"header","content":"Colors"},
+    {"type":"color","id":"background_color","label":"Background","default":"#F4EFDC"},
+    {"type":"color","id":"heading_color","label":"Heading","default":"#2B2420"},
+    {"type":"color","id":"text_color","label":"Text","default":"#2B2420"},
+    {"type":"color","id":"eyebrow_color","label":"Eyebrow","default":"#7A7263"}
+  ],
+  "presets":[{"name":"Title and content"}],
+  "tag":null,
+  "class":"title-content-block"
+}
+{% endschema %}

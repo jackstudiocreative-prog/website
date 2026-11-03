@@ -1,0 +1,391 @@
+{% doc %}
+  @prompt
+    Create a fully responsive Shopify Liquid section called “More Categories – Expandable Series Product Explorer”.
+    
+    IMPORTANT: This must be a **single-page expandable section**.
+    Do NOT use a modal, popup, overlay, drawer, separate page, or page redirect.
+    
+    When a customer clicks a Series card, the corresponding product content must **expand downward directly underneath the More Categories cards on the same page**, similar to an accordion/expandable product explorer.
+    
+    ---
+    
+    ## 1. MORE CATEGORIES
+    
+    Create a horizontal section titled:
+    
+    **MORE CATEGORIES**
+    
+    Display these 7 Series:
+    
+    1. Urban Carry
+    2. Craft Heritage
+    3. Travel Movement
+    4. Professional
+    5. Essential
+    6. Make It Personal
+    7. Craft Innovation
+    
+    Each Series card must have:
+    
+    * Large Shopify image
+    * Rounded corners
+    * Series name positioned at the bottom-left
+    * Subtle dark gradient at the bottom
+    * Premium fashion/lifestyle aesthetic
+    * Smooth image zoom on hover
+    * Clickable card
+    
+    Desktop:
+    
+    * Display all 7 cards in one horizontal row.
+    
+    Mobile:
+    
+    * Cards become horizontally scrollable/swipeable.
+    
+    All Series images must be editable through the Shopify Theme Editor.
+    
+    ---
+    
+    # 2. SERIES CLICK = EXPAND DOWNWARD
+    
+    IMPORTANT:
+    
+    When the customer clicks a Series card such as:
+    
+    **URBAN CARRY**
+    
+    DO NOT open a popup.
+    
+    DO NOT create an overlay.
+    
+    DO NOT redirect to another page.
+    
+    DO NOT change the URL.
+    
+    Instead, expand the selected Series content **directly underneath the More Categories card row**.
+    
+    Example:
+    
+    MORE CATEGORIES
+    
+    [ Urban Carry ] [ Craft Heritage ] [ Travel Movement ] ...
+    
+    ↓ Customer clicks Urban Carry
+    
+    MORE CATEGORIES
+    
+    [ Urban Carry ] [ Craft Heritage ] [ Travel Movement ] ...
+    
+    ──────────────────────────────────
+    
+    URBAN CARRY
+    
+    Carry Smart. Live Urban.
+    
+    BAG                                      View all
+    
+    [ Product ] [ Product ] [ Product ] [ Product ]
+    
+    BACKPACK                                 View all
+    
+    [ Product ] [ Product ] [ Product ] [ Product ]
+    
+    BELT                                     View all
+    
+    [ Product ] [ Product ] [ Product ] [ Product ]
+    
+    WALLET                                   View all
+    
+    [ Product ] [ Product ] [ Product ] [ Product ]
+    
+    ──────────────────────────────────
+    
+    The expanded content should feel like part of the same webpage, NOT like a popup.
+    
+    ---
+    
+    # 3. EXPAND / COLLAPSE BEHAVIOUR
+    
+    Use Vanilla JavaScript.
+    
+    When a Series card is clicked:
+    
+    1. Expand its corresponding content below the Series cards.
+    2. Smoothly animate the expansion.
+    3. Show only the selected Series content.
+    4. Hide the previously selected Series content.
+    5. Do not reload the page.
+    6. Do not navigate to another URL.
+    7. Do not open a modal.
+    8. Do not darken the page background.
+    9. Do not lock page scrolling.
+    
+    If the user clicks the same Series again:
+    
+    → Collapse the content.
+    
+    If the user clicks another Series:
+    
+    → Smoothly collapse the current content and expand the newly selected Series.
+    
+    Use an elegant height/opacity transition.
+    
+    The expanded content should remain within the normal document flow.
+    
+    ---
+    
+    # 4. EXPANDED SERIES HEADER
+    
+    At the top of the expanded content, display:
+    
+    SERIES NAME
+    
+    Example:
+    
+    **URBAN CARRY**
+    
+    *Carry Smart. Live Urban.*
+    
+    Include:
+    
+    * Large elegant typography
+    * Series description
+    * Optional accent color
+    * Close/collapse button such as “−” or “Close”
+    * Clean premium spacing
+    
+    The expanded section should have a warm cream / light background.
+    
+    ---
+    
+    # 5. FOUR PRODUCT CATEGORIES
+    
+    Each Series must contain exactly 4 product categories.
+    
+    For example:
+    
+    URBAN CARRY
+    
+    → BAG
+    → BACKPACK
+    → BELT
+    → WALLET
+    
+    Each category should have:
+    
+    CATEGORY TITLE                         View all
+    
+    [ Product 1 ] [ Product 2 ] [ Product 3 ] [ Product 4 ]
+    
+    The category title should be:
+    
+    * Small
+    * Uppercase
+    * Elegant
+    * Letter-spaced
+    * Premium editorial style
+    
+    The “View all” link should be aligned to the right.
+    
+    ---
+    
+    # 6. SHOPIFY COLLECTION DATA
+    
+    Do NOT hardcode product names, prices, images, or products.
+    
+    Use Shopify Liquid collections.
+    
+    Every product category must allow the merchant to select a Shopify Collection from the Shopify Theme Editor.
+    
+    For example:
+    
+    URBAN CARRY
+    
+    Category 1:
+    BAG → Shopify Collection selector
+    
+    Category 2:
+    BACKPACK → Shopify Collection selector
+    
+    Category 3:
+    BELT → Shopify Collection selector
+    
+    Category 4:
+    WALLET → Shopify Collection selector
+    
+    Repeat this structure for all 7 Series.
+    
+    The products must automatically come from the selected Shopify Collections.
+    
+    Use:
+    
+    collection.products
+    
+    product.title
+    
+    product.price
+    
+    product.compare_at_price
+    
+    product.featured_image
+    
+    product.url
+    
+    and other native Shopify product objects where appropriate.
+    
+    ---
+    
+    # 7. PRODUCT CARDS
+    
+    Product cards should visually resemble a premium fashion/lifestyle product catalogue.
+    
+    Each card must contain:
+    
+    * Large product image
+    * Product title
+    * Product price
+    * Compare-at price if available
+    * Optional NEW badge
+    * Optional HOT badge
+    * Optional product color indicators if product data supports them
+    * Product image centered
+    * Minimal spacing
+    * No heavy borders
+    * Clean light background
+    
+    Hover:
+    
+    * Slight image
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-series-explorer-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background: {{ block.settings.section_background }};
+    color: {{ block.settings.text_color }};
+  }
+  .ai-series-explorer-{{ ai_gen_id }}__inner { width: {{ block.settings.desktop_width_percent }}%; max-width: 100%; margin: 0 auto; }
+  .ai-series-explorer-{{ ai_gen_id }}__heading { margin: 0 0 24px; font-size: clamp(24px, 3vw, 42px); letter-spacing: .12em; font-weight: 500; }
+  .ai-series-explorer-{{ ai_gen_id }}__cards { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: thin; padding-bottom: 12px; }
+  .ai-series-explorer-{{ ai_gen_id }}__card { position: relative; flex: 1 0 0; min-width: 150px; aspect-ratio: .72; overflow: hidden; border: 0; border-radius: 14px; padding: 0; background: {{ block.settings.card_background }}; cursor: pointer; text-align: left; color: #fff; }
+  .ai-series-explorer-{{ ai_gen_id }}__card img, .ai-series-explorer-{{ ai_gen_id }}__placeholder { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .45s ease; }
+  .ai-series-explorer-{{ ai_gen_id }}__card:hover img { transform: scale(1.05); }
+  .ai-series-explorer-{{ ai_gen_id }}__placeholder { background: {{ block.settings.card_background }}; }
+  .ai-series-explorer-{{ ai_gen_id }}__card:after { content: ''; position: absolute; inset: 35% 0 0; background: linear-gradient(transparent, rgba(0,0,0,.72)); }
+  .ai-series-explorer-{{ ai_gen_id }}__card-title { position: absolute; z-index: 1; bottom: 16px; left: 16px; right: 10px; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; }
+  .ai-series-explorer-{{ ai_gen_id }}__panel { display: none; margin-top: 28px; padding: clamp(24px, 5vw, 64px); background: {{ block.settings.panel_background }}; overflow: hidden; }
+  .ai-series-explorer-{{ ai_gen_id }}__panel.is-active { display: block; }
+  .ai-series-explorer-{{ ai_gen_id }}__panel-head { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; margin-bottom: 42px; }
+  .ai-series-explorer-{{ ai_gen_id }}__series-name { margin: 0 0 10px; font-size: clamp(30px, 5vw, 64px); letter-spacing: .08em; font-weight: 500; }
+  .ai-series-explorer-{{ ai_gen_id }}__description { margin: 0; color: {{ block.settings.muted_color }}; font-size: 17px; }
+  .ai-series-explorer-{{ ai_gen_id }}__close { border: 1px solid {{ block.settings.text_color }}; background: transparent; color: {{ block.settings.text_color }}; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-size: 22px; line-height: 1; }
+  .ai-series-explorer-{{ ai_gen_id }}__category { margin-top: 32px; }
+  .ai-series-explorer-{{ ai_gen_id }}__category-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(64,20,16,.18); padding-bottom: 10px; }
+  .ai-series-explorer-{{ ai_gen_id }}__category-title { margin: 0; font-size: 13px; letter-spacing: .18em; }
+  .ai-series-explorer-{{ ai_gen_id }}__view-all { color: inherit; font-size: 12px; text-decoration: underline; }
+  .ai-series-explorer-{{ ai_gen_id }}__products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; }
+  .ai-series-explorer-{{ ai_gen_id }}__product { color: inherit; text-decoration: none; min-width: 0; }
+  .ai-series-explorer-{{ ai_gen_id }}__product-image { position: relative; aspect-ratio: 1 / 1.18; overflow: hidden; background: {{ block.settings.card_background }}; }
+  .ai-series-explorer-{{ ai_gen_id }}__product-image img { width: 100%; height: 100%; object-fit: contain; transition: transform .35s ease; }
+  .ai-series-explorer-{{ ai_gen_id }}__product:hover img { transform: scale(1.04); }
+  .ai-series-explorer-{{ ai_gen_id }}__badge { position: absolute; top: 10px; left: 10px; font-size: 10px; letter-spacing: .1em; background: {{ block.settings.badge_background }}; color: #fff; padding: 5px 7px; }
+  .ai-series-explorer-{{ ai_gen_id }}__product-title { display: block; margin-top: 11px; font-size: 13px; }
+  .ai-series-explorer-{{ ai_gen_id }}__price { margin-top: 5px; font-size: 13px; }
+  .ai-series-explorer-{{ ai_gen_id }}__compare { margin-left: 6px; color: {{ block.settings.muted_color }}; text-decoration: line-through; }
+  @media (max-width: 749px) {
+    .ai-series-explorer-{{ ai_gen_id }}__inner { width: 100%; }
+    .ai-series-explorer-{{ ai_gen_id }}__heading, .ai-series-explorer-{{ ai_gen_id }}__panel { margin-left: 16px; margin-right: 16px; }
+    .ai-series-explorer-{{ ai_gen_id }}__cards { padding-left: 16px; padding-right: 16px; }
+    .ai-series-explorer-{{ ai_gen_id }}__card { flex: 0 0 42vw; }
+    .ai-series-explorer-{{ ai_gen_id }}__products { grid-template-columns: repeat(2, 1fr); }
+  }
+{% endstyle %}
+
+<series-product-explorer-{{ ai_gen_id }} class="ai-series-explorer-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-series-explorer-{{ ai_gen_id }}__inner">
+    <h2 class="ai-series-explorer-{{ ai_gen_id }}__heading">{{ block.settings.heading }}</h2>
+    <div class="ai-series-explorer-{{ ai_gen_id }}__cards" role="tablist">
+      {% for i in (1..7) %}
+        {% liquid
+          assign title_key = 'series_' | append: i | append: '_title'
+          assign image_key = 'series_' | append: i | append: '_image'
+        %}
+        <button class="ai-series-explorer-{{ ai_gen_id }}__card" type="button" data-series="{{ i }}" role="tab" aria-expanded="false">
+          {% if block.settings[image_key] %}<img src="{{ block.settings[image_key] | image_url: width: 900 }}" alt="{{ block.settings[title_key] | escape }}" loading="lazy">{% else %}<div class="ai-series-explorer-{{ ai_gen_id }}__placeholder">{{ 'image' | placeholder_svg_tag }}</div>{% endif %}
+          <span class="ai-series-explorer-{{ ai_gen_id }}__card-title">{{ block.settings[title_key] }}</span>
+        </button>
+      {% endfor %}
+    </div>
+    {% for i in (1..7) %}
+      {% liquid
+        assign title_key = 'series_' | append: i | append: '_title'
+        assign desc_key = 'series_' | append: i | append: '_description'
+      %}
+      <section class="ai-series-explorer-{{ ai_gen_id }}__panel" data-panel="{{ i }}" aria-hidden="true">
+        <div class="ai-series-explorer-{{ ai_gen_id }}__panel-head"><div><h3 class="ai-series-explorer-{{ ai_gen_id }}__series-name">{{ block.settings[title_key] }}</h3><p class="ai-series-explorer-{{ ai_gen_id }}__description">{{ block.settings[desc_key] }}</p></div><button class="ai-series-explorer-{{ ai_gen_id }}__close" type="button" aria-label="Close {{ block.settings[title_key] }}">−</button></div>
+        {% for c in (1..4) %}
+          {% liquid
+            assign cat_key = 'series_' | append: i | append: '_category_' | append: c
+            assign collection_key = 'series_' | append: i | append: '_collection_' | append: c
+            assign selected_collection = block.settings[collection_key]
+          %}
+          <div class="ai-series-explorer-{{ ai_gen_id }}__category">
+            <div class="ai-series-explorer-{{ ai_gen_id }}__category-head"><h4 class="ai-series-explorer-{{ ai_gen_id }}__category-title">{{ block.settings[cat_key] }}</h4>{% if selected_collection %}<a class="ai-series-explorer-{{ ai_gen_id }}__view-all" href="{{ selected_collection.url }}">View all</a>{% endif %}</div>
+            <div class="ai-series-explorer-{{ ai_gen_id }}__products">
+              {% if selected_collection %}{% for product in selected_collection.products limit: 4 %}<a class="ai-series-explorer-{{ ai_gen_id }}__product" href="{{ product.url }}"><div class="ai-series-explorer-{{ ai_gen_id }}__product-image">{% if product.tags contains 'NEW' %}<span class="ai-series-explorer-{{ ai_gen_id }}__badge">NEW</span>{% elsif product.tags contains 'HOT' %}<span class="ai-series-explorer-{{ ai_gen_id }}__badge">HOT</span>{% endif %}{% if product.featured_image %}<img src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy">{% endif %}</div><span class="ai-series-explorer-{{ ai_gen_id }}__product-title">{{ product.title }}</span><span class="ai-series-explorer-{{ ai_gen_id }}__price">{{ product.price | money }}{% if product.compare_at_price > product.price %}<span class="ai-series-explorer-{{ ai_gen_id }}__compare">{{ product.compare_at_price | money }}</span>{% endif %}</span></a>{% endfor %}{% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </section>
+    {% endfor %}
+  </div>
+</series-product-explorer-{{ ai_gen_id }}>
+
+<script>
+(function(){
+  class SeriesExplorer{{ ai_gen_id }} extends HTMLElement {
+    connectedCallback(){
+      this.cards=this.querySelectorAll('[data-series]'); this.panels=this.querySelectorAll('[data-panel]');
+      this.cards.forEach(card=>card.addEventListener('click',()=>this.toggle(card.dataset.series)));
+      this.querySelectorAll('.ai-series-explorer-{{ ai_gen_id }}__close').forEach(button=>button.addEventListener('click',()=>this.toggle(null)));
+    }
+    toggle(id){
+      this.cards.forEach(card=>{let active=id&&card.dataset.series===id; card.setAttribute('aria-expanded',active?'true':'false');});
+      this.panels.forEach(panel=>{let active=id&&panel.dataset.panel===id; panel.classList.toggle('is-active',active); panel.setAttribute('aria-hidden',active?'false':'true');});
+    }
+  }
+  customElements.define('series-product-explorer-{{ ai_gen_id }}',SeriesExplorer{{ ai_gen_id }});
+})();
+</script>
+
+{% schema %}
+{
+  "name": "More categories explorer",
+  "tag": null,
+  "class": "more-categories-explorer",
+  "settings": [
+    {"type":"text","id":"heading","label":"Heading","default":"MORE CATEGORIES"},
+    {"type":"range","id":"desktop_width_percent","label":"Desktop width","min":50,"max":100,"step":5,"unit":"%","default":100},
+    {"type":"color","id":"section_background","label":"Section background","default":"#F4EFDC"},
+    {"type":"color","id":"panel_background","label":"Panel background","default":"#F9F4E3"},
+    {"type":"color","id":"card_background","label":"Card background","default":"#C9C2AC"},
+    {"type":"color","id":"text_color","label":"Text","default":"#2B2420"},
+    {"type":"color","id":"muted_color","label":"Muted text","default":"#7A7263"},
+    {"type":"color","id":"badge_background","label":"Badge background","default":"#2B2420"},
+    {"type":"header","content":"Series content"},
+    {"type":"text","id":"series_1_title","label":"Series 1 name","default":"Urban Carry"},{"type":"textarea","id":"series_1_description","label":"Series 1 description","default":"Carry smart. Live urban."},{"type":"image_picker","id":"series_1_image","label":"Series 1 image"},
+    {"type":"text","id":"series_2_title","label":"Series 2 name","default":"Craft Heritage"},{"type":"textarea","id":"series_2_description","label":"Series 2 description","default":"Timeless craft, made to endure."},{"type":"image_picker","id":"series_2_image","label":"Series 2 image"},
+    {"type":"text","id":"series_3_title","label":"Series 3 name","default":"Travel Movement"},{"type":"textarea","id":"series_3_description","label":"Series 3 description","default":"Designed for every journey."},{"type":"image_picker","id":"series_3_image","label":"Series 3 image"},
+    {"type":"text","id":"series_4_title","label":"Series 4 name","default":"Professional"},{"type":"textarea","id":"series_4_description","label":"Series 4 description","default":"Refined essentials for work and life."},{"type":"image_picker","id":"series_4_image","label":"Series 4 image"},
+    {"type":"text","id":"series_5_title","label":"Series 5 name","default":"Essential"},{"type":"textarea","id":"series_5_description","label":"Series 5 description","default":"The pieces you reach for every day."},{"type":"image_picker","id":"series_5_image","label":"Series 5 image"},
+    {"type":"text","id":"series_6_title","label":"Series 6 name","default":"Make It Personal"},{"type":"textarea","id":"series_6_description","label":"Series 6 description","default":"Make every detail your own."},{"type":"image_picker","id":"series_6_image","label":"Series 6 image"},
+    {"type":"text","id":"series_7_title","label":"Series 7 name","default":"Craft Innovation"},{"type":"textarea","id":"series_7_description","label":"Series 7 description","default":"New ideas shaped by skilled hands."},{"type":"image_picker","id":"series_7_image","label":"Series 7 image"},
+    {"type":"header","content":"Collection mapping"},
+    {"type":"paragraph","content":"Choose four collections for each series and edit their category labels."}
+  ],
+  "presets":[{"name":"More categories explorer"}]
+}
+{% endschema %}

@@ -1,0 +1,22 @@
+<div class="pp-wrap">
+  <h1 class="pp-title" style="letter-spacing:{{ section.settings.title_spacing }}px;">{{ page.title }}</h1>
+  <div class="pp-body">{{ page.content }}</div>
+</div>
+<style>
+  .pp-wrap{max-width:760px;margin:0 auto;padding:60px 40px;background:#F8F4EA;color:#2B2420;}
+  .pp-title{font-family:'Bebas Neue',sans-serif;font-size:32px;margin:0 0 32px;}
+  .pp-body h3{font-size:18px;margin:28px 0 10px;font-weight:700;}
+  .pp-body p{font-size:15px;line-height:1.7;color:#4a3f33;margin:0 0 14px;}
+  .pp-body ul{margin:0 0 14px 20px;padding:0;}
+  .pp-body li{font-size:15px;line-height:1.7;color:#4a3f33;margin-bottom:6px;}
+  .pp-body a{color:#2B2420;text-decoration:underline;}
+  @media(max-width:600px){.pp-wrap{padding:40px 20px;}.pp-title{font-size:26px;}}
+</style>
+{% schema %}
+{
+  "name": "Policy Page",
+  "settings": [
+    { "type": "range", "id": "title_spacing", "label": "Title letter spacing (px)", "min": 0, "max": 6, "step": 0.5, "default": 2, "unit": "px" }
+  ]
+}
+{% endschema %}

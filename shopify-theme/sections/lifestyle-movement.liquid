@@ -1,0 +1,131 @@
+<section class="lm-wrap" {{ section.shopify_attributes }}>
+  <div class="lm-text">
+    <span class="lm-eyebrow">{{ section.settings.eyebrow }}</span>
+    <h2 class="lm-heading">{{ section.settings.heading }}</h2>
+    <p class="lm-body">{{ section.settings.text }}</p>
+    <span class="lm-divider"></span>
+    {% if section.settings.button_text != blank %}
+      <a class="lm-btn" href="{{ section.settings.button_link }}">{{ section.settings.button_text }} &rarr;</a>
+    {% endif %}
+  </div>
+
+  <div class="lm-images">
+    <div class="lm-top-row">
+      <a class="lm-tile lm-tile-tall" href="{{ section.settings.tile_1_link | default: '#' }}">
+        {% if section.settings.image_1 %}{{ section.settings.image_1 | image_url: width: 800 | image_tag: loading: 'lazy' }}{% endif %}
+        <span class="lm-overlay"></span>
+        <span class="lm-cap">
+          <strong class="lm-num">{{ section.settings.tile_1_num }}</strong>
+          <strong class="lm-title">{{ section.settings.tile_1_title }}</strong>
+          <span class="lm-desc">{{ section.settings.tile_1_desc }}</span>
+        </span>
+      </a>
+      <div class="lm-right-col">
+        <a class="lm-tile" href="{{ section.settings.tile_2_link | default: '#' }}">
+          {% if section.settings.image_2 %}{{ section.settings.image_2 | image_url: width: 800 | image_tag: loading: 'lazy' }}{% endif %}
+          <span class="lm-overlay"></span>
+          <span class="lm-cap">
+            <strong class="lm-num">{{ section.settings.tile_2_num }}</strong>
+            <strong class="lm-title">{{ section.settings.tile_2_title }}</strong>
+            <span class="lm-desc">{{ section.settings.tile_2_desc }}</span>
+          </span>
+        </a>
+        <a class="lm-tile lm-tile-third" href="{{ section.settings.tile_3_link | default: '#' }}">
+          {% if section.settings.image_3 %}{{ section.settings.image_3 | image_url: width: 800 | image_tag: loading: 'lazy' }}{% endif %}
+          <span class="lm-overlay"></span>
+          <span class="lm-cap">
+            <strong class="lm-num">{{ section.settings.tile_3_num }}</strong>
+            <strong class="lm-title">{{ section.settings.tile_3_title }}</strong>
+            <span class="lm-desc">{{ section.settings.tile_3_desc }}</span>
+          </span>
+        </a>
+      </div>
+    </div>
+    <a class="lm-tile lm-tile-wide" href="{{ section.settings.tile_4_link | default: '#' }}">
+      {% if section.settings.image_4 %}{{ section.settings.image_4 | image_url: width: 1400 | image_tag: loading: 'lazy' }}{% endif %}
+      <span class="lm-overlay"></span>
+      <span class="lm-cap">
+        <strong class="lm-num">{{ section.settings.tile_4_num }}</strong>
+        <strong class="lm-title">{{ section.settings.tile_4_title }}</strong>
+        <span class="lm-desc">{{ section.settings.tile_4_desc }}</span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .lm-wrap{display:flex;background:{{ section.settings.bg_color }};}
+  .lm-text{flex:0 0 320px;display:flex;flex-direction:column;justify-content:center;padding:48px 40px;}
+  .lm-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#A97852;font-weight:700;display:block;margin-bottom:14px;}
+  .lm-heading{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,3.2vw,36px);line-height:1.05;color:#292724;margin:0 0 18px;}
+  .lm-body{font-size:14px;line-height:1.6;color:#716B63;margin:0 0 20px;max-width:260px;}
+  .lm-divider{display:block;width:36px;height:2px;background:#A97852;margin-bottom:24px;}
+  .lm-btn{display:inline-block;width:fit-content;border:1.5px solid #2B2420;color:#2B2420;padding:12px 20px;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;text-decoration:none;font-weight:700;}
+  .lm-btn:hover{background:#2B2420;color:#F8F4EA;}
+
+  .lm-images{flex:1;display:flex;flex-direction:column;gap:3px;}
+  .lm-top-row{display:flex;gap:3px;}
+  .lm-tile{position:relative;display:block;overflow:hidden;background:#E9E2D5;text-decoration:none;color:#fff;}
+  .lm-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;}
+  .lm-tile:hover img{transform:scale(1.04);}
+  .lm-tile-tall{flex:1;aspect-ratio:3/4;}
+  .lm-right-col{flex:1;display:flex;flex-direction:column;gap:3px;}
+  .lm-right-col .lm-tile{flex:1;aspect-ratio:16/10;}
+  .lm-tile-wide{width:100%;aspect-ratio:21/6;}
+  .lm-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(41,39,36,.75) 0%,rgba(41,39,36,.05) 55%);}
+  .lm-cap{position:absolute;left:16px;bottom:14px;right:16px;z-index:1;}
+  .lm-num{display:block;font-family:'Bebas Neue',sans-serif;font-size:20px;color:#A97852;line-height:1;margin-bottom:4px;}
+  .lm-title{display:block;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:#fff;margin-bottom:4px;}
+  .lm-desc{display:block;font-size:12.5px;color:#F0EAD9;opacity:.9;line-height:1.4;max-width:220px;}
+
+  @media(max-width:900px){
+    .lm-wrap{flex-direction:column;}
+    .lm-text{flex:0 0 auto;padding:36px 24px;}
+    .lm-heading{font-size:24px;}
+    .lm-num{font-size:13px;}
+    .lm-title{font-size:12px;}
+    .lm-desc{font-size:10px;line-height:1.3;}
+    .lm-cap{left:8px;bottom:6px;right:8px;}
+  }
+  @media(max-width:420px){
+    .lm-desc{display:none;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Lifestyle Movement",
+  "settings": [
+    {"type":"color","id":"bg_color","label":"Background","default":"#F5F1E8"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Lifestyle Movement"},
+    {"type":"text","id":"heading","label":"Heading","default":"Built For Movement. Made For Life."},
+    {"type":"textarea","id":"text","label":"Body text","default":"From the daily commute to the next flight out — Jack Studio moves with you."},
+    {"type":"text","id":"button_text","label":"Button text","default":"Explore Lifestyle"},
+    {"type":"url","id":"button_link","label":"Button link"},
+    {"type":"header","content":"Tile 01 (tall, left)"},
+    {"type":"image_picker","id":"image_1","label":"Image"},
+    {"type":"text","id":"tile_1_num","label":"Number","default":"01"},
+    {"type":"text","id":"tile_1_title","label":"Title","default":"Move"},
+    {"type":"text","id":"tile_1_desc","label":"Caption","default":"For your daily commute."},
+    {"type":"url","id":"tile_1_link","label":"Link"},
+    {"type":"header","content":"Tile 02 (top right)"},
+    {"type":"image_picker","id":"image_2","label":"Image"},
+    {"type":"text","id":"tile_2_num","label":"Number","default":"02"},
+    {"type":"text","id":"tile_2_title","label":"Title","default":"Work"},
+    {"type":"text","id":"tile_2_desc","label":"Caption","default":"Professional inside and out."},
+    {"type":"url","id":"tile_2_link","label":"Link"},
+    {"type":"header","content":"Tile 03 (bottom right)"},
+    {"type":"image_picker","id":"image_3","label":"Image"},
+    {"type":"text","id":"tile_3_num","label":"Number","default":"03"},
+    {"type":"text","id":"tile_3_title","label":"Title","default":"Travel"},
+    {"type":"text","id":"tile_3_desc","label":"Caption","default":"Ready for every journey ahead."},
+    {"type":"url","id":"tile_3_link","label":"Link"},
+    {"type":"header","content":"Tile 04 (full width, bottom)"},
+    {"type":"image_picker","id":"image_4","label":"Image"},
+    {"type":"text","id":"tile_4_num","label":"Number","default":"04"},
+    {"type":"text","id":"tile_4_title","label":"Title","default":"Live"},
+    {"type":"text","id":"tile_4_desc","label":"Caption","default":"The everyday essentials that move with you."},
+    {"type":"url","id":"tile_4_link","label":"Link"}
+  ]
+}
+{% endschema %}

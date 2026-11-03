@@ -1,0 +1,261 @@
+<div class="cp-wrap">
+  <div class="cp-hero">
+    <h1 class="cp-title">{{ section.settings.hero_title | default: collection.title }}</h1>
+    <div class="cp-desc">{{ section.settings.hero_tagline }}</div>
+  </div>
+
+  <div class="cp-body">
+    <div class="cp-toolbar">
+      <button type="button" class="cp-filter-mobile-toggle" data-cp-mobile-toggle {% if collection.products_count == 0 %}style="display:none;"{% endif %}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="15" cy="12" r="1.6" fill="currentColor"/><circle cx="11" cy="17" r="1.6" fill="currentColor"/></svg>
+        Filter
+      </button>
+      <span class="cp-count">{{ collection.products_count }} ITEMS</span>
+      <div class="cp-sort-wrap">
+        <span class="cp-sort-label">Sort by</span>
+        <select class="cp-sort" onchange="var u=new URL(window.location.href);u.searchParams.set('sort_by',this.value);window.location.href=u.toString();">
+          {% for option in collection.sort_options %}
+            <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+          {% endfor %}
+        </select>
+        <svg class="cp-sort-caret" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+
+    <div class="cp-layout" style="grid-template-columns:{% if collection.products_count > 0 %}{{ section.settings.sidebar_width }}px 1fr{% else %}1fr{% endif %};">
+      {% if collection.products_count > 0 %}
+      <aside class="cp-filters" data-cp-sidebar>
+        {% if collection.filters.size > 0 %}
+          {% for filter in collection.filters %}
+            {% assign has_active = false %}
+            {% for value in filter.values %}{% if value.active %}{% assign has_active = true %}{% endif %}{% endfor %}
+            <div class="cp-filter-group{% unless has_active %} collapsed{% endunless %}">
+              <button type="button" class="cp-filter-head" data-cp-toggle aria-expanded="{{ has_active }}">{{ filter.label }}<span class="cp-chev">&#8963;</span></button>
+              <div class="cp-filter-body">
+                {% for value in filter.values %}
+                  {% unless value.count == 0 and value.active == false %}
+                    <label class="cp-check">
+                      <input type="checkbox" {% if value.active %}checked{% endif %} onclick="window.location.href='{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}';">
+                      <span class="cp-check-label">{{ value.label }}</span>
+                      <span class="cp-count-sm">({{ value.count }})</span>
+                    </label>
+                  {% endunless %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="cp-filters-empty">{{ section.settings.no_filter_note }}</p>
+        {% endif %}
+      </aside>
+      {% endif %}
+
+      <div class="cp-grid" style="grid-template-columns:repeat({{ section.settings.columns_desktop }},1fr);">
+        {% paginate collection.products by 24 %}
+          {% assign promo_every = section.settings.promo_every | default: 6 %}
+          {% for product in collection.products %}
+            {% if section.settings.show_promo and forloop.index0 > 0 and promo_every > 0 %}
+              {% assign is_promo_slot = forloop.index0 | modulo: promo_every %}
+              {% if is_promo_slot == 0 %}
+                <div class="cp-promo">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+                  <span>{{ section.settings.promo_text }}</span>
+                </div>
+              {% endif %}
+            {% endif %}
+            <a class="cp-card" href="{{ product.url }}">
+              <div class="cp-card-img">
+                {% if product.tags contains 'bestseller' %}<span class="cp-badge">{{ section.settings.bestseller_label }}</span>{% endif %}
+                {% if product.featured_image %}
+                  {{ product.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: product.title }}
+                {% endif %}
+              </div>
+              <div class="cp-card-body">
+                <div class="cp-row">
+                  <h3 class="cp-card-title">{{ product.title }}</h3>
+                  <div class="cp-price">
+                    <span class="{% if product.compare_at_price > product.price %}cp-price-sale{% endif %}">{{ product.price | money }}</span>
+                    {% if product.compare_at_price > product.price %}<s class="cp-compare">{{ product.compare_at_price | money }}</s>{% endif %}
+                  </div>
+                </div>
+                {% if section.settings.show_swatches %}
+                  {% assign color_values = nil %}
+                  {% for option in product.options_with_values %}
+                    {% assign opt_lc = option.name | downcase %}
+                    {% if opt_lc contains 'color' or opt_lc contains 'colour' %}{% assign color_values = option.values %}{% endif %}
+                  {% endfor %}
+                  {% if color_values %}
+                    <div class="cp-swatches">
+                      {% for v in color_values limit: 6 %}<span class="cp-dot" style="background-color:{{ v | strip | downcase }};" title="{{ v }}"></span>{% endfor %}
+                    </div>
+                  {% endif %}
+                {% endif %}
+                {% if product.description != blank %}<p class="cp-card-sub">{{ product.description | strip_html | truncate: 64 }}</p>{% endif %}
+              </div>
+            </a>
+          {% else %}
+            {% assign notify_msg = 'Hi Jack Studio, I would like to be notified when the ' | append: collection.title | append: ' collection is available.' %}
+            {% assign notify_msg_enc = notify_msg | url_encode %}
+            {% assign wa_link = 'https://wa.me/601112015288?text=' | append: notify_msg_enc %}
+            {% assign notify_href = section.settings.notify_link | default: wa_link %}
+            <div class="cp-soon">
+              {% if section.settings.coming_soon_image %}
+                <div class="cp-soon-img">{{ section.settings.coming_soon_image | image_url: width: 1400 | image_tag: loading: 'lazy', alt: collection.title }}</div>
+              {% endif %}
+              <h3 class="cp-soon-title">{{ section.settings.coming_soon_heading | default: 'Coming Soon' }}</h3>
+              {% if section.settings.coming_soon_tagline != blank %}<p class="cp-soon-tagline">{{ section.settings.coming_soon_tagline }}</p>{% endif %}
+              {% if section.settings.coming_soon_desc != blank %}<p class="cp-soon-desc">{{ section.settings.coming_soon_desc }}</p>{% endif %}
+              {% if section.settings.notify_button_text != blank %}
+                <a class="cp-soon-btn" href="{{ notify_href }}" target="_blank" rel="noopener">{{ section.settings.notify_button_text }} &rarr;</a>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          {% if paginate.pages > 1 %}
+            <div class="cp-pagination">
+              {% if paginate.previous %}<a href="{{ paginate.previous.url }}" class="cp-page-link">&larr; Prev</a>{% endif %}
+              {% for part in paginate.parts %}
+                {% if part.is_link %}<a href="{{ part.url }}" class="cp-page-link">{{ part.title }}</a>{% else %}<span class="cp-page-current">{{ part.title }}</span>{% endif %}
+              {% endfor %}
+              {% if paginate.next %}<a href="{{ paginate.next.url }}" class="cp-page-link">Next &rarr;</a>{% endif %}
+            </div>
+          {% endif %}
+        {% endpaginate %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cp-wrap{background:{{ section.settings.page_bg_color }};}
+  .cp-hero{text-align:center;padding:44px 24px 32px;max-width:640px;margin:0 auto;}
+  .cp-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,3.2vw,36px);letter-spacing:2px;color:#2B2420;margin:0 0 12px;}
+  .cp-desc{font-family:'Inter',sans-serif;font-style:normal;font-size:15px;line-height:1.6;color:#5A4E3F;}
+  .cp-body{background:{{ section.settings.page_bg_color }};padding:8px 6vw 60px;}
+  .cp-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid rgba(64,20,16,.1);}
+  .cp-filter-mobile-toggle{display:none;align-items:center;gap:6px;background:none;border:1px solid rgba(64,20,16,.18);border-radius:20px;padding:8px 16px;font-size:11.5px;font-weight:600;letter-spacing:.5px;color:#2B2420;cursor:pointer;}
+  .cp-count{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1.5px;color:#7A7263;}
+  .cp-sort-wrap{display:flex;align-items:center;gap:8px;position:relative;}
+  .cp-sort-label{font-size:12px;color:#7A7263;}
+  .cp-sort{appearance:none;-webkit-appearance:none;border:1px solid rgba(64,20,16,.18);border-radius:20px;padding:8px 30px 8px 14px;font-size:12px;color:#2B2420;background:transparent;cursor:pointer;}
+  .cp-sort-caret{position:absolute;right:10px;pointer-events:none;color:#7A7263;}
+
+  .cp-layout{display:grid;gap:44px;align-items:start;}
+  .cp-filters{position:sticky;top:20px;background:{{ section.settings.surface_color }};border-radius:10px;padding:20px 18px;}
+  .cp-filter-group{border-bottom:1px solid rgba(64,20,16,.08);padding:13px 0;}
+  .cp-filter-group:last-child{border-bottom:0;}
+  .cp-filter-head{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:0;padding:0;font-family:Inter,sans-serif;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#2B2420;cursor:pointer;}
+  .cp-chev{font-size:11px;transition:transform .2s;color:{{ section.settings.accent_color }};}
+  .cp-filter-group.collapsed .cp-chev{transform:rotate(180deg);}
+  .cp-filter-group.collapsed .cp-filter-body{display:none;}
+  .cp-filter-body{margin-top:13px;display:flex;flex-direction:column;gap:10px;}
+  .cp-check{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#5A4E3F;cursor:pointer;}
+  .cp-check input{width:14px;height:14px;accent-color:{{ section.settings.accent_color }};}
+  .cp-check-label{flex:1;color:#2B2420;}
+  .cp-check:hover .cp-check-label{color:{{ section.settings.accent_color }};}
+  .cp-count-sm{color:#A79E8A;font-size:10.5px;}
+  .cp-filters-empty{font-size:11.5px;color:#A79E8A;line-height:1.6;}
+
+  .cp-grid{display:grid;gap:26px 22px;}
+  .cp-card{text-decoration:none;color:inherit;display:block;background:{{ section.settings.surface_color }};border-radius:8px;overflow:hidden;transition:box-shadow .2s;}
+  .cp-card:hover{box-shadow:0 6px 18px rgba(64,20,16,.1);}
+  .cp-card-img{position:relative;aspect-ratio:1/1;background:{{ section.settings.image_bg_color }};overflow:hidden;}
+  .cp-card-img img{width:100%;height:100%;object-fit:contain;display:block;}
+  .cp-card:hover .cp-card-img img{transform:scale(1.04);}
+  .cp-card-img img{transition:transform .5s;}
+  .cp-badge{position:absolute;top:14px;left:14px;z-index:1;font-family:Inter,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#2B2420;}
+  .cp-card-body{padding:14px 14px 16px;background:{{ section.settings.surface_color }};}
+  .cp-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px;}
+  .cp-card-title{font-family:Inter,sans-serif;font-size:13px;font-weight:600;color:#2B2420;margin:0;line-height:1.3;}
+  .cp-price{font-family:Inter,sans-serif;font-size:12.5px;color:#5A4E3F;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+  .cp-price-sale{color:{{ section.settings.tan_accent_color }};font-weight:600;}
+  .cp-compare{color:#A79E8A;font-weight:400;text-decoration:line-through;font-size:11px;}
+  .cp-swatches{display:flex;gap:5px;margin-bottom:8px;}
+  .cp-dot{width:13px;height:13px;border-radius:50%;display:inline-block;border:1px solid rgba(64,20,16,.15);}
+  .cp-card-sub{font-size:11.5px;color:#8A8069;line-height:1.5;margin:0;}
+  .cp-promo{background:{{ section.settings.surface_color }};border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;color:#2B2420;font-size:13px;font-weight:600;padding:24px;min-height:100%;}
+  .cp-promo svg{color:{{ section.settings.accent_color }};}
+  .cp-empty{grid-column:1/-1;text-align:center;color:#7A7263;font-size:13px;padding:60px 0;}
+
+  .cp-soon{grid-column:1/-1;max-width:720px;margin:20px auto;text-align:center;}
+  .cp-soon-img{width:100%;aspect-ratio:21/6;border-radius:6px;overflow:hidden;background:{{ section.settings.surface_color }};margin-bottom:32px;}
+  .cp-soon-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .cp-soon-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(30px,4vw,44px);letter-spacing:2px;margin:0 0 14px;color:#2B2420;}
+  .cp-soon-tagline{font-family:Georgia,serif;font-style:italic;font-size:16px;color:#2B2420;margin:0 0 14px;}
+  .cp-soon-desc{font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.7;color:#8A8069;max-width:420px;margin:0 auto 26px;}
+  .cp-soon-btn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid {{ section.settings.tan_accent_color }};color:#2B2420;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:14px 26px;text-decoration:none;}
+  .cp-soon-btn:hover{background:{{ section.settings.tan_accent_color }};color:#fff;}
+
+  .cp-pagination{grid-column:1/-1;display:flex;justify-content:center;gap:14px;margin-top:20px;padding-top:24px;border-top:1px solid rgba(64,20,16,.1);}
+  .cp-page-link{font-size:12px;color:#5A4E3F;text-decoration:none;padding:6px 10px;border-radius:4px;}
+  .cp-page-link:hover{background:{{ section.settings.surface_color }};color:#2B2420;}
+  .cp-page-current{font-size:12px;color:#fff;background:{{ section.settings.accent_color }};padding:6px 11px;border-radius:4px;font-weight:600;}
+
+  @media(max-width:900px){
+    .cp-layout{grid-template-columns:1fr !important;gap:20px;}
+    .cp-filters{position:static;display:none;}
+    .cp-filters.open{display:block;}
+    .cp-filter-mobile-toggle{display:inline-flex;}
+    .cp-grid{grid-template-columns:repeat(2,1fr) !important;gap:16px 12px;}
+    .cp-card-body{padding:10px 10px 12px;}
+    .cp-card-title{font-size:11.5px;}
+    .cp-title{font-size:24px;}
+    .cp-hero{padding:36px 20px 26px;}
+    .cp-soon-img{aspect-ratio:4/3;margin-bottom:24px;}
+    .cp-soon-title{font-size:28px;}
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('[data-cp-toggle]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var group = btn.closest('.cp-filter-group');
+        group.classList.toggle('collapsed');
+        btn.setAttribute('aria-expanded', !group.classList.contains('collapsed'));
+      });
+    });
+    var mobileToggle = document.querySelector('[data-cp-mobile-toggle]');
+    var sidebar = document.querySelector('[data-cp-sidebar]');
+    if(mobileToggle && sidebar){
+      mobileToggle.addEventListener('click', function(){ sidebar.classList.toggle('open'); });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Collection Page",
+  "settings": [
+    {"type":"header","content":"Header"},
+    {"type":"text","id":"hero_title","label":"Title (overrides collection title)"},
+    {"type":"paragraph","content":"The tagline below is what shows on the page. The collection's backend Description field is used for SEO meta description only — it is not displayed here."},
+    {"type":"textarea","id":"hero_tagline","label":"Tagline shown on page","default":"Explore our collection of everyday leather essentials."},
+    {"type":"header","content":"Layout"},
+    {"type":"range","id":"columns_desktop","label":"Products per row (desktop)","min":2,"max":5,"step":1,"default":4},
+    {"type":"range","id":"sidebar_width","label":"Filter sidebar width (px)","min":180,"max":320,"step":10,"default":230,"unit":"px"},
+    {"type":"header","content":"Colors"},
+    {"type":"color","id":"page_bg_color","label":"Page background","default":"#F4EFDC"},
+    {"type":"color","id":"surface_color","label":"Card text area & filter panel (off-white)","default":"#F9F4E3"},
+    {"type":"color","id":"image_bg_color","label":"Product image area","default":"#FFFFFF"},
+    {"type":"color","id":"accent_color","label":"Accent color (sage — hover, badges, selected states)","default":"#8DA68A"},
+    {"type":"color","id":"tan_accent_color","label":"Sale price color (saddle tan)","default":"#C4823A"},
+    {"type":"header","content":"Product card"},
+    {"type":"checkbox","id":"show_swatches","label":"Show color swatches","default":true},
+    {"type":"text","id":"bestseller_label","label":"Bestseller badge text","default":"Best Seller"},
+    {"type":"header","content":"Promo tile"},
+    {"type":"checkbox","id":"show_promo","label":"Show promo tile in grid","default":false},
+    {"type":"text","id":"promo_text","label":"Promo text","default":"Free shipping available on most items"},
+    {"type":"range","id":"promo_every","label":"Insert promo every N products","min":2,"max":12,"step":1,"default":6},
+    {"type":"header","content":"Filters"},
+    {"type":"text","id":"no_filter_note","label":"Note when no filters set up","default":"Enable filters in Search & Discovery to show categories here."},
+    {"type":"header","content":"Coming soon state (0 products)"},
+    {"type":"image_picker","id":"coming_soon_image","label":"Banner image"},
+    {"type":"text","id":"coming_soon_heading","label":"Heading","default":"Coming Soon"},
+    {"type":"text","id":"coming_soon_tagline","label":"Tagline (italic, optional)"},
+    {"type":"textarea","id":"coming_soon_desc","label":"Description","default":"A new collection is taking shape — rooted in craftsmanship, made for everyday carry."},
+    {"type":"text","id":"notify_button_text","label":"Button text","default":"Notify Me"},
+    {"type":"url","id":"notify_link","label":"Button link (blank = opens WhatsApp)"}
+  ]
+}
+{% endschema %}

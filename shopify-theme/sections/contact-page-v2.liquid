@@ -1,0 +1,252 @@
+<div class="ct2-wrap">
+
+  <!-- Hero -->
+  <section class="ct2-hero">
+    <div class="ct2-hero-left">
+      <span class="ct2-hero-eyebrow">{{ section.settings.hero_eyebrow }}</span>
+      <h1>{{ section.settings.hero_heading }}</h1>
+      <p>{{ section.settings.hero_sub }}</p>
+      {% if section.settings.hero_btn1_text != blank %}
+        <a class="ct2-btn-hero" href="{{ section.settings.hero_btn1_link | default: '#' }}">{{ section.settings.hero_btn1_text }} &rarr;</a>
+      {% endif %}
+    </div>
+    <div class="ct2-hero-right">
+      {% if section.settings.hero_image %}{{ section.settings.hero_image | image_url: width: 1200 | image_tag: loading: 'eager' }}{% endif %}
+    </div>
+  </section>
+
+  <!-- How Can We Help -->
+  <section class="ct2-help">
+    <h2 class="ct2-help-title">{{ section.settings.help_heading }}</h2>
+    <div class="ct2-help-grid">
+      {% assign help_icons = 'bag,pencil,gift,shield' | split: ',' %}
+      {% for i in (1..4) %}
+        {% assign t_key = 'help_' | append: i | append: '_title' %}
+        {% assign d_key = 'help_' | append: i | append: '_desc' %}
+        {% assign l_key = 'help_' | append: i | append: '_link' %}
+        {% assign help_title = section.settings[t_key] %}
+        {% if help_title != blank %}
+          <div class="ct2-help-card">
+            <span class="ct2-help-icon">
+              {%- case i -%}
+              {%- when 1 -%}<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l1 13H5z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+              {%- when 2 -%}<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20l1-4L15 6l3 3L8 19l-4 1z"/><path d="M13 8l3 3"/></svg>
+              {%- when 3 -%}<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="9" width="18" height="12" rx="1"/><path d="M3 9h18M12 9v12M8 9c-1.5 0-2.5-.8-2.5-2.2S6.5 4.5 8 4.5c1.2 0 2.5 1.6 3.5 2.5-.8 0-2.5 2-3.5 2zM16 9c1.5 0 2.5-.8 2.5-2.2S15.5 4.5 14 4.5c-1.2 0-2.5 1.6-3.5 2.5.8 0 2.5 2 3.5 2z"/></svg>
+              {%- else -%}<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 3v6c0 5.5-3.5 9.5-8 11-4.5-1.5-8-5.5-8-11V6z"/><path d="M12 9v6M9 12h6"/></svg>
+              {%- endcase -%}
+            </span>
+            <h3>{{ help_title }}</h3>
+            {% assign help_desc = section.settings[d_key] %}
+            {% if help_desc != blank %}<p>{{ help_desc }}</p>{% endif %}
+            {% assign help_link = section.settings[l_key] %}
+            {% if help_link != blank %}<a class="ct2-help-learnmore" href="{{ help_link }}">Learn More &rarr;</a>{% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Talk To Us + Send Us A Message -->
+  <section class="ct2-combo">
+    <div class="ct2-talk">
+      <h2 class="ct2-combo-title">Talk To Us</h2>
+      <div class="ct2-talk-list">
+        <div class="ct2-talk-row">
+          <span class="ct2-talk-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.7 15l-1.2 4.4 4.5-1.2A10 10 0 1 0 12 2zm5.6 14.3c-.2.7-1.4 1.3-2 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.6-.6-2.9-1.3-4.8-4.2-4.9-4.4-.1-.2-1.2-1.6-1.2-3 0-1.4.7-2.1 1-2.4.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.1.1.3 0 .5-.1.2-.2.3-.4.5-.2.2-.4.4-.5.6-.2.2-.4.4-.2.7.2.4 1 1.6 2.1 2.6 1.4 1.3 2.6 1.7 3 1.9.3.2.5.1.7-.1.2-.2.9-1 1.1-1.4.2-.4.5-.3.8-.2.3.1 2 1 2.3 1.1.3.2.5.2.6.3.1.2.1.9-.1 1.6z"/></svg></span>
+          <div class="ct2-talk-body"><strong>WhatsApp</strong><span class="ct2-talk-desc">Quickest way to reach us</span><a href="https://wa.me/{{ section.settings.whatsapp | remove: ' ' | remove: '-' | remove: '+' }}">{{ section.settings.whatsapp }}</a></div>
+        </div>
+        <div class="ct2-talk-row">
+          <span class="ct2-talk-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+          <div class="ct2-talk-body"><strong>Email</strong><span class="ct2-talk-desc">For general enquiries</span><a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></div>
+        </div>
+        <div class="ct2-talk-row">
+          <span class="ct2-talk-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2.1z"/></svg></span>
+          <div class="ct2-talk-body"><strong>Phone</strong><span class="ct2-talk-desc">Customer care</span><a href="tel:{{ section.settings.phone | remove: ' ' | remove: '-' }}">{{ section.settings.phone }}</a></div>
+        </div>
+        <div class="ct2-talk-row">
+          <span class="ct2-talk-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-7.5 7-12.5A7 7 0 0 0 5 9.5C5 14.5 12 22 12 22z"/><circle cx="12" cy="9.5" r="2.3"/></svg></span>
+          <div class="ct2-talk-body"><strong>Store</strong><span class="ct2-talk-desc">Visit us in person</span><a href="{{ section.settings.outlets_link | default: '/pages/outlets-design-draft' }}">View all outlets</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="ct2-form-side">
+      <h2 class="ct2-combo-title">Send Us A Message</h2>
+      {% form 'contact' %}
+        {% if form.posted_successfully? %}<p class="ct2-success">Thanks! We'll get back to you soon.</p>{% endif %}
+        <div class="ct2-row">
+          <div class="ct2-field"><label>Name</label><input type="text" name="contact[name]" placeholder="Your name"></div>
+          <div class="ct2-field"><label>Email</label><input type="email" name="contact[email]" placeholder="Your email" required></div>
+        </div>
+        <div class="ct2-field">
+          <label>Subject</label>
+          <select name="contact[enquiry_type]">
+            <option value="">Select a subject</option>
+            <option value="General">General</option>
+            <option value="Product">Product</option>
+            <option value="Personalisation">Personalisation</option>
+            <option value="Corporate">Corporate Solutions</option>
+            <option value="After-sales">After-Sales Care</option>
+          </select>
+        </div>
+        <div class="ct2-field"><label>Message</label><textarea name="contact[body]" rows="5" placeholder="Type your message here..."></textarea></div>
+        <button type="submit" class="ct2-btn-dark-lg ct2-submit">Send Message &rarr;</button>
+      {% endform %}
+    </div>
+  </section>
+
+  <!-- Prefer To Visit Us -->
+  <section class="ct2-visit">
+    <div class="ct2-visit-left">
+      <h2>{{ section.settings.visit_heading }}</h2>
+      <p>{{ section.settings.visit_text }}</p>
+      <a class="ct2-btn-tan" href="{{ section.settings.outlets_link | default: '/pages/outlets-design-draft' }}">View All Outlets &rarr;</a>
+    </div>
+    <div class="ct2-visit-grid">
+      {% for block in section.blocks %}
+        {%- assign outlet = block.settings.outlet -%}
+        {% if outlet %}
+          <div class="ct2-visit-card" {{ block.shopify_attributes }}>
+            <div class="ct2-visit-img">{% if outlet.photo.value %}{{ outlet.photo.value | image_url: width: 500 | image_tag: loading: 'lazy' }}{% endif %}</div>
+            <strong>{{ outlet.name.value }}</strong>
+            <span>{{ outlet.location_label.value }}</span>
+          </div>
+        {% elsif request.design_mode %}
+          <div class="ct2-visit-card"><p style="font-size:11px;color:#B3261E;">⚠ 请选择一间门店</p></div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+
+<style>
+  .ct2-wrap{color:#2B2420;background:#F8F4EA;}
+
+  .ct2-hero{display:grid;grid-template-columns:1fr 1fr;min-height:420px;background:#F8F4EA;}
+  .ct2-hero-left{display:flex;flex-direction:column;justify-content:center;padding:60px;}
+  .ct2-hero-eyebrow{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#C38239;font-weight:700;display:block;margin-bottom:14px;}
+  .ct2-hero-left h1{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:1px;margin:0 0 16px;color:#2B2420;line-height:1.05;}
+  .ct2-hero-left p{font-size:14px;line-height:1.65;color:#5A4E3F;margin:0 0 26px;max-width:400px;}
+  .ct2-btn-dark-lg{display:inline-block;width:fit-content;background:#C38239;color:#FFFFFF;padding:14px 26px;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;border-radius:3px;font-weight:700;border:0;cursor:pointer;}
+  .ct2-btn-dark-lg:hover{background:#A8702F;}
+  .ct2-btn-hero{display:inline-block;width:fit-content;background:#C38239;color:#FFFFFF;padding:14px 26px;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;border-radius:3px;font-weight:700;border:0;cursor:pointer;}
+  .ct2-btn-hero:hover{background:#A8702F;}
+  .ct2-hero-right{overflow:hidden;min-height:420px;}
+  .ct2-hero-right img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  .ct2-help{padding:56px 6vw;text-align:center;}
+  .ct2-help-title{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:1.5px;color:#2B2420;margin:0 0 32px;}
+  .ct2-help-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1100px;margin:0 auto;}
+  .ct2-help-card{border:1px solid #E3DCC8;border-radius:10px;padding:28px 20px;background:#FFFFFF;}
+  .ct2-help-icon{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:#F4EFDC;color:#2B2420;margin:0 auto 18px;}
+  .ct2-help-card h3{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1px;margin:0 0 9px;color:#2B2420;}
+  .ct2-help-card p{font-size:13px;color:#7A7263;line-height:1.5;margin:0 0 12px;}
+  .ct2-help-learnmore{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#C38239;text-decoration:none;}
+
+  .ct2-combo{display:grid;grid-template-columns:1fr 1.3fr;gap:0;max-width:1100px;margin:0 auto 56px;background:#F4EFDC;border:1px solid #E3DCC8;border-radius:12px;overflow:hidden;}
+  .ct2-talk{padding:36px 32px;border-right:1px solid #E3DCC8;}
+  .ct2-form-side{padding:36px 32px;}
+  .ct2-combo-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;margin:0 0 24px;color:#2B2420;}
+  .ct2-talk-list{display:flex;flex-direction:column;gap:22px;}
+  .ct2-talk-row{display:flex;gap:14px;align-items:flex-start;}
+  .ct2-talk-icon{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#2B2420;}
+  .ct2-talk-body strong{display:block;font-size:12px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px;}
+  .ct2-talk-desc{display:block;font-size:11.5px;color:#7A7263;margin-bottom:3px;}
+  .ct2-talk-body a{font-size:13px;color:#2B2420;font-weight:600;text-decoration:none;}
+  .ct2-talk-body a:hover{text-decoration:underline;}
+
+  .ct2-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .ct2-field{margin-bottom:16px;}
+  .ct2-field label{display:block;font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:#7A7263;margin-bottom:6px;}
+  .ct2-field input,.ct2-field select,.ct2-field textarea{width:100%;padding:12px 14px;border:1px solid #D8CFB8;border-radius:4px;font:inherit;font-size:13px;background:#FFFFFF;color:#2B2420;box-sizing:border-box;}
+  .ct2-submit{width:100%;text-align:center;margin-top:4px;}
+  .ct2-success{background:#8DA68A;color:#fff;padding:10px 14px;border-radius:4px;margin-bottom:14px;font-size:13px;}
+
+  .ct2-visit{display:grid;grid-template-columns:.9fr 1.6fr;gap:40px;padding:0 6vw 64px;align-items:center;max-width:1300px;margin:0 auto;}
+  .ct2-visit-left h2{font-family:'Bebas Neue',sans-serif;font-size:20px;margin:0 0 12px;}
+  .ct2-visit-left p{font-size:13px;color:#5A4E3F;line-height:1.6;margin:0 0 20px;max-width:280px;}
+  .ct2-btn-tan{display:inline-block;background:#C38239;color:#fff;padding:12px 22px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-decoration:none;border-radius:3px;}
+  .ct2-btn-tan:hover{background:#A8702F;}
+  .ct2-visit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .ct2-visit-img{aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:#E3DCC8;margin-bottom:10px;}
+  .ct2-visit-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .ct2-visit-card strong{display:block;font-size:13px;margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px;}
+  .ct2-visit-card span{font-size:11.5px;color:#7A7263;}
+
+  @media(max-width:900px){
+    .ct2-hero{grid-template-columns:1fr;}
+    .ct2-hero-right{min-height:280px;}
+    .ct2-hero-left{padding:40px 24px;}
+    .ct2-hero-left h1{font-size:26px;}
+    .ct2-help-title{font-size:18px;}
+    .ct2-help-grid{grid-template-columns:repeat(2,1fr);}
+    .ct2-combo{grid-template-columns:1fr;}
+    .ct2-talk{border-right:0;border-bottom:1px solid #E3DCC8;}
+    .ct2-visit{grid-template-columns:1fr;}
+    .ct2-visit-left h2{font-size:18px;}
+    .ct2-visit-grid{grid-template-columns:repeat(3,1fr);}
+  }
+  @media(max-width:600px){
+    .ct2-help-grid{grid-template-columns:1fr;}
+    .ct2-row{grid-template-columns:1fr;gap:0;}
+    .ct2-visit-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Contact Page v2",
+  "settings": [
+    {"type":"header","content":"Hero"},
+    {"type":"text","id":"hero_eyebrow","label":"Eyebrow","default":"Contact Us"},
+    {"type":"text","id":"hero_heading","label":"Heading","default":"LET'S CONNECT"},
+    {"type":"textarea","id":"hero_sub","label":"Subtitle","default":"We're here to help — whether you're looking for a product, need personalisation, or simply want to know more about Jack Studio."},
+    {"type":"text","id":"hero_btn1_text","label":"Button text","default":"Contact Us"},
+    {"type":"url","id":"hero_btn1_link","label":"Button link"},
+    {"type":"image_picker","id":"hero_image","label":"Hero image"},
+    {"type":"header","content":"How Can We Help"},
+    {"type":"text","id":"help_heading","label":"Heading","default":"How Can We Help?"},
+    {"type":"text","id":"help_1_title","label":"Card 1 title","default":"Product Enquiries"},
+    {"type":"textarea","id":"help_1_desc","label":"Card 1 description","default":"Need help choosing the right product?"},
+    {"type":"url","id":"help_1_link","label":"Card 1 link"},
+    {"type":"text","id":"help_2_title","label":"Card 2 title","default":"Personalisation"},
+    {"type":"textarea","id":"help_2_desc","label":"Card 2 description","default":"Questions about engraving & embossing?"},
+    {"type":"url","id":"help_2_link","label":"Card 2 link"},
+    {"type":"text","id":"help_3_title","label":"Card 3 title","default":"Corporate Solutions"},
+    {"type":"textarea","id":"help_3_desc","label":"Card 3 description","default":"Looking for gifts or custom leather solutions?"},
+    {"type":"url","id":"help_3_link","label":"Card 3 link"},
+    {"type":"text","id":"help_4_title","label":"Card 4 title","default":"After-Sales Care"},
+    {"type":"textarea","id":"help_4_desc","label":"Card 4 description","default":"Need help with care, warranty or repair?"},
+    {"type":"url","id":"help_4_link","label":"Card 4 link"},
+    {"type":"header","content":"Talk To Us"},
+    {"type":"text","id":"email","label":"Email","default":"sales.jackstudio@gmail.com"},
+    {"type":"text","id":"phone","label":"Phone","default":"011-6060 1277"},
+    {"type":"text","id":"whatsapp","label":"WhatsApp number","default":"+60 11-6060 1277"},
+    {"type":"url","id":"outlets_link","label":"Outlets page link"},
+    {"type":"header","content":"Prefer To Visit Us"},
+    {"type":"paragraph","content":"下面的门店卡片从 Content > Metaobjects > Outlet 读取，与首页/Outlets页面共用同一批数据，改一处处处同步。" },
+    {"type":"text","id":"visit_heading","label":"Heading","default":"Prefer To Visit Us?"},
+    {"type":"textarea","id":"visit_text","label":"Text","default":"Experience Jack Studio products in person, discover our collections and speak with our team."}
+  ],
+  "blocks": [
+    {
+      "type": "outlet",
+      "name": "门店",
+      "settings": [
+        { "type": "metaobject", "id": "outlet", "metaobject_type": "outlet", "label": "选择门店" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Contact Page v2",
+      "blocks": [
+        { "type": "outlet" },
+        { "type": "outlet" },
+        { "type": "outlet" }
+      ]
+    }
+  ]
+}
+{% endschema %}

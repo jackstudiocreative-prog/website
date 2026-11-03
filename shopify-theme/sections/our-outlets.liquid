@@ -1,0 +1,84 @@
+<div class="ot-wrap">
+  <h2>{{ section.settings.heading }}</h2>
+  <div class="ot-sub">{{ section.settings.subtitle }}</div>
+  <div class="ot-track">
+    {% for block in section.blocks %}
+      {%- assign outlet = block.settings.outlet -%}
+      <div class="ot-card" {{ block.shopify_attributes }}>
+        <div class="ot-photo">
+          {%- if outlet.photo.value -%}{{ outlet.photo.value | image_url: width: 500 | image_tag: loading: 'lazy' }}{%- endif -%}
+        </div>
+        <div class="ot-body">
+          {% if outlet %}
+            {% if outlet.location_label.value != blank %}<div class="ot-loc">{{ outlet.location_label.value }}</div>{% endif %}
+            <h3>{{ outlet.name.value }}</h3>
+            {% if outlet.address.value != blank %}<div class="ot-row">{{ outlet.address.value }}</div>{% endif %}
+            {%- assign dir_link = outlet.directions_url.value -%}
+            {%- if dir_link == blank and outlet.address.value != blank -%}
+              {%- assign dir_link = 'https://www.google.com/maps/search/?api=1&query=' | append: outlet.address.value | url_param_escape -%}
+            {%- endif -%}
+            {% if dir_link != blank %}
+              <a class="ot-btn" href="{{ dir_link }}" target="_blank" rel="noopener">Get Directions</a>
+            {% endif %}
+          {% else %}
+            {% if request.design_mode %}<div class="ot-warn">⚠ 请选择一间门店</div>{% endif %}
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% if section.settings.viewall_link != blank %}
+    <a class="ot-viewall" href="{{ section.settings.viewall_link }}">View All Outlets &rarr;</a>
+  {% endif %}
+</div>
+<style>
+  .ot-wrap{padding:48px 24px;text-align:center;background:{{ section.settings.bg_color }};color:#292724;}
+  .ot-wrap h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,3vw,32px);letter-spacing:1.5px;margin:0 0 10px;}
+  .ot-sub{color:#716B63;font-size:15px;margin-bottom:30px;}
+  .ot-track{display:flex;gap:20px;overflow-x:auto;padding-bottom:8px;}
+  .ot-card{flex:0 0 260px;background:#F9F6EF;border:1px solid #E9E2D5;border-radius:6px;overflow:hidden;text-align:left;}
+  .ot-photo{aspect-ratio:4/3;background:#E9E2D5;}
+  .ot-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .ot-body{padding:16px;}
+  .ot-loc{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#716B63;margin-bottom:5px;}
+  .ot-body h3{font-size:17px;margin:0 0 7px;}
+  .ot-row{font-size:13px;color:#716B63;margin-bottom:10px;line-height:1.5;}
+  .ot-btn{display:inline-block;background:#C38239;color:#fff;font-size:12px;font-weight:600;padding:9px 16px;border-radius:3px;text-decoration:none;}
+  .ot-warn{font-size:11px;color:#B3261E;margin-top:6px;}
+  .ot-viewall{display:inline-block;margin-top:24px;background:#C38239;color:#fff;font-weight:700;font-size:12px;letter-spacing:.5px;text-transform:uppercase;padding:11px 22px;border-radius:4px;text-decoration:none;}
+  .ot-viewall:hover{background:#A8702F;}
+  @media(min-width:768px){.ot-track{display:grid;grid-template-columns:repeat(3,1fr);overflow:visible;}}
+  @media(max-width:640px){.ot-wrap h2{font-size:22px;}}
+</style>
+{% schema %}
+{
+  "name": "Our outlets",
+  "settings": [
+    { "type": "paragraph", "content": "门店资料(名称/地址/照片等)统一从后台 Content > Metaobjects > Outlet 读取,与Outlets页面共用同一批条目。改一处两边同步。每个卡片只需从下方选择对应的门店即可。Get Directions 默认自动用地址生成,如果在门店条目里填了 Custom Directions Link,会优先用你手动填的链接。" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#F5F1E8" },
+    { "type": "text", "id": "heading", "label": "标题", "default": "Our Outlets" },
+    { "type": "text", "id": "subtitle", "label": "副标题", "default": "Discover a boutique near you." },
+    { "type": "url", "id": "viewall_link", "label": "查看全部按钮链接" }
+  ],
+  "blocks": [
+    {
+      "type": "outlet",
+      "name": "门店",
+      "settings": [
+        { "type": "metaobject", "id": "outlet", "metaobject_type": "outlet", "label": "选择门店" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Our outlets",
+      "blocks": [
+        { "type": "outlet" },
+        { "type": "outlet" },
+        { "type": "outlet" }
+      ]
+    }
+  ]
+}
+{% endschema %}

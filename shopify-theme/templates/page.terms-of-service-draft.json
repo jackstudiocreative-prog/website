@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "policy-page",
+      "settings": {
+        "title_spacing": 2
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

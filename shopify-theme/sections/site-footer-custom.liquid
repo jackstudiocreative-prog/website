@@ -1,0 +1,77 @@
+<footer class="jf-wrap">
+  <div class="jf-top"><div class="jf-tagline">{{ section.settings.tagline }}</div></div>
+  <div class="jf-cols">
+    {% for block in section.blocks %}
+      <div class="jf-col" {{ block.shopify_attributes }}>
+        <h4>{{ block.settings.title }}</h4>
+        {{ block.settings.links }}
+      </div>
+    {% endfor %}
+    <div class="jf-col">
+      <h4>{{ section.settings.company_title }}</h4>
+      <p>Email:<br><a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></p>
+      <p>{{ section.settings.address }}</p>
+    </div>
+  </div>
+  {% form 'customer', id: 'jf-newsletter-form' %}
+    <div class="jf-newsletter">
+      <div class="jf-newsletter-label">{{ section.settings.newsletter_label }}</div>
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="jf-newsletter-form">
+        <input type="email" name="contact[email]" placeholder="Email" required>
+        <button type="submit" aria-label="Subscribe">&rarr;</button>
+      </div>
+    </div>
+  {% endform %}
+  <div class="jf-bottom">
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</span>
+  </div>
+</footer>
+<style>
+  .jf-wrap{background:#2B2420;color:#F4EFDC;padding:40px 24px 20px;}
+  .jf-tagline{text-align:center;font-size:18px;margin-bottom:32px;}
+  .jf-cols{display:flex;flex-wrap:wrap;gap:28px;justify-content:center;margin-bottom:32px;}
+  .jf-col{flex:1 1 160px;max-width:200px;}
+  .jf-col h4{font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;}
+  .jf-col a{display:block;color:#D8CFC0;font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .jf-col p{color:#D8CFC0;font-size:13px;margin-bottom:8px;}
+  .jf-newsletter{max-width:400px;margin:0 auto 28px;text-align:center;}
+  .jf-newsletter-label{font-size:13px;margin-bottom:12px;}
+  .jf-newsletter-form{display:flex;border-bottom:1px solid #7A6A63;}
+  .jf-newsletter-form input{flex:1;background:none;border:0;color:#fff;padding:8px 0;font-size:13px;}
+  .jf-newsletter-form button{background:none;border:0;color:#fff;font-size:16px;cursor:pointer;}
+  .jf-bottom{text-align:center;font-size:11px;color:#A69A90;border-top:1px solid #5A4038;padding-top:16px;}
+</style>
+{% schema %}
+{
+  "name": "Site footer",
+  "settings": [
+    { "type": "text", "id": "tagline", "label": "标语", "default": "Crafted For Every Journey" },
+    { "type": "text", "id": "company_title", "label": "公司信息栏标题", "default": "Company Details" },
+    { "type": "text", "id": "email", "label": "邮箱" },
+    { "type": "textarea", "id": "address", "label": "地址" },
+    { "type": "text", "id": "newsletter_label", "label": "订阅提示文字", "default": "Sign Up for More Offers" }
+  ],
+  "blocks": [
+    {
+      "type": "link_column",
+      "name": "链接栏",
+      "settings": [
+        { "type": "text", "id": "title", "label": "栏目标题", "default": "Shop" },
+        { "type": "richtext", "id": "links", "label": "链接列表(用富文本编辑器添加链接)" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Site footer",
+      "blocks": [
+        { "type": "link_column", "settings": { "title": "Shop" } },
+        { "type": "link_column", "settings": { "title": "Info" } },
+        { "type": "link_column", "settings": { "title": "Policies" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

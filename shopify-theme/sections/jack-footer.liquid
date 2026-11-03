@@ -1,0 +1,116 @@
+{%- assign bg_color = section.settings.bg_color | default: '#C4823A' -%}
+{%- assign text_color = section.settings.text_color | default: '#F4EFDC' -%}
+{%- assign overlay = section.settings.overlay_opacity | divided_by: 100.0 -%}
+{%- assign logo_h = 56.0 | times: section.settings.logo_scale | divided_by: 100.0 -%}
+
+<footer class="jf-footer"
+  {% if section.settings.bg_image != blank %}
+    style="background-image:linear-gradient(rgba(43,36,28,{{ overlay }}),rgba(43,36,28,{{ overlay }})),url('{{ section.settings.bg_image | image_url: width: 2000 }}');background-size:cover;background-position:center;color:{{ text_color }};"
+  {% else %}
+    style="background:{{ bg_color }};color:{{ text_color }};"
+  {% endif %}>
+  <div class="jf-top">
+    {% if section.settings.logo != blank %}<img class="jf-logo" src="{{ section.settings.logo | image_url: width:1000 }}" alt="{{ shop.name }}" style="height:{{ logo_h }}px;">{% else %}<div class="jf-brand">{{ section.settings.brand }}</div>{% endif %}
+    <div class="jf-tagline">{{ section.settings.tagline }}</div>
+  </div>
+
+  <div class="jf-cols">
+    {%- for i in (1..3) -%}
+      {%- assign title_key = 'col' | append: i | append: '_title' -%}
+      {%- assign items_key = 'col' | append: i | append: '_items' -%}
+      {%- assign col_title = section.settings[title_key] -%}
+      {%- assign col_items = section.settings[items_key] -%}
+      <div class="jf-col">
+        <h4>{{ col_title }}</h4>
+        {%- assign lines = col_items | strip | newline_to_br | split: '<br />' -%}
+        {%- for line in lines -%}
+          {%- assign parts = line | strip | split: '|' -%}
+          {%- if parts[0] != blank -%}
+            <a href="{{ parts[1] | default: '#' | strip }}">{{ parts[0] | strip }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+
+    <div class="jf-col jf-contact">
+      <h4>{{ section.settings.contact_title }}</h4>
+      {% if section.settings.email != blank %}<div class="jf-label">Email:</div><a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>{% endif %}
+      {% if section.settings.company_name != blank %}<div class="jf-label" style="margin-top:16px">Address:</div><div class="jf-addr-line">{{ section.settings.company_name }}</div>{% endif %}
+      {% if section.settings.address != blank %}<div class="jf-addr">{{ section.settings.address | newline_to_br }}</div>{% endif %}
+      <div class="jf-social">
+        {% if section.settings.fb_url != blank %}<a href="{{ section.settings.fb_url }}" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.3-1.5 1.6-1.5H17V4.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.6V14h2.7v8h3.2z"/></svg></a>{% endif %}
+        {% if section.settings.ig_url != blank %}<a href="{{ section.settings.ig_url }}" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>{% endif %}
+        {% if section.settings.yt_url != blank %}<a href="{{ section.settings.yt_url }}" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5s-.2-1.6-.9-2.3c-.9-.9-1.8-.9-2.3-1C16.5 4 12 4 12 4s-4.5 0-7.8.2c-.5.1-1.4.1-2.3 1C1.2 5.9 1 7.5 1 7.5S.8 9.4.8 11.3v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2.1.9 2.6 1 1.9.2 8 .2 8 .2s4.5 0 7.8-.2c.5-.1 1.4-.1 2.3-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.9-.2-3.8-.2-3.8zM9.7 15.2V8.8L15.6 12l-5.9 3.2z"/></svg></a>{% endif %}
+        {% if section.settings.tt_url != blank %}<a href="{{ section.settings.tt_url }}" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 6.8c-1.4-.1-2.7-.9-3.4-2.1-.3-.5-.5-1-.6-1.5V3h-3.4v13.6c0 1.4-1.1 2.5-2.5 2.5-.6 0-1.2-.2-1.7-.6-.7-.5-1.1-1.4-1.1-2.3 0-1.6 1.3-2.9 2.9-2.9.3 0 .5 0 .8.1v-3.5c-.3 0-.5-.1-.8-.1-3.5 0-6.3 2.8-6.3 6.3s2.8 6.3 6.3 6.3 6.3-2.8 6.3-6.3V9.7c1.3.9 2.9 1.5 4.5 1.5V7.8c-.4 0-.7 0-1-.1z"/></svg></a>{% endif %}
+        {% if section.settings.tw_url != blank %}<a href="{{ section.settings.tw_url }}" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 3H21l-6.5 7.4L22 21h-6.1l-4.8-6.2L5.6 21H3l7-8-6.7-10h6.2l4.3 5.7L18.2 3zm-1 16h1.6L7 4.5H5.3L17.2 19z"/></svg></a>{% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="jf-newsletter"><div class="jf-newsletter-label">{{ section.settings.newsletter_label }}</div><form class="jf-newsletter-form" action="{{ routes.root_url }}" method="post"><input type="email" placeholder="{{ section.settings.placeholder }}"><button type="submit">&rarr;</button></form></div>
+
+  <div class="jf-bottom"><span>{{ section.settings.copyright }}</span><span>{{ shop.name }}</span></div>
+</footer>
+<style>
+  .jf-footer{padding:56px 32px 24px;font-family:Inter,sans-serif;}
+  .jf-top{text-align:center;margin-bottom:40px;}
+  .jf-brand{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:3px;}
+  .jf-logo{width:auto;margin:0 auto;display:block;}
+  .jf-tagline{font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:.85;margin-top:12px;}
+  .jf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;max-width:1200px;margin:0 auto 40px;}
+  .jf-col h4{font-size:13px;letter-spacing:1.5px;margin:0 0 18px;font-weight:700;font-family:'Bebas Neue',sans-serif;letter-spacing:2px;}
+  .jf-col a{display:block;color:{{ text_color }};opacity:.85;text-decoration:none;font-size:13px;margin-bottom:10px;line-height:1.5;}
+  .jf-col a:hover{opacity:1;text-decoration:underline;}
+  .jf-label{font-size:12px;opacity:.7;margin-bottom:4px;}
+  .jf-addr-line,.jf-addr{font-size:13px;opacity:.85;line-height:1.6;margin-bottom:4px;}
+  .jf-social{display:flex;gap:14px;margin-top:20px;}
+  .jf-social a{padding:0;margin:0;opacity:.9;}
+  .jf-social a:hover{opacity:1;}
+  .jf-newsletter{text-align:center;margin:0 auto 32px;max-width:520px;}
+  .jf-newsletter-label{font-size:14px;margin-bottom:14px;}
+  .jf-newsletter-form{display:flex;align-items:center;border:1px solid rgba(64,20,16,.3);border-radius:999px;padding:4px 4px 4px 20px;background:rgba(64,20,16,.05);}
+  .jf-newsletter-form input{flex:1;background:transparent;border:0;color:{{ text_color }};outline:none;font-size:13px;padding:10px 0;}
+  .jf-newsletter-form input::placeholder{color:{{ text_color }};opacity:.6;}
+  .jf-newsletter-form button{background:#2B2420;color:#F4EFDC;border:0;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:15px;}
+  .jf-bottom{display:flex;justify-content:space-between;padding-top:20px;border-top:1px solid rgba(64,20,16,.15);font-size:11px;opacity:.75;max-width:1200px;margin:0 auto;}
+  @media(max-width:768px){.jf-cols{grid-template-columns:repeat(2,1fr);gap:32px;}.jf-bottom{flex-direction:column;gap:8px;text-align:center;}}
+</style>
+{% schema %}
+{"name":"Jack Studio Footer","settings":[
+{"type":"header","content":"Background"},
+{"type":"color","id":"bg_color","label":"Background color","default":"#C4823A"},
+{"type":"image_picker","id":"bg_image","label":"Background image (overrides color)"},
+{"type":"range","id":"overlay_opacity","label":"Image overlay darkness (%)","min":0,"max":80,"step":5,"default":30,"unit":"%"},
+{"type":"color","id":"text_color","label":"Text color","default":"#F4EFDC"},
+{"type":"header","content":"Brand"},
+{"type":"image_picker","id":"logo","label":"Footer logo"},
+{"type":"range","id":"logo_scale","label":"Logo size (%)","min":50,"max":400,"step":10,"default":100,"unit":"%"},
+{"type":"text","id":"brand","label":"Brand","default":"JACK STUDIO"},
+{"type":"text","id":"tagline","label":"Tagline","default":"Crafted For Every Journey"},
+{"type":"paragraph","content":"For each column, list items one per line. Format: Label|URL"},
+{"type":"header","content":"Column 1 - Shop"},
+{"type":"text","id":"col1_title","label":"Title","default":"Shop"},
+{"type":"textarea","id":"col1_items","label":"Items","default":"All Product|/collections/all\nProduct Collection|/pages/产品系列-product-series-design-draft\nCorporate Solution|/pages/corporate-solution"},
+{"type":"header","content":"Column 2 - Info"},
+{"type":"text","id":"col2_title","label":"Title","default":"Info"},
+{"type":"textarea","id":"col2_items","label":"Items","default":"About Us|/pages/品牌故事-brand-story-design-draft\nContact Us|/pages/contact\nSearch|/search\nOutlets|/pages/outlets-design-draft"},
+{"type":"header","content":"Column 3 - Policies"},
+{"type":"text","id":"col3_title","label":"Title","default":"Policies"},
+{"type":"textarea","id":"col3_items","label":"Items","default":"Privacy Policy|/policies/privacy-policy\nRefund Policy|/policies/refund-policy\nShipping|/policies/shipping-policy\nTerms of Service|/policies/terms-of-service"},
+{"type":"header","content":"Column 4 - Company Details"},
+{"type":"text","id":"contact_title","label":"Title","default":"Company Details"},
+{"type":"text","id":"email","label":"Email","default":"sales.jackstudio@gmail.com"},
+{"type":"text","id":"company_name","label":"Company name","default":"Jack Studio Marketing Sdn Bhd (1303213-T)"},
+{"type":"textarea","id":"address","label":"Address","default":"3060, Persiaran Raja Muda Musa,\nKampung Raja Uda,\n42000 Pelabuhan Klang,\nSelangor"},
+{"type":"header","content":"Social Links"},
+{"type":"url","id":"fb_url","label":"Facebook URL"},
+{"type":"url","id":"ig_url","label":"Instagram URL"},
+{"type":"url","id":"yt_url","label":"YouTube URL"},
+{"type":"url","id":"tt_url","label":"TikTok URL"},
+{"type":"url","id":"tw_url","label":"Twitter/X URL"},
+{"type":"header","content":"Newsletter"},
+{"type":"text","id":"newsletter_label","label":"Newsletter label","default":"Stay in the loop"},
+{"type":"text","id":"placeholder","label":"Email placeholder","default":"Your email address"},
+{"type":"header","content":"Bottom"},
+{"type":"text","id":"copyright","label":"Copyright","default":"© 2026 Jack Studio. All rights reserved."}]}
+{% endschema %}

@@ -1,0 +1,75 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "contact-page-v2",
+      "blocks": {
+        "v1": { "type": "outlet", "settings": { "outlet": "aeon-bukit-tinggi" } },
+        "v2": { "type": "outlet", "settings": { "outlet": "paradigm-mall" } },
+        "v3": { "type": "outlet", "settings": { "outlet": "main-place-mall-usj" } }
+      },
+      "block_order": ["v1", "v2", "v3"],
+      "settings": {
+        "hero_eyebrow": "Contact Us",
+        "hero_heading": "LET'S CONNECT",
+        "hero_sub": "We're here to help — whether you're looking for a product, need personalisation, or simply want to know more about Jack Studio.",
+        "hero_btn1_text": "Contact Us",
+        "hero_btn1_link": "https://wa.me/601112015288",
+        "hero_image": "shopify://shop_images/ChatGPT_Image_Aug_19_2026_02_24_25_PM.png",
+        "help_heading": "Our Services Provide",
+        "help_1_title": "Free Shipping Upon RM99 (EM & WM)",
+        "help_1_desc": "",
+        "help_1_link": "",
+        "help_2_title": "Free Name Engraved and Embossed",
+        "help_2_desc": "",
+        "help_2_link": "",
+        "help_3_title": "Exquisite Packaging",
+        "help_3_desc": "",
+        "help_3_link": "",
+        "help_4_title": "Free Polish Care",
+        "help_4_desc": "",
+        "help_4_link": "",
+        "email": "sales.jackstudio@gmail.com",
+        "phone": "011-1201 5288",
+        "whatsapp": "+60 11-1201 5288",
+        "outlets_link": "/pages/outlets-design-draft",
+        "visit_heading": "Prefer To Visit Us?",
+        "visit_text": "Experience Jack Studio products in person, discover our collections and speak with our team."
+      }
+    },
+    "corp_cta_contact": {
+      "type": "corporate-cta",
+      "settings": {
+        "eyebrow": "Looking For Corporate Gifts?",
+        "heading": "Talk To Our Corporate Team",
+        "text": "From executive gifts to personalised leather solutions, let's create something meaningful for your team.",
+        "quote_label": "Contact Us",
+        "quote_link": "https://wa.me/601112015288",
+        "contact_label": "",
+        "contact_link": "",
+        "image": "shopify://shop_images/test8.png",
+        "show_features": false,
+        "f1_title": "",
+        "f1_sub": "",
+        "f2_title": "",
+        "f2_sub": "",
+        "f3_title": "",
+        "f3_sub": "",
+        "f4_title": "",
+        "f4_sub": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "corp_cta_contact"
+  ]
+}

@@ -1,0 +1,17 @@
+# Never commit customer / order data (PDPA) or secrets
+*customers*.csv
+*orders*.csv
+.env
+.env.*
+*.pem
+*.key
+
+# Large media — store in cloud storage, not git
+*.mp4
+*.mov
+*.webm
+
+# OS / editor
+.DS_Store
+Thumbs.db
+node_modules/

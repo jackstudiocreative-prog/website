@@ -1,0 +1,19 @@
+{%- comment -%} Central outlet data. Edit here to update both homepage and outlets page. Format: region~location_label~name~address~hours~phone~image_filename, one per line. image_filename must match a file already uploaded under Settings > Files (or Shopify Files picker) with that exact name. {%- endcomment -%}
+{%- assign _nl = '
+' -%}
+{%- capture _outlets_raw -%}
+Klang Valley~Klang &middot; Selangor~Aeon Bukit Tinggi~Lot F63, First Floor, Aeon Bukit Tinggi Shopping Centre, 41200 Klang, Selangor~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_093530.png
+Klang Valley~Petaling Jaya &middot; Selangor~Paradigm Mall~Lot CF 33 & 35, Concourse Floor, Paradigm Mall, No.1, Jalan SS 7/26a, SS 7, 47301 Petaling Jaya, Selangor~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_093652.png
+Klang Valley~Subang Jaya &middot; Selangor~Main Place Mall USJ~GF-12, The Main Place Mall, Jalan USJ 21/10, Persiaran Kewajipan, 47630 Subang Jaya, Selangor~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_093803.png
+Klang Valley~Putrajaya~Alamanda Putrajaya~Lot LG42, Lower Ground Level, Alamanda Shopping Centre, Jalan Alamanda, Presint 1, 62000 Putrajaya~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_093848.png
+Klang Valley~Imbi &middot; Kuala Lumpur~Berjaya Times Square~Lot G 43-44, Berjaya Times Square, Jalan Imbi, 55100 Kuala Lumpur~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_093958.png
+Klang Valley~Wangsa Maju &middot; Kuala Lumpur~Aeon Alpha Angle~G02, Aeon Alpha Angle, Jalan R1, Seksyen 1, Bandar Baru Wangsa Maju, 53300 Kuala Lumpur~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_094057.png
+Johor~Masai &middot; Johor~Aeon Permas Jaya~1, Jalan Permas Utara, Bandar Baru Permas Jaya, 81750 Masai, Johor~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_094436.png
+Johor~Johor Bahru &middot; Johor~Aeon Bukit Indah~First Floor - F33, Grand Mezzanine, 8, Jalan Indah 15/2, Taman Bukit Indah, 79100 Johor Bahru, Johor~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_094536.png
+Johor~Kulai &middot; Johor~Aeon Mall Kulaijaya~G30, Aeon Mall Kulaijaya, PTD 106273, Persiaran Indahpura Utama, Bandar Indahpura, 81000 Kulai, Johor~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_094645.png
+Pulau Pinang~Seberang Jaya &middot; Pulau Pinang~Sunway Carnival Mall~1F-10, Sunway Carnival Mall, 3068, Jalan Todak, Pusat Bandar, 13700 Seberang Jaya, Pulau Pinang~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_094829.png
+Negeri Sembilan~Seremban &middot; Negeri Sembilan~Aeon Seremban 2~Aeon Mall, G06, No.112, Persiaran S2 B1, Seremban 2, 70300 Seremban, Negeri Sembilan~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_095005.png
+Pahang~Kuantan &middot; Pahang~East Coast Mall~L1-23A, Level 1, Jalan Putra Square 6, 25200 Kuantan, Pahang~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_095057.png
+Terengganu~Kuala Terengganu &middot; Terengganu~Mayang Mall~Lot L1-03A, 333, Jalan Haji Mat Taukey, Kampung Surau Pasir, 20000 Kuala Terengganu, Terengganu~Mon &ndash; Sun &middot; 10AM &ndash; 10PM~011-6060 1277~Screenshot_2026-08-14_095218.png
+{%- endcapture -%}
+{%- assign outlet_rows = _outlets_raw | strip | split: _nl -%}

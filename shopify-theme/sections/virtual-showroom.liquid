@@ -1,0 +1,96 @@
+{%- liquid
+  assign sr_url = section.settings.showroom_url | default: 'https://jackstudiocreative-prog.github.io/js-showroom/JackStudio_Matterport_Concept_V5/'
+  if section.settings.cover != blank
+    assign sr_cover = section.settings.cover | image_url: width: 2000
+  else
+    assign sr_cover = 'virtual-showroom-cover.jpg' | asset_url
+  endif
+-%}
+<section class="vs-wrap" id="vs-{{ section.id }}" {{ section.shopify_attributes }}>
+  <div class="vs-head">
+    {%- if section.settings.eyebrow != blank -%}<span class="vs-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+    <h2 class="vs-heading">{{ section.settings.heading }}</h2>
+    {%- if section.settings.text != blank -%}<p class="vs-body">{{ section.settings.text }}</p>{%- endif -%}
+  </div>
+
+  <div class="vs-stage" data-src="{{ sr_url }}" data-auto="{{ section.settings.autoload }}">
+    <button type="button" class="vs-cover" aria-label="{{ section.settings.button_text }}">
+      <img src="{{ sr_cover }}" alt="Jack Studio virtual showroom" loading="lazy" width="1600" height="900">
+      <span class="vs-shade"></span>
+      <span class="vs-cta">
+        <span class="vs-play"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+        <span class="vs-cta-label">{{ section.settings.button_text }}</span>
+        <span class="vs-cta-hint">{{ section.settings.hint }}</span>
+      </span>
+    </button>
+    <span class="vs-loading">Loading showroom…</span>
+    {%- if section.settings.fullscreen_text != blank -%}
+      <a class="vs-full" href="{{ sr_url }}" target="_blank" rel="noopener">{{ section.settings.fullscreen_text }} &#8599;</a>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (function(){
+    var root=document.getElementById('vs-{{ section.id }}');if(!root)return;
+    var st=root.querySelector('.vs-stage'),cover=root.querySelector('.vs-cover'),done=false;
+    function load(){if(done)return;done=true;st.classList.add('is-loading');
+      var f=document.createElement('iframe');f.src=st.getAttribute('data-src');f.title='Jack Studio virtual showroom';
+      f.allow='fullscreen; xr-spatial-tracking; accelerometer; gyroscope';f.setAttribute('allowfullscreen','');f.className='vs-frame';
+      f.addEventListener('load',function(){st.classList.remove('is-loading');st.classList.add('is-live');setTimeout(function(){cover.remove()},700)});
+      st.insertBefore(f,st.firstChild)}
+    cover.addEventListener('click',load);
+    if(st.getAttribute('data-auto')==='true'){
+      if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();load()}},{rootMargin:'300px 0px'});io.observe(st)}else load();
+    }
+  })();
+</script>
+
+<style>
+  #vs-{{ section.id }}.vs-wrap{background:{{ section.settings.bg_color }};padding:56px {{ section.settings.side_padding }}px 64px;}
+  #vs-{{ section.id }} .vs-head{text-align:center;max-width:760px;margin:0 auto 28px;}
+  #vs-{{ section.id }} .vs-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#A97852;font-weight:700;display:block;margin-bottom:12px;}
+  #vs-{{ section.id }} .vs-heading{font-family:'Bebas Neue',sans-serif;font-size:clamp(30px,4.2vw,52px);line-height:1.02;letter-spacing:.5px;color:#292724;margin:0;}
+  #vs-{{ section.id }} .vs-body{font-size:14px;line-height:1.6;color:#716B63;margin:14px auto 0;max-width:520px;}
+  #vs-{{ section.id }} .vs-stage{position:relative;width:100%;aspect-ratio:16/9;max-height:88vh;background:#1c1a18;overflow:hidden;}
+  #vs-{{ section.id }} .vs-frame{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;}
+  #vs-{{ section.id }} .vs-cover{all:unset;position:absolute;inset:0;z-index:1;cursor:pointer;display:block;transition:opacity .6s;}
+  #vs-{{ section.id }} .is-live .vs-cover{opacity:0;pointer-events:none;}
+  #vs-{{ section.id }} .vs-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  #vs-{{ section.id }} .vs-shade{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(41,39,36,.12) 0%,rgba(41,39,36,.5) 100%);}
+  #vs-{{ section.id }} .vs-cta{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;text-align:center;}
+  #vs-{{ section.id }} .vs-play{width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.92);color:#2B2420;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,0,0,.25);}
+  #vs-{{ section.id }} .vs-cta-label{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1.5px;text-shadow:0 2px 12px rgba(0,0,0,.4);}
+  #vs-{{ section.id }} .vs-cta-hint{font-size:12px;opacity:.9;}
+  #vs-{{ section.id }} .is-loading .vs-cta{display:none;}
+  #vs-{{ section.id }} .vs-loading{display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;color:#fff;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(41,39,36,.6);padding:10px 16px;}
+  #vs-{{ section.id }} .is-loading .vs-loading{display:block;}
+  #vs-{{ section.id }} .vs-full{position:absolute;right:14px;top:14px;z-index:3;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;font-weight:700;color:#fff;text-decoration:none;background:rgba(41,39,36,.6);padding:8px 12px;}
+  #vs-{{ section.id }} .vs-full:hover{background:#2B2420;}
+  @media(max-width:900px){
+    #vs-{{ section.id }}.vs-wrap{padding:40px 0 48px;}
+    #vs-{{ section.id }} .vs-head{padding:0 20px;margin-bottom:20px;}
+    #vs-{{ section.id }} .vs-stage{aspect-ratio:4/5;max-height:82vh;}
+    #vs-{{ section.id }} .vs-cta-label{font-size:22px;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Virtual Showroom",
+  "settings": [
+    {"type":"color","id":"bg_color","label":"Background","default":"#F5F1E8"},
+    {"type":"range","id":"side_padding","label":"Side spacing","min":0,"max":120,"step":4,"unit":"px","default":40},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Virtual Showroom"},
+    {"type":"text","id":"heading","label":"Heading","default":"Step Into Jack Studio"},
+    {"type":"textarea","id":"text","label":"Body text (optional)"},
+    {"type":"checkbox","id":"autoload","label":"Show the live showroom directly","info":"Loads the 3D store (with its arrow controls) as soon as visitors scroll to it. Untick to show a cover with an Enter button instead.","default":true},
+    {"type":"text","id":"button_text","label":"Cover button text","default":"Enter Showroom"},
+    {"type":"text","id":"hint","label":"Cover hint","default":"Drag to look around · tap the floor to walk"},
+    {"type":"text","id":"fullscreen_text","label":"Full-screen link text","default":"Full Screen"},
+    {"type":"url","id":"showroom_url","label":"Showroom URL","info":"Address of the published 3D showroom"},
+    {"type":"image_picker","id":"cover","label":"Cover image (optional)","info":"Shown while the showroom loads"}
+  ],
+  "presets":[{"name":"Virtual Showroom"}]
+}
+{% endschema %}

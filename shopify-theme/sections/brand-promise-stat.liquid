@@ -1,0 +1,141 @@
+{%- assign num_str = section.settings.number | strip -%}
+{%- assign chars = num_str | split: '' -%}
+
+<section class="bps-wrap" {{ section.shopify_attributes }}>
+  <div class="bps-inner">
+    <div class="bps-flap-row" data-flap-row>
+      {%- for ch in chars -%}
+        {%- if ch == ',' -%}
+          <div class="fc-comma" aria-hidden="true">,</div>
+        {%- else -%}
+          <div class="fc-cell" style="transition-delay:{{ forloop.index0 | times: 160 }}ms;">
+            <div class="fc-digit-back">{{ ch }}</div>
+            <div class="fc-split-line"></div>
+            <div class="fc-flap-top"></div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <span class="bps-label">{{ section.settings.label }}</span>
+    {% if section.settings.note != blank %}<span class="bps-note">{{ section.settings.note }}</span>{% endif %}
+  </div>
+  <span class="bps-num-sr" aria-live="polite">{{ section.settings.number }}</span>
+</section>
+
+<style>
+  .bps-wrap{background:#F5F0E7;padding:56px 24px 44px;text-align:center;overflow:hidden;}
+  .bps-inner{display:flex;flex-direction:column;align-items:center;gap:22px;}
+  .bps-num-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;}
+
+  .bps-flap-row{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:nowrap;}
+
+  .fc-cell{
+    position:relative;
+    width:44px;
+    height:72px;
+    perspective:400px;
+    flex-shrink:0;
+  }
+  .fc-digit-back{
+    position:absolute;inset:0;
+    background:#E9DFD0;
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:44px;
+    color:#B8793A;
+    line-height:1;
+    box-shadow:0 3px 8px rgba(74,41,34,.10);
+  }
+  .fc-split-line{
+    position:absolute;left:6px;right:6px;top:50%;height:1px;
+    background:rgba(74,41,34,.18);
+    z-index:3;
+    transform:translateY(-.5px);
+  }
+  .fc-flap-top{
+    position:absolute;inset:0;
+    background:#E9DFD0;
+    border-radius:8px;
+    transform-origin:top center;
+    transform:rotateX(0deg);
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    box-shadow:0 3px 8px rgba(74,41,34,.10);
+    z-index:2;
+    transition:transform 1.3s cubic-bezier(.45,0,.2,1);
+  }
+  .bps-flap-row.in-view .fc-cell .fc-flap-top{
+    transform:rotateX(-180deg);
+  }
+
+  .fc-comma{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:44px;
+    color:#B8793A;
+    align-self:flex-end;
+    line-height:1;
+    padding:0 2px 6px;
+    flex-shrink:0;
+  }
+
+  .bps-label{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:#4A2922;font-weight:700;}
+  .bps-note{display:block;font-size:11px;color:#7A7263;margin-top:-8px;}
+
+  @media(max-width:640px){
+    .fc-cell{width:28px;height:46px;}
+    .fc-digit-back,.fc-comma{font-size:28px;}
+    .bps-flap-row{gap:4px;}
+    .bps-label{font-size:10px;letter-spacing:1.8px;}
+  }
+
+  @media(prefers-reduced-motion: reduce){
+    .fc-flap-top{transition:none !important;}
+  }
+</style>
+
+<script>
+  (function(){
+    function initBpsFlap(){
+      document.querySelectorAll('[data-flap-row]').forEach(function(row){
+        if(row.getAttribute('data-bps-inited')) return;
+        row.setAttribute('data-bps-inited', '1');
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if(reduceMotion){
+          row.classList.add('in-view');
+          return;
+        }
+        if(!('IntersectionObserver' in window)){
+          row.classList.add('in-view');
+          return;
+        }
+        var observer = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if(entry.isIntersecting){
+              row.classList.add('in-view');
+            } else {
+              row.classList.remove('in-view');
+            }
+          });
+        }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
+        observer.observe(row);
+      });
+    }
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', initBpsFlap);
+    } else {
+      initBpsFlap();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Brand Promise — Stat",
+  "settings": [
+    {"type":"text","id":"number","label":"Number","default":"185,249"},
+    {"type":"text","id":"label","label":"Label","default":"Customers Served in 2025"},
+    {"type":"text","id":"note","label":"Note (optional, small text below)"}
+  ]
+}
+{% endschema %}

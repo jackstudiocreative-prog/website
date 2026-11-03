@@ -1,0 +1,142 @@
+{% assign sid = section.id | replace: '_', '' | downcase %}
+<section class="cc2-{{ sid }}-wrap" {{ section.shopify_attributes }}>
+  <div class="cc2-{{ sid }}-head">
+    <div>
+      <span class="cc2-{{ sid }}-eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="cc2-{{ sid }}-title">{{ section.settings.heading }}</h2>
+    </div>
+    <p class="cc2-{{ sid }}-tagline">{{ section.settings.tagline }}</p>
+  </div>
+
+  <div class="cc2-{{ sid }}-list">
+    {% for block in section.blocks %}
+      {% assign num = forloop.index | prepend: '0' | slice: -2, 2 %}
+      <div class="cc2-{{ sid }}-cat" {{ block.shopify_attributes }}>
+        <button type="button" class="cc2-{{ sid }}-row" data-cc2-toggle="cc2-{{ sid }}-panel-{{ block.id }}">
+          <span class="cc2-{{ sid }}-num">{{ num }}</span>
+          <span class="cc2-{{ sid }}-name">{{ block.settings.name }}</span>
+          <span class="cc2-{{ sid }}-preview">{{ block.settings.preview }}</span>
+          <span class="cc2-{{ sid }}-plus" aria-hidden="true"></span>
+        </button>
+        <div id="cc2-{{ sid }}-panel-{{ block.id }}" class="cc2-{{ sid }}-panel">
+          <div class="cc2-{{ sid }}-panel-inner">
+            {% if block.settings.collection != blank %}
+              <div class="cc2-{{ sid }}-products">
+                {% for product in block.settings.collection.products limit: block.settings.count %}
+                  <a class="cc2-{{ sid }}-product" href="{{ product.url }}">
+                    <div class="cc2-{{ sid }}-pimg">
+                      {% if product.featured_image %}{{ product.featured_image | image_url: width: 500, height: 625, crop: 'center' | image_tag: loading: 'lazy', alt: product.title }}{% endif %}
+                    </div>
+                    <div class="cc2-{{ sid }}-peyebrow">{{ block.settings.name }}</div>
+                    <div class="cc2-{{ sid }}-pname">{{ product.title }}</div>
+                    <div class="cc2-{{ sid }}-pprice">{{ product.price | money }}</div>
+                  </a>
+                {% else %}
+                  <p class="cc2-{{ sid }}-empty">No products yet.</p>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="cc2-{{ sid }}-empty">Select a collection for "{{ block.settings.name }}" in the theme editor.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  .cc2-{{ sid }}-wrap{padding:80px 24px;background:#F8F4EA;color:#2B2420;max-width:1400px;margin:0 auto;}
+  .cc2-{{ sid }}-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:48px;}
+  .cc2-{{ sid }}-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#C4823A;font-weight:600;display:block;margin-bottom:12px;}
+  .cc2-{{ sid }}-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,4vw,52px);line-height:0.95;margin:0;}
+  .cc2-{{ sid }}-tagline{font-family:Georgia,serif;font-style:italic;font-size:15px;line-height:1.5;color:#7A7263;max-width:400px;margin:0;}
+
+  .cc2-{{ sid }}-list{border-top:1px solid #E3DCC8;}
+  .cc2-{{ sid }}-cat{border-bottom:1px solid #E3DCC8;}
+  .cc2-{{ sid }}-row{display:grid;grid-template-columns:60px 1fr auto 44px;align-items:center;gap:20px;padding:28px 0;width:100%;background:none;border:0;cursor:pointer;text-align:left;font:inherit;color:inherit;}
+  .cc2-{{ sid }}-num{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1.5px;color:#C4823A;}
+  .cc2-{{ sid }}-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(24px,3vw,38px);line-height:1;}
+  .cc2-{{ sid }}-preview{font-size:12px;color:#7A7263;max-width:300px;text-align:right;line-height:1.5;}
+  .cc2-{{ sid }}-plus{position:relative;width:40px;height:40px;border-radius:50%;border:1px solid #2B2420;justify-self:end;transition:transform .3s,background .25s;}
+  .cc2-{{ sid }}-plus::before,.cc2-{{ sid }}-plus::after{content:'';position:absolute;top:50%;left:50%;background:currentColor;transition:opacity .25s;}
+  .cc2-{{ sid }}-plus::before{width:12px;height:1.5px;transform:translate(-50%,-50%);}
+  .cc2-{{ sid }}-plus::after{width:1.5px;height:12px;transform:translate(-50%,-50%);}
+  .cc2-{{ sid }}-cat.is-open .cc2-{{ sid }}-plus{background:#2B2420;color:#F4EFDC;transform:rotate(45deg);}
+
+  .cc2-{{ sid }}-panel{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1);}
+  .cc2-{{ sid }}-panel-inner{padding:8px 0 48px;}
+  .cc2-{{ sid }}-products{display:flex;gap:24px;overflow-x:auto;padding-bottom:8px;}
+  .cc2-{{ sid }}-product{flex:0 0 220px;text-decoration:none;color:inherit;}
+  .cc2-{{ sid }}-pimg{aspect-ratio:4/5;background:#F9F4E3;border-radius:4px;overflow:hidden;margin-bottom:14px;}
+  .cc2-{{ sid }}-pimg img{width:100%;height:100%;object-fit:cover;display:block;}
+  .cc2-{{ sid }}-peyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C4823A;margin-bottom:6px;}
+  .cc2-{{ sid }}-pname{font-family:'Bebas Neue',sans-serif;font-size:19px;margin-bottom:6px;}
+  .cc2-{{ sid }}-pprice{font-family:'Bebas Neue',sans-serif;font-size:16px;color:#2B2420;}
+  .cc2-{{ sid }}-empty{color:#7A7263;font-size:13px;}
+
+  @media(max-width:768px){
+    .cc2-{{ sid }}-head{grid-template-columns:1fr;gap:16px;}
+    .cc2-{{ sid }}-row{grid-template-columns:36px 1fr 36px;gap:10px;}
+    .cc2-{{ sid }}-preview{display:none;}
+    .cc2-{{ sid }}-plus{width:32px;height:32px;}
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('[data-cc2-toggle]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-cc2-toggle');
+        var panel = document.getElementById(id);
+        var cat = btn.closest('[class*="-cat"]');
+        var wasOpen = cat.classList.contains('is-open');
+        cat.parentElement.querySelectorAll('[class*="-cat"]').forEach(function(c){
+          c.classList.remove('is-open');
+          var p = c.querySelector('[class*="-panel"]');
+          if(p) p.style.maxHeight = null;
+        });
+        if(!wasOpen){
+          cat.classList.add('is-open');
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "CORPORATE — Categories",
+  "tag": "section",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Product Portfolio"},
+    {"type":"text","id":"heading","label":"Heading","default":"Corporate Product Categories"},
+    {"type":"textarea","id":"tagline","label":"Tagline","default":"Premium leather goods, curated for every corporate occasion — from executive gifting to event merchandise."}
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {"type":"text","id":"name","label":"Category name","default":"Executive Gifts"},
+        {"type":"textarea","id":"preview","label":"Preview text","default":"Premium wallets, card holders and bags for senior recipients."},
+        {"type":"collection","id":"collection","label":"Products collection"},
+        {"type":"range","id":"count","label":"Products to show","min":2,"max":10,"step":1,"default":5}
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "CORPORATE — Categories",
+      "blocks": [
+        {"type":"category","settings":{"name":"Executive Gifts","preview":"Premium wallets, card holders, laptop bags and passport holders for senior recipients."}},
+        {"type":"category","settings":{"name":"Employee Rewards","preview":"Milestone gifts for long service, onboarding, annual dinners and retirement."}},
+        {"type":"category","settings":{"name":"Event Merchandise","preview":"Conference and delegate bags, VIP gifts, speaker gifts and training kits."}},
+        {"type":"category","settings":{"name":"Promotional Items","preview":"Travel backpacks, laptop bags, toiletry kits and complete corporate gift boxes."}}
+      ]
+    }
+  ]
+}
+{% endschema %}

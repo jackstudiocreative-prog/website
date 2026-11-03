@@ -1,0 +1,80 @@
+<section class="cta2-wrap" {{ section.shopify_attributes }}>
+  {% if section.settings.bg_image %}
+    {{ section.settings.bg_image | image_url: width: 1800 | image_tag: class: 'cta2-bg', loading: 'lazy' }}
+  {% endif %}
+  <div class="cta2-overlay"></div>
+
+  <div class="cta2-left">
+    <p class="cta2-caption">{{ section.settings.caption_line1 }}<br><strong>{{ section.settings.caption_highlight }}</strong> {{ section.settings.caption_line2 }}</p>
+  </div>
+
+  <div class="cta2-right">
+    <h2 class="cta2-heading">
+      {{ section.settings.heading_line1 }}<br>
+      {{ section.settings.heading_line2 }}<br>
+      <span class="cta2-accent">{{ section.settings.heading_accent }}</span><br>
+      {{ section.settings.heading_line3 }}
+    </h2>
+    <div class="cta2-mark">
+      {% if section.settings.logo %}
+        {{ section.settings.logo | image_url: width: 200 | image_tag: loading: 'lazy' }}
+      {% endif %}
+    </div>
+    <div class="cta2-actions">
+      <a class="cta2-btn-dark" href="{{ section.settings.quote_link }}">{{ section.settings.quote_label }}</a>
+      <a class="cta2-btn-outline" href="{{ section.settings.contact_link }}">{{ section.settings.contact_label }}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta2-wrap{position:relative;width:100%;aspect-ratio:16/7;max-height:640px;overflow:hidden;background:#F4F4F2;}
+  .cta2-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+  .cta2-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(244,244,242,.55) 0%,rgba(244,244,242,.15) 30%,rgba(244,244,242,.15) 70%,rgba(244,244,242,.5) 100%);}
+
+  .cta2-left{position:absolute;left:5%;top:50%;transform:translateY(-50%);z-index:2;max-width:260px;}
+  .cta2-caption{font-size:15px;line-height:1.6;color:#2B2420;margin:0;background:rgba(244,244,242,.82);padding:10px 14px;border-radius:4px;backdrop-filter:blur(2px);}
+  .cta2-caption strong{color:#8A1F1F;}
+
+  .cta2-right{position:absolute;right:5%;top:8%;z-index:2;text-align:right;max-width:420px;}
+  .cta2-heading{font-family:Arial,sans-serif;font-weight:400;font-size:clamp(24px,3vw,42px);line-height:1.15;color:#2B2B2B;margin:0 0 16px;text-shadow:0 1px 12px rgba(244,244,242,.6);}
+  .cta2-accent{font-weight:800;color:#8A1F1F;}
+  .cta2-mark{margin-bottom:20px;}
+  .cta2-mark img{width:52px;margin-left:auto;opacity:.9;}
+  .cta2-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;}
+  .cta2-btn-dark{background:#2B2420;color:#F4EFDC;padding:12px 22px;border-radius:3px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;text-decoration:none;}
+  .cta2-btn-dark:hover{background:#2E0F0C;}
+  .cta2-btn-outline{background:rgba(244,244,242,.85);border:1px solid #2B2420;color:#2B2420;padding:11px 22px;border-radius:3px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;text-decoration:none;}
+  .cta2-btn-outline:hover{background:#2B2420;color:#F4EFDC;}
+
+  @media(max-width:900px){
+    .cta2-wrap{aspect-ratio:auto;height:auto;min-height:520px;max-height:none;}
+    .cta2-left{position:static;transform:none;max-width:100%;order:2;padding:24px 20px 0;}
+    .cta2-right{position:static;max-width:100%;text-align:left;order:1;padding:24px 20px 0;}
+    .cta2-overlay{background:rgba(244,244,242,.35);}
+    .cta2-mark img{margin-left:0;}
+    .cta2-actions{justify-content:flex-start;padding-bottom:24px;}
+    .cta2-heading{text-shadow:none;}
+  }
+</style>
+
+{% schema %}
+{"name":"CORPORATE — CTA v2","settings":[
+{"type":"image_picker","id":"bg_image","label":"Background photo"},
+{"type":"image_picker","id":"logo","label":"Logo mark"},
+{"type":"header","content":"Left caption"},
+{"type":"text","id":"caption_line1","label":"Caption line 1","default":"Available for Bulk or Small Purchases"},
+{"type":"text","id":"caption_highlight","label":"Caption bold word","default":"Personalized"},
+{"type":"text","id":"caption_line2","label":"Caption line 2 (after bold word)","default":"Corporate Gift"},
+{"type":"header","content":"Right heading"},
+{"type":"text","id":"heading_line1","label":"Heading line 1","default":"LOOKING"},
+{"type":"text","id":"heading_line2","label":"Heading line 2","default":"FOR"},
+{"type":"text","id":"heading_accent","label":"Heading accent (bold, red)","default":"CORPORATE"},
+{"type":"text","id":"heading_line3","label":"Heading line 3","default":"GIFT?"},
+{"type":"header","content":"Buttons"},
+{"type":"text","id":"quote_label","label":"Quote label","default":"Get a Quote"},
+{"type":"url","id":"quote_link","label":"Quote link"},
+{"type":"text","id":"contact_label","label":"Contact label","default":"Contact Us"},
+{"type":"url","id":"contact_link","label":"Contact link"}
+]}
+{% endschema %}

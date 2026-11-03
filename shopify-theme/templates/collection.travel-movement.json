@@ -1,0 +1,43 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "shb_1": {
+      "type": "series-hero-banner",
+      "settings": {
+        "image": "shopify://shop_images/b07294a7-e7c4-4d2f-85fe-deb150085476.png",
+        "eyebrow": "Lifestyle Movement",
+        "heading": "Travel Movement",
+        "description": "Ready for every journey ahead. Bags and organisers made to move with you from gate to gate."
+      }
+    },
+    "main": {
+      "type": "collection-main",
+      "settings": {
+        "hero_title": "",
+        "hero_tagline": "Explore the Travel Movement collection.",
+        "columns_desktop": 3,
+        "sidebar_width": 230,
+        "page_bg_color": "#f4efdc",
+        "surface_color": "#ece2ca",
+        "image_bg_color": "#fbf8ee",
+        "accent_color": "#8da68a",
+        "tan_accent_color": "#c4823a",
+        "show_swatches": true,
+        "bestseller_label": "Bestseller",
+        "show_promo": false,
+        "promo_text": "Free shipping available on most items",
+        "promo_every": 6,
+        "no_filter_note": "Enable filters in Search & Discovery to show categories here."
+      }
+    }
+  },
+  "order": ["shb_1", "main"]
+}

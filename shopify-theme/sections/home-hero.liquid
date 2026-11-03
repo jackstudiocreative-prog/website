@@ -1,0 +1,7 @@
+<section class="hero-home" {{ section.shopify_attributes }}>
+  <div class="hero-home-media" style="{% if section.settings.image != blank %}background-image:url('{{ section.settings.image | image_url: width:2400 }}');{% endif %}"></div>
+  <div class="hero-home-copy"><div class="eyebrow" style="color:{{ section.settings.eyebrow_color }};">{{ section.settings.eyebrow }}</div><h1>{{ section.settings.heading }}</h1><p>{{ section.settings.text }}</p><div class="hero-buttons"><a class="btn btn-sage" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a></div></div>
+</section>
+{% schema %}
+{"name":"HOME — Hero","settings":[{"type":"image_picker","id":"image","label":"Hero image"},{"type":"text","id":"eyebrow","label":"Eyebrow","default":"JACK STUDIO"},{"type":"color","id":"eyebrow_color","label":"Eyebrow text color","default":"#C4823A"},{"type":"text","id":"heading","label":"Heading","default":"Handcrafted Leather Goods"},{"type":"textarea","id":"text","label":"Text","default":"Crafted For Every Journey"},{"type":"text","id":"button_label","label":"Button","default":"Shop Now"},{"type":"url","id":"button_link","label":"Button link"}]}
+{% endschema %}

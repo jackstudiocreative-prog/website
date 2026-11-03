@@ -1,0 +1,61 @@
+<section class="cst" style="--cst-bg:{{ section.settings.bg_color }};" {{ section.shopify_attributes }}>
+  <div class="cst-inner">
+    <div class="cst-head">
+      {%- if section.settings.eyebrow != blank -%}<p class="cst-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="cst-heading">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p class="cst-sub">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+    <ol class="cst-list">
+      {%- for block in section.blocks -%}
+        <li class="cst-step" {{ block.shopify_attributes }}>
+          <span class="cst-num" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <h3 class="cst-title">{{ block.settings.title }}</h3>
+          {%- if block.settings.desc != blank -%}<p class="cst-desc">{{ block.settings.desc }}</p>{%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .cst{background:var(--cst-bg);}
+  .cst-inner{max-width:1440px;margin:0 auto;padding:clamp(48px,5vw,72px) clamp(20px,5vw,72px);}
+  .cst-head{text-align:center;margin-bottom:clamp(28px,3vw,40px);}
+  .cst-eyebrow{margin:0 0 12px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#B87635;}
+  .cst-heading{margin:0 0 12px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(36px,4vw,56px);line-height:.95;color:#401410;}
+  .cst-sub{margin:0;font-family:'Inter',sans-serif;font-size:13px;line-height:1.6;color:#5A4E3F;}
+  .cst-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(24px,3vw,40px);margin:0;padding:0;list-style:none;}
+  .cst-step{position:relative;}
+  .cst-num{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;margin-bottom:18px;border-radius:50%;background:#B87635;color:#FBF8F0;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;}
+  .cst-step::before{content:"";position:absolute;top:13px;left:26px;right:0;height:1px;background:rgba(184,118,53,.45);}
+  .cst-title{margin:0 0 8px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:24px;line-height:1;color:#401410;}
+  .cst-desc{max-width:260px;margin:0;font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.6;color:#6B5D4F;}
+
+  @media(max-width:600px){
+    .cst-desc{max-width:none;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Corporate — Steps",
+  "settings": [
+    {"type":"color","id":"bg_color","label":"Background","default":"#FBF7EF"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"03 / How it works"},
+    {"type":"text","id":"heading","label":"Heading","default":"Simple from start to finish."},
+    {"type":"text","id":"text","label":"Subheading","default":"Three clear steps to bring your corporate gifting ideas to life."}
+  ],
+  "blocks": [
+    {
+      "type":"step",
+      "name":"Step",
+      "settings":[
+        {"type":"text","id":"title","label":"Title","default":"Tell us what you need"},
+        {"type":"textarea","id":"desc","label":"Description","default":"Share your gifting purpose, preferred items, quantity and budget."}
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{"name":"Corporate — Steps"}]
+}
+{% endschema %}

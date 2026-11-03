@@ -1,0 +1,54 @@
+<section class="cof-wrap" {{ section.shopify_attributes }}>
+  <div class="cof-head">
+    <span class="cof-eyebrow">{{ section.settings.eyebrow }}</span>
+    <h2 class="cof-title">{{ section.settings.heading }}</h2>
+    <p class="cof-tagline">{{ section.settings.text }}</p>
+  </div>
+  <div class="cof-card">
+    <div class="cof-grid">
+      {% for block in section.blocks %}
+        <div class="cof-item" {{ block.shopify_attributes }}>
+          <span class="cof-icon">
+            {%- case block.settings.icon -%}
+            {%- when 'pencil' -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l1-4L15 6l3 3L8 19l-4 1z"/><path d="M13 8l3 3"/></svg>
+            {%- when 'image' -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-4 4-3-3-5 5"/></svg>
+            {%- when 'gift' -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="9" width="18" height="12" rx="1"/><path d="M3 9h18M12 9v12M8 9c-1.5 0-2.5-.8-2.5-2.2S6.5 4.5 8 4.5c1.2 0 2.5 1.6 3.5 2.5-.8 0-2.5 2-3.5 2zM16 9c1.5 0 2.5-.8 2.5-2.2S15.5 4.5 14 4.5c-1.2 0-2.5 1.6-3.5 2.5.8 0 2.5 2 3.5 2z"/></svg>
+            {%- when 'idcard' -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M13 10h6M13 14h4"/></svg>
+            {%- when 'delivery' -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="8" width="13" height="9" rx="1"/><path d="M15 11h4l3 3v3h-7z"/><circle cx="7" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/></svg>
+            {%- when 'envelope' -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            {%- when 'box' -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/></svg>
+            {%- when 'clock' -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            {%- else -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/></svg>
+            {%- endcase -%}
+          </span>
+          <span class="cof-label">{{ block.settings.title }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cof-wrap{background:{{ section.settings.bg_color }};padding:52px 6vw;}
+  .cof-head{max-width:640px;margin:0 auto 28px;}
+  .cof-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#C4823A;font-weight:700;display:block;margin-bottom:10px;}
+  .cof-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,3vw,32px);color:#2B2420;margin:0 0 10px;}
+  .cof-tagline{font-size:14px;color:#7A7263;margin:0;}
+  .cof-card{background:#F8F4EA;border-radius:12px;padding:8px 24px;max-width:1200px;margin:0 auto;}
+  .cof-grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .cof-item{display:flex;align-items:center;gap:14px;padding:22px 12px;}
+  .cof-icon{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:none;border:1.5px solid #2B2420;color:#2B2420;display:flex;align-items:center;justify-content:center;}
+  .cof-label{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.5px;color:#2B2420;line-height:1.3;}
+
+  @media(max-width:900px){
+    .cof-grid{grid-template-columns:repeat(2,1fr);}
+    .cof-title{font-size:22px;}
+  }
+  @media(max-width:520px){
+    .cof-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+{% schema %}
+{"name":"CORPORATE — What We Offer","max_blocks":12,"settings":[{"type":"color","id":"bg_color","label":"Background","default":"#F4EFDC"},{"type":"text","id":"eyebrow","label":"Eyebrow","default":"What We Offer"},{"type":"text","id":"heading","label":"Heading","default":"Complete corporate support."},{"type":"textarea","id":"text","label":"Description","default":"Every detail handled in-house — from artwork to delivery."}],"blocks":[{"type":"offer","name":"Offer","settings":[{"type":"select","id":"icon","label":"Icon","default":"pencil","options":[{"value":"pencil","label":"Pencil"},{"value":"image","label":"Image"},{"value":"gift","label":"Gift"},{"value":"idcard","label":"ID Card"},{"value":"delivery","label":"Delivery"},{"value":"envelope","label":"Envelope"},{"value":"box","label":"Box"},{"value":"clock","label":"Clock"}]},{"type":"text","id":"title","label":"Offer","default":"Free Logo Design"}]}],"presets":[{"name":"CORPORATE — What We Offer","blocks":[{"type":"offer","settings":{"icon":"pencil","title":"Free Logo Design"}},{"type":"offer","settings":{"icon":"image","title":"Free Mockup"}},{"type":"offer","settings":{"icon":"gift","title":"Free Gift Box"}},{"type":"offer","settings":{"icon":"idcard","title":"Free Name Card"}},{"type":"offer","settings":{"icon":"delivery","title":"Free Delivery"}},{"type":"offer","settings":{"icon":"envelope","title":"Free Greeting Card"}},{"type":"offer","settings":{"icon":"box","title":"Free Sample"}},{"type":"offer","settings":{"icon":"clock","title":"Fast Production"}}]}]}
+{% endschema %}

@@ -1,0 +1,39 @@
+{
+  "general": {
+    "name": "Jack Studio"
+  },
+  "sections": {
+    "collection_template": {
+      "empty": "No products found in this category.",
+      "use_fewer_filters_html": "0 products found. <a class=\"underlined-link\" href=\"{{ link }}\">Clear all</a>"
+    },
+    "main_collection_product_grid": {
+      "no_products_html": "No products found. Use fewer filters or <a class=\"underlined-link\" href=\"{{ terms }}\">clear all</a>",
+      "title": "Collection"
+    }
+  },
+  "products": {
+    "facets": {
+      "collapse": "Collapse",
+      "expand": "Expand",
+      "filter_and_sort": "Filter and sort",
+      "filter_by": "Filter",
+      "clear": "Clear",
+      "clear_all": "Clear all",
+      "apply": "Apply",
+      "remove_filter": "Remove filter",
+      "sort_by_label": "Sort by",
+      "reset": "Reset",
+      "show_more": "Show more",
+      "show_less": "Show less",
+      "product_count": {
+        "one": "{{ product_count }} of {{ count }} product",
+        "other": "{{ product_count }} of {{ count }} products"
+      },
+      "product_count_simple": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      }
+    }
+  }
+}

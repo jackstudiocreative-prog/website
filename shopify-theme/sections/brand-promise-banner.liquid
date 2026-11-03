@@ -1,0 +1,44 @@
+<section class="bpb-wrap" {{ section.shopify_attributes }}>
+  <div class="bpb-kicker">
+    <span class="bpb-rule"></span>
+    <span class="bpb-kicker-text">{{ section.settings.kicker }}</span>
+    <span class="bpb-rule"></span>
+  </div>
+  <div class="bpb-words">
+    <span class="bpb-word bpb-dark">{{ section.settings.word_1 }}</span>
+    <span class="bpb-word bpb-sage">{{ section.settings.word_2 }}</span>
+    <span class="bpb-word bpb-dark">{{ section.settings.word_3 }}</span>
+  </div>
+  <p class="bpb-sub">{{ section.settings.subtitle }}</p>
+</section>
+
+<style>
+  .bpb-wrap{background:#F4EFE2;padding:44px 6vw 40px;text-align:center;}
+  .bpb-kicker{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:22px;}
+  .bpb-rule{width:64px;height:1px;background:#C9BFA6;}
+  .bpb-kicker-text{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px;color:#2B2420;}
+  .bpb-words{display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:16px;}
+  .bpb-word{font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,2.4vw,26px);letter-spacing:.5px;}
+  .bpb-dark{color:#2B2420;}
+  .bpb-sage{color:#7C9473;}
+  .bpb-sub{font-size:14px;color:#7A7263;margin:0;}
+
+  @media(max-width:640px){
+    .bpb-words{gap:14px;}
+    .bpb-rule{width:28px;}
+    .bpb-word{font-size:17px;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Brand Promise — Banner",
+  "settings": [
+    {"type":"text","id":"kicker","label":"Kicker text","default":"Our promise is simple."},
+    {"type":"text","id":"word_1","label":"Word 1 (dark)","default":"More Trust."},
+    {"type":"text","id":"word_2","label":"Word 2 (sage)","default":"More Relevant."},
+    {"type":"text","id":"word_3","label":"Word 3 (dark)","default":"More Personal."},
+    {"type":"text","id":"subtitle","label":"Subtitle","default":"From the product you carry to the service you receive, every detail is designed around you."}
+  ]
+}
+{% endschema %}

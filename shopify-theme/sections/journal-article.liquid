@@ -1,0 +1,60 @@
+<article class="ja-wrap">
+  <div class="ja-head">
+    <a class="ja-back" href="{{ blog.url }}">&larr; Back to Journal</a>
+    <span class="ja-eyebrow">{{ blog.title }}</span>
+    <h1 class="ja-title">{{ article.title }}</h1>
+    <span class="ja-date">{{ article.published_at | date: '%B %d, %Y' }}</span>
+  </div>
+
+  {% if article.image %}
+    <div class="ja-hero-img">{{ article.image | image_url: width: 1600 | image_tag: loading: 'eager', alt: article.title }}</div>
+  {% endif %}
+
+  <div class="ja-content">
+    {{ article.content }}
+  </div>
+
+  <div class="ja-footer">
+    <a class="ja-back-btn" href="{{ blog.url }}">&larr; Back to Journal</a>
+  </div>
+</article>
+
+<style>
+  .ja-wrap{background:#F8F4EA;padding:0 0 64px;}
+  .ja-head{max-width:720px;margin:0 auto;padding:48px 24px 28px;text-align:center;}
+  .ja-back{display:inline-block;font-size:11px;letter-spacing:.5px;color:#7A7263;text-decoration:none;margin-bottom:20px;}
+  .ja-back:hover{color:#2B2420;text-decoration:underline;}
+  .ja-eyebrow{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#C4823A;font-weight:700;margin-bottom:12px;}
+  .ja-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,4vw,40px);letter-spacing:.5px;color:#2B2420;margin:0 0 12px;line-height:1.1;}
+  .ja-date{display:block;font-size:12px;color:#A79E8A;}
+
+  .ja-hero-img{max-width:1000px;margin:0 auto 40px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#EFE9D8;}
+  .ja-hero-img img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  .ja-content{max-width:680px;margin:0 auto;padding:0 24px;font-size:15px;line-height:1.75;color:#4a3f33;}
+  .ja-content p{margin:0 0 18px;}
+  .ja-content h2{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.5px;color:#2B2420;margin:36px 0 14px;}
+  .ja-content h3{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.5px;color:#2B2420;margin:28px 0 12px;}
+  .ja-content img{width:100%;height:auto;border-radius:8px;margin:20px 0;display:block;}
+  .ja-content ul,.ja-content ol{margin:0 0 18px 22px;padding:0;}
+  .ja-content li{margin-bottom:8px;}
+  .ja-content strong,.ja-content b{color:#2B2420;}
+  .ja-content a{color:#C4823A;text-decoration:underline;}
+
+  .ja-footer{max-width:680px;margin:48px auto 0;padding:28px 24px 0;border-top:1px solid #E3DCC8;text-align:center;}
+  .ja-back-btn{display:inline-block;background:#C38239;color:#fff;text-decoration:none;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:12px 24px;border-radius:4px;}
+  .ja-back-btn:hover{background:#A8702F;}
+
+  @media(max-width:640px){
+    .ja-title{font-size:24px;}
+    .ja-hero-img{margin:0 0 32px;border-radius:0;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Journal — Article",
+  "settings": [],
+  "presets":[{"name":"Journal — Article"}]
+}
+{% endschema %}

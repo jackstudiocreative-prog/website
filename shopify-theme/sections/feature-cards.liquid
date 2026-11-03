@@ -1,0 +1,60 @@
+<div class="fc-wrap">
+  {% for block in section.blocks %}
+    <div class="fc-card {% if forloop.index0 == 0 %}fc-a{% else %}fc-b{% endif %}" {{ block.shopify_attributes }}>
+      {% if block.settings.badge != blank %}<span class="fc-badge">{{ block.settings.badge }}</span>{% endif %}
+      <div class="fc-photo">
+        {% if block.settings.image %}{{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy' }}{% endif %}
+      </div>
+      <div class="fc-copy">
+        <h3>{{ block.settings.title }}</h3>
+        {% if block.settings.subtitle != blank %}<div class="fc-sub">{{ block.settings.subtitle }}</div>{% endif %}
+        {% if block.settings.button_text != blank %}<a class="fc-btn" href="{{ block.settings.button_link }}">{{ block.settings.button_text }}</a>{% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+<style>
+  .fc-wrap{display:flex;flex-direction:column;gap:22px;padding:22px;background:#F4EFDC;}
+  .fc-card{display:flex;align-items:stretch;border-radius:4px;overflow:hidden;min-height:260px;position:relative;}
+  .fc-a{background:#C9C2AC;}
+  .fc-a .fc-copy{color:#2B2420;}
+  .fc-b{background:#8DA68A;flex-direction:row-reverse;}
+  .fc-b .fc-copy{color:#fff;}
+  .fc-photo{flex:0 0 42%;background:#EFEAD9;}
+  .fc-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .fc-copy{flex:1;padding:32px;display:flex;flex-direction:column;justify-content:center;}
+  .fc-copy h3{margin:0 0 4px;font-size:24px;}
+  .fc-sub{opacity:.75;font-size:13px;margin-bottom:16px;}
+  .fc-btn{display:inline-block;width:fit-content;background:#fff;color:#2B2420;font-weight:600;font-size:12.5px;padding:11px 22px;border-radius:3px;text-decoration:none;}
+  .fc-badge{position:absolute;top:16px;right:16px;background:#2B2420;color:#fff;font-size:10px;letter-spacing:.5px;font-weight:700;padding:5px 10px;border-radius:2px;z-index:2;}
+  @media(max-width:700px){.fc-card,.fc-b{flex-direction:column;}.fc-photo{flex:0 0 200px;}}
+</style>
+{% schema %}
+{
+  "name": "Feature cards",
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "图片" },
+        { "type": "text", "id": "title", "label": "标题", "default": "Product Collection" },
+        { "type": "text", "id": "subtitle", "label": "副标题" },
+        { "type": "text", "id": "badge", "label": "角标(可留空)" },
+        { "type": "text", "id": "button_text", "label": "按钮文字", "default": "View More" },
+        { "type": "url", "id": "button_link", "label": "按钮链接" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Feature cards",
+      "blocks": [
+        { "type": "card", "settings": { "title": "Product Collection" } },
+        { "type": "card", "settings": { "title": "Corporate Solution", "badge": "MOST POPULAR" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

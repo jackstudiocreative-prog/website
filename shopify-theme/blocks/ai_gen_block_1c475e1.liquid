@@ -1,0 +1,153 @@
+{% doc %}
+  @prompt
+    Create a premium, spacious "Urban Carry" product category section for my Shopify store.
+    
+    IMPORTANT:
+    
+    * Do NOT redesign the overall visual identity.
+    * Keep the existing website's color palette, typography, spacing language, and minimalist aesthetic.
+    * Do NOT add gradients, bright colors, shadows, borders, or decorative elements.
+    * The design should feel natural, premium, modern, urban, smart, minimal, and functional.
+    * The section must look like a professional leather goods brand website, not a generic ecommerce template.
+    
+    SECTION STRUCTURE:
+    
+    1. HEADER
+       At the top center:
+       "URBAN CARRY"
+       Subtitle:
+       "Carry smart. Move freely."
+    
+    Keep the heading and subtitle relatively compact and elegant.
+    
+    2. BAGS CATEGORY HEADER
+       Create a horizontal row:
+       Left:
+       "BAGS"
+    
+    Right:
+    "VIEW ALL"
+    
+    Use the existing website typography and colors.
+    "VIEW ALL" should be subtle and elegant, not a large button.
+    
+    3. BAG CATEGORY CARDS
+       Create 3 large visual category cards in one row on desktop:
+    
+    * Crossbody Bag
+    * Backpack
+    * Messenger Bag
+    
+    Each card should have:
+    
+    * A large image area
+    * Category name underneath
+    * A small "Explore →" text link
+    
+    The image area should be significantly larger than the current version. The main purpose of this section is visual discovery, so images should occupy most of the card.
+    
+    Use a clean editorial layout with generous spacing.
+    
+    CARD DESIGN:
+    
+    * No card shadows
+    * No rounded excessive UI elements
+    * No heavy borders
+    * No product quantity controls
+    * No "- 0 +" quantity selector
+    * No price
+    * No add-to-cart button
+    * Keep the design minimal and editorial
+    
+    4. WALLETS CATEGORY
+       Below the Bags section, create the same structure for:
+    
+    "WALLETS"                         "VIEW ALL"
+    
+    Then create 3 large visual category cards.
+    
+    Default wallet categories:
+    
+    * Card Holder
+    * Wallet
+    * Long Wallet
+    
+    Each should use the same visual treatment as the Bags cards.
+    
+    5. RESPONSIVE DESIGN
+       Desktop:
+    
+    * 3 cards per row
+    * Large image area
+    * Generous whitespace
+    
+    Tablet:
+    
+    * 2 cards per row
+    
+    Mobile:
+    
+    * 1 card per row
+    * Keep the images large
+    * Maintain generous vertical spacing
+    * Do not make the cards feel cramped
+    
+    6. SHOPIFY THEME EDITOR SETTINGS
+       Make the block fully editable inside Shopify Theme Editor.
+    
+    Allow the merchant to edit:
+    
+    * Section heading
+    * Section subtitle
+    * Bags title
+    * Bags "View All" link
+    * Wallets title
+    * Wallets "View All" link
+    * Each category image
+    * Each category title
+    * Each category link
+    
+    Allow merchants to add, remove, and reorder category cards using Shopify blocks.
+    
+    Each category should be an individual Shopify block.
+    
+    7. IMAGE BEHAVIOR
+       Images should use a large, consistent aspect ratio.
+       Use object-fit: cover or another appropriate crop that maintains a premium editorial appearance.
+    
+    Images should have subtle hover interaction:
+    
+    * Slight image scale on hover
+    * Smooth transition
+    * No dramatic animation
+    
+    8. SPACING
+       The current section has too much empty space above the category names and not enough visual content.
+    
+    Reduce unnecessary empty whitespace while making the actual category images much larger.
+    
+    The section should feel balanced:
+    Header → Bags → Large visual cards → Wallets → Large visual cards.
+    
+    Do not make the overall section excessively tall.
+    
+    9. IMPORTANT VISUAL DIRECTION
+       Think:
+       "Premium urban leather goods editorial website"
+    
+    Not:
+    "Standard ecommerce product grid"
+    
+    The final result should communicate:
+    Urban
+    Modern
+    Smart
+    Minimal
+    Functional
+    Premium
+    Leather goods
+    
+    Keep the existing Jack Studio design language intact.
+    
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}{% style %}.urban-carry-{{ ai_gen_id }}{display:block;width:{{ block.settings.desktop_width_percent }}%;max-width:100%;color:{{ block.settings.text_color }};background:{{ block.settings.background_color }}}.urban-carry-{{ ai_gen_id }}__inner{max-width:1400px;margin:auto;padding:{{ block.settings.section_padding }}px 4%}.urban-carry-{{ ai_gen_id }}__intro{text-align:center;margin:0 auto {{ block.settings.header_spacing }}px}.urban-carry-{{ ai_gen_id }}__heading{margin:0 0 8px;font-size:clamp(24px,3vw,40px);letter-spacing:.12em;font-weight:600}.urban-carry-{{ ai_gen_id }}__subtitle{margin:0;color:{{ block.settings.muted_color }};font-size:14px}.urban-carry-{{ ai_gen_id }}__group+ .urban-carry-{{ ai_gen_id }}__group{margin-top:{{ block.settings.group_spacing }}px}.urban-carry-{{ ai_gen_id }}__group-header{display:flex;justify-content:space-between;margin-bottom:20px}.urban-carry-{{ ai_gen_id }}__group-title{margin:0;font-size:14px;letter-spacing:.14em}.urban-carry-{{ ai_gen_id }}__view,.urban-carry-{{ ai_gen_id }}__explore{color:{{ block.settings.muted_color }};font-size:12px;text-decoration:none}.urban-carry-{{ ai_gen_id }}__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:{{ block.settings.card_gap }}px}.urban-carry-{{ ai_gen_id }}__image-wrap{overflow:hidden;aspect-ratio:{{ block.settings.image_ratio }};background:{{ block.settings.placeholder_color }}}.urban-carry-{{ ai_gen_id }}__image-wrap img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .45s ease}.urban-carry-{{ ai_gen_id }}__card:hover img{transform:scale(1.025)}.urban-carry-{{ ai_gen_id }}__placeholder{height:100%;display:flex}.urban-carry-{{ ai_gen_id }}__placeholder svg{width:100%;height:100%}.urban-carry-{{ ai_gen_id }}__name{display:block;margin:16px 0 6px;color:{{ block.settings.text_color }};font-size:16px;text-decoration:none}@media(max-width:989px){.urban-carry-{{ ai_gen_id }}__grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.urban-carry-{{ ai_gen_id }}__inner{padding:{{ block.settings.mobile_padding }}px 5%}.urban-carry-{{ ai_gen_id }}__grid{grid-template-columns:1fr;gap:38px}.urban-carry-{{ ai_gen_id }}__group+ .urban-carry-{{ ai_gen_id }}__group{margin-top:64px}}{% endstyle %}<div class="urban-carry-{{ ai_gen_id }}" {{ block.shopify_attributes }}><div class="urban-carry-{{ ai_gen_id }}__inner"><header class="urban-carry-{{ ai_gen_id }}__intro"><h2 class="urban-carry-{{ ai_gen_id }}__heading">{{ block.settings.heading }}</h2><p class="urban-carry-{{ ai_gen_id }}__subtitle">{{ block.settings.subtitle }}</p></header>{% for group in (1..2) %}{% if group == 1 %}{% assign group_title=block.settings.bags_title %}{% assign group_link=block.settings.bags_link %}{% assign start=1 %}{% else %}{% assign group_title=block.settings.wallets_title %}{% assign group_link=block.settings.wallets_link %}{% assign start=4 %}{% endif %}<section class="urban-carry-{{ ai_gen_id }}__group"><div class="urban-carry-{{ ai_gen_id }}__group-header"><h3 class="urban-carry-{{ ai_gen_id }}__group-title">{{ group_title }}</h3>{% if group_link != blank %}<a class="urban-carry-{{ ai_gen_id }}__view" href="{{ group_link }}">VIEW ALL</a>{% endif %}</div><div class="urban-carry-{{ ai_gen_id }}__grid">{% for offset in (0..2) %}{% assign index=start | plus:offset %}{% assign image_key='image_' | append:index %}{% assign title_key='title_' | append:index %}{% assign link_key='link_' | append:index %}{% assign image=block.settings[image_key] %}{% assign title=block.settings[title_key] %}{% assign link=block.settings[link_key] %}<article class="urban-carry-{{ ai_gen_id }}__card"><a href="{% if link != blank %}{{ link }}{% else %}#{% endif %}"><div class="urban-carry-{{ ai_gen_id }}__image-wrap">{% if image %}<img src="{{ image | image_url: width:1600 }}" alt="{{ image.alt | default:title | escape }}" loading="lazy">{% else %}<div class="urban-carry-{{ ai_gen_id }}__placeholder">{{ 'image' | placeholder_svg_tag }}</div>{% endif %}</div><span class="urban-carry-{{ ai_gen_id }}__name">{{ title }}</span><span class="urban-carry-{{ ai_gen_id }}__explore">Explore →</span></a></article>{% endfor %}</div></section>{% endfor %}</div></div>{% schema %}{"name":"Urban carry","tag":null,"class":"urban-carry-block","settings":[{"type":"text","id":"heading","label":"Heading","default":"URBAN CARRY"},{"type":"text","id":"subtitle","label":"Subtitle","default":"Carry smart. Move freely."},{"type":"text","id":"bags_title","label":"Bags title","default":"BAGS"},{"type":"url","id":"bags_link","label":"Bags link"},{"type":"text","id":"wallets_title","label":"Wallets title","default":"WALLETS"},{"type":"url","id":"wallets_link","label":"Wallets link"},{"type":"image_picker","id":"image_1","label":"Crossbody image"},{"type":"text","id":"title_1","label":"Crossbody title","default":"Crossbody Bag"},{"type":"url","id":"link_1","label":"Crossbody link"},{"type":"image_picker","id":"image_2","label":"Backpack image"},{"type":"text","id":"title_2","label":"Backpack title","default":"Backpack"},{"type":"url","id":"link_2","label":"Backpack link"},{"type":"image_picker","id":"image_3","label":"Messenger image"},{"type":"text","id":"title_3","label":"Messenger title","default":"Messenger Bag"},{"type":"url","id":"link_3","label":"Messenger link"},{"type":"image_picker","id":"image_4","label":"Card holder image"},{"type":"text","id":"title_4","label":"Card holder title","default":"Card Holder"},{"type":"url","id":"link_4","label":"Card holder link"},{"type":"image_picker","id":"image_5","label":"Wallet image"},{"type":"text","id":"title_5","label":"Wallet title","default":"Wallet"},{"type":"url","id":"link_5","label":"Wallet link"},{"type":"image_picker","id":"image_6","label":"Long wallet image"},{"type":"text","id":"title_6","label":"Long wallet title","default":"Long Wallet"},{"type":"url","id":"link_6","label":"Long wallet link"},{"type":"range","id":"desktop_width_percent","label":"Desktop width","min":50,"max":100,"step":5,"unit":"%","default":100},{"type":"range","id":"section_padding","label":"Section padding","min":20,"max":100,"step":5,"unit":"px","default":55},{"type":"range","id":"mobile_padding","label":"Mobile padding","min":16,"max":60,"step":4,"unit":"px","default":32},{"type":"range","id":"header_spacing","label":"Header spacing","min":24,"max":80,"step":4,"unit":"px","default":48},{"type":"range","id":"group_spacing","label":"Group spacing","min":40,"max":120,"step":10,"unit":"px","default":80},{"type":"range","id":"card_gap","label":"Card gap","min":8,"max":48,"step":4,"unit":"px","default":24},{"type":"select","id":"image_ratio","label":"Image ratio","options":[{"value":"1 / 1","label":"Square"},{"value":"4 / 5","label":"Portrait"},{"value":"3 / 4","label":"Tall portrait"}],"default":"4 / 5"},{"type":"color","id":"background_color","label":"Background","default":"#F4EFDC"},{"type":"color","id":"text_color","label":"Text","default":"#2B2420"},{"type":"color","id":"muted_color","label":"Muted text","default":"#7A7263"},{"type":"color","id":"placeholder_color","label":"Image placeholder","default":"#F9F4E3"}],"presets":[{"name":"Urban carry"}]}{% endschema %}

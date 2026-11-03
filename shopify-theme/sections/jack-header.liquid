@@ -1,0 +1,367 @@
+{%- assign items_raw = section.settings.menu_items | strip -%}
+{%- assign _nl = '
+' -%}
+{%- assign menu_lines = items_raw | split: _nl -%}
+{%- assign wishlist_href = section.settings.wishlist_url | default: '/pages/wishlist' -%}
+{%- assign logo_scale = section.settings.logo_scale | default: 100 -%}
+{%- assign logo_h = 40.0 | times: logo_scale | divided_by: 100.0 -%}
+{%- assign mobile_logo_h = logo_h | times: 0.85 -%}
+
+<header class="jh-header">
+  {% if section.settings.show_announcement and section.blocks.size > 0 %}
+    <div class="jh-announce-wrap" style="background:{{ section.settings.announce_bg }};color:{{ section.settings.announce_text }};">
+      {% if section.blocks.size > 1 %}<button type="button" class="jh-ann-arrow jh-ann-prev" aria-label="Previous">&#8249;</button>{% endif %}
+      <div class="jh-ann-track">
+        {% for block in section.blocks %}
+          {% if block.type == 'announcement' %}
+            <div class="jh-ann-slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+              {% if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}">{{ block.settings.text }} {% if block.settings.show_arrow %}&rarr;{% endif %}</a>
+              {% else %}
+                <span>{{ block.settings.text }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% if section.blocks.size > 1 %}<button type="button" class="jh-ann-arrow jh-ann-next" aria-label="Next">&#8250;</button>{% endif %}
+    </div>
+  {% endif %}
+
+  <div class="jh-top">
+    <div class="jh-left">
+      <button class="jh-icon jh-menu-toggle" type="button" aria-label="Menu" data-jh-menu-open><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></button>
+    </div>
+
+    <div class="jh-logo">
+      <a href="{{ routes.root_url }}">
+        {% if section.settings.logo != blank %}
+          <img class="jh-logo-img" src="{{ section.settings.logo | image_url: width: 1000 }}" alt="{{ shop.name }}" style="height:{{ logo_h }}px;">
+        {% else %}
+          <span class="jh-brand">{{ section.settings.logo_text }}</span>
+        {% endif %}
+      </a>
+    </div>
+
+    <div class="jh-right">
+      {% if section.settings.show_account %}<a class="jh-icon" href="{{ routes.account_login_url }}" aria-label="Account"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></a>{% endif %}
+      {% if section.settings.show_wishlist %}<a class="jh-icon" href="{{ wishlist_href }}" aria-label="Wishlist"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg><span class="jh-badge" data-wishlist-count style="display:none;">0</span></a>{% endif %}
+      {% if section.settings.show_search %}<a class="jh-icon" href="{{ routes.search_url }}" aria-label="Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></a>{% endif %}
+      <a class="jh-icon jh-cart" href="{{ routes.cart_url }}" aria-label="Cart"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 7h14l-1.5 11a2 2 0 0 1-2 1.7h-7A2 2 0 0 1 6.5 18L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg><span class="jh-badge" data-cart-count{% if cart.item_count == 0 %} style="display:none;"{% endif %}>{{ cart.item_count }}</span></a>
+    </div>
+  </div>
+
+  <nav class="jh-nav">
+    <div class="jh-nav-mobile-top">
+      <button type="button" class="jh-nav-close" aria-label="Close menu" data-jh-menu-close><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
+      <div class="jh-nav-mobile-logo">
+        {% if section.settings.logo != blank %}
+          <img src="{{ section.settings.logo | image_url: width: 1000 }}" alt="{{ shop.name }}" style="height:{{ mobile_logo_h }}px;">
+        {% else %}
+          <span>{{ section.settings.logo_text }}</span>
+        {% endif %}
+      </div>
+      <div class="jh-nav-mobile-icons">
+        {% if section.settings.show_search %}<a href="{{ routes.search_url }}" aria-label="Search"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></a>{% endif %}
+        <a href="{{ routes.cart_url }}" aria-label="Cart"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 7h14l-1.5 11a2 2 0 0 1-2 1.7h-7A2 2 0 0 1 6.5 18L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></a>
+      </div>
+    </div>
+
+    <div class="jh-nav-links">
+      {%- for line in menu_lines -%}
+        {%- assign p = line | strip | split: '|' -%}
+        {%- assign nav_label = p[0] | strip -%}
+        {%- if nav_label != blank -%}
+          {%- assign mega_count = 0 -%}
+          {%- for blk in section.blocks -%}
+            {%- if blk.type == 'mega_item' and blk.settings.parent_label == nav_label -%}
+              {%- assign mega_count = mega_count | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if mega_count > 0 -%}
+            <div class="jh-nav-item">
+              <button type="button" class="jh-nav-link jh-nav-parent jh-mega-trigger" aria-expanded="false" data-mega-target="jh-mega-{{ nav_label | handleize }}">{{ nav_label }}</button>
+              <button type="button" class="jh-caret-btn" aria-label="Toggle {{ nav_label }} menu" aria-expanded="false" data-mega-target="jh-mega-{{ nav_label | handleize }}"><svg class="jh-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+              <!-- mobile-only nested tiles (desktop uses the full-width panel below the header instead) -->
+              <div class="jh-mega-dropdown jh-mega-mobile-only">
+                {%- for blk in section.blocks -%}
+                  {%- if blk.type == 'mega_item' and blk.settings.parent_label == nav_label -%}
+                    <a class="jh-mega-tile" href="{{ blk.settings.url | default: '#' }}">
+                      <span class="jh-mega-img">
+                        {%- if blk.settings.image -%}{{ blk.settings.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: blk.settings.title }}{%- else -%}<span class="jh-mega-img-placeholder"></span>{%- endif -%}
+                      </span>
+                      <span class="jh-mega-label">{{ blk.settings.title }}</span>
+                    </a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- elsif p[2] != blank -%}
+            <div class="jh-nav-item">
+              <a class="jh-nav-link jh-nav-parent{% if request.path contains p[1] and p[1] != '/' %} active{% endif %}" href="{{ p[1] | default: '#' | strip }}">{{ nav_label }}</a>
+              <button type="button" class="jh-caret-btn" aria-label="Toggle {{ nav_label }} menu" aria-expanded="false"><svg class="jh-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+              <div class="jh-dropdown">
+                {%- assign subitems = p[2] | strip | split: ';' -%}
+                {%- for sub in subitems -%}
+                  {%- assign sp = sub | strip | split: ':' -%}
+                  {%- if sp[0] != blank -%}
+                    <a class="jh-dropdown-link" href="{{ sp[1] | default: '#' | strip }}">{{ sp[0] | strip }}</a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- else -%}
+            <a class="jh-nav-link{% if request.path contains p[1] and p[1] != '/' %} active{% endif %}" href="{{ p[1] | default: '#' | strip }}">{{ nav_label }}</a>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="jh-nav-mobile-bottom">
+      {% if section.settings.show_account %}<a class="jh-nav-login" href="{{ routes.account_login_url }}">{% if customer %}My Account{% else %}Log in{% endif %}</a>{% endif %}
+      <div class="jh-nav-socials">
+        {% if section.settings.social_fb_url != blank %}<a href="{{ section.settings.social_fb_url }}" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.3-1.5 1.6-1.5H17V4.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.6V14h2.7v8h3.2z"/></svg></a>{% endif %}
+        {% if section.settings.social_ig_url != blank %}<a href="{{ section.settings.social_ig_url }}" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>{% endif %}
+        {% if section.settings.social_tt_url != blank %}<a href="{{ section.settings.social_tt_url }}" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 6.8c-1.4-.1-2.7-.9-3.4-2.1-.3-.5-.5-1-.6-1.5V3h-3.4v13.6c0 1.4-1.1 2.5-2.5 2.5-.6 0-1.2-.2-1.7-.6-.7-.5-1.1-1.4-1.1-2.3 0-1.6 1.3-2.9 2.9-2.9.3 0 .5 0 .8.1v-3.5c-.3 0-.5-.1-.8-.1-3.5 0-6.3 2.8-6.3 6.3s2.8 6.3 6.3 6.3 6.3-2.8 6.3-6.3V9.7c1.3.9 2.9 1.5 4.5 1.5V7.8c-.4 0-.7 0-1-.1z"/></svg></a>{% endif %}
+        {% if section.settings.social_yt_url != blank %}<a href="{{ section.settings.social_yt_url }}" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5s-.2-1.6-.9-2.3c-.9-.9-1.8-.9-2.3-1C16.5 4 12 4 12 4s-4.5 0-7.8.2c-.5.1-1.4.1-2.3 1C1.2 5.9 1 7.5 1 7.5S.8 9.4.8 11.3v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2.1.9 2.6 1 1.9.2 8 .2 8 .2s4.5 0 7.8-.2c.5-.1 1.4-.1 2.3-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.9-.2-3.8-.2-3.8zM9.7 15.2V8.8L15.6 12l-5.9 3.2z"/></svg></a>{% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Desktop full-width mega menu panels (siblings, span the whole header width like Bellroy) -->
+  {%- for line in menu_lines -%}
+    {%- assign p = line | strip | split: '|' -%}
+    {%- assign nav_label = p[0] | strip -%}
+    {%- assign mega_count = 0 -%}
+    {%- for blk in section.blocks -%}
+      {%- if blk.type == 'mega_item' and blk.settings.parent_label == nav_label -%}
+        {%- assign mega_count = mega_count | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if mega_count > 0 -%}
+      <div class="jh-mega-panel" id="jh-mega-{{ nav_label | handleize }}">
+        <div class="jh-mega-inner">
+          {%- for blk in section.blocks -%}
+            {%- if blk.type == 'mega_item' and blk.settings.parent_label == nav_label -%}
+              <a class="jh-mega-tile" href="{{ blk.settings.url | default: '#' }}" {{ blk.shopify_attributes }}>
+                <span class="jh-mega-img">
+                  {%- if blk.settings.image -%}{{ blk.settings.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: blk.settings.title }}{%- else -%}<span class="jh-mega-img-placeholder"></span>{%- endif -%}
+                </span>
+                <span class="jh-mega-label">{{ blk.settings.title }}</span>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+
+  <div class="jh-nav-scrim" data-jh-menu-close></div>
+</header>
+
+<style>
+  .jh-header{background:{{ section.settings.bg_color }};color:{{ section.settings.text_color }};border-bottom:1px solid rgba(41,39,36,.08);width:100%;margin:0;position:relative;}
+  .jh-announce-wrap{display:flex;align-items:center;justify-content:center;gap:10px;padding:8px 16px;width:100%;box-sizing:border-box;overflow:hidden;position:relative;}
+  .jh-ann-track{position:relative;flex:1;text-align:center;min-height:16px;max-width:900px;}
+  .jh-ann-slide{display:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;}
+  .jh-ann-slide.is-active{display:block;}
+  .jh-ann-slide a{color:inherit;text-decoration:underline;}
+  .jh-ann-arrow{background:none;border:0;color:inherit;font-size:18px;line-height:1;cursor:pointer;padding:2px 8px;opacity:.8;flex-shrink:0;}
+  .jh-ann-arrow:hover{opacity:1;}
+  .jh-top{position:relative;display:grid;grid-template-columns:1fr 140px 1fr;align-items:center;height:64px;padding:0 32px;gap:16px;max-width:1400px;margin:0 auto;overflow:visible;}
+  .jh-left{display:flex;align-items:center;gap:12px;}
+  .jh-right{display:flex;align-items:center;gap:12px;justify-content:flex-end;}
+  .jh-logo{position:relative;height:1px;width:140px;justify-self:center;}
+  .jh-logo a{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:inherit;text-decoration:none;display:inline-block;white-space:nowrap;}
+  .jh-logo img{display:block;margin:0 auto;max-width:calc(100vw - 260px);width:auto;}
+  .jh-brand{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:3px;color:{{ section.settings.text_color }};}
+  .jh-icon{background:none;border:0;padding:8px;color:{{ section.settings.text_color }};cursor:pointer;position:relative;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;}
+  .jh-icon:hover{opacity:.7;}
+  .jh-menu-toggle{display:none;}
+  .jh-badge{position:absolute;top:2px;right:0;background:#C4823A;color:#fff;font-size:10px;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;font-weight:600;}
+
+  .jh-nav-mobile-top,.jh-nav-mobile-bottom{display:none;}
+  .jh-nav-scrim{display:none;}
+
+  .jh-nav{display:flex;justify-content:center;align-items:center;gap:36px;padding:0 32px 18px;flex-wrap:wrap;max-width:1400px;margin:0 auto;}
+  .jh-nav-links{display:flex;justify-content:center;align-items:center;gap:36px;flex-wrap:wrap;}
+  .jh-nav-link{color:{{ section.settings.text_color }};text-decoration:none;font-size:13px;letter-spacing:.5px;padding:6px 0;position:relative;transition:opacity .2s,color .2s;}
+  .jh-nav-link:hover{color:#A97852;opacity:1;}
+  .jh-nav-link.active{border-bottom:1px solid currentColor;}
+  button.jh-nav-link{background:none;border:0;margin:0;font-family:inherit;line-height:inherit;cursor:pointer;}
+
+  .jh-nav-item{position:relative;display:inline-flex;align-items:center;gap:2px;}
+  .jh-nav-item .jh-nav-parent{padding-right:2px;}
+  .jh-caret-btn{background:none;border:0;padding:8px 4px;margin:0;cursor:pointer;color:{{ section.settings.text_color }};display:inline-flex;align-items:center;justify-content:center;opacity:.85;}
+  .jh-caret-btn:hover{opacity:1;color:#A97852;}
+  .jh-caret{display:block;transition:transform .2s ease;}
+  .jh-nav-item.jh-open .jh-caret{transform:rotate(180deg);}
+  .jh-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:12px;background:{{ section.settings.bg_color }};border:1px solid rgba(41,39,36,.12);border-radius:6px;box-shadow:0 10px 26px rgba(41,39,36,.10);padding:6px;min-width:180px;display:none;flex-direction:column;z-index:60;}
+  .jh-nav-item.jh-open .jh-dropdown{display:flex;}
+  .jh-dropdown-link{display:block;padding:10px 14px;font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:{{ section.settings.text_color }};text-decoration:none;border-radius:4px;white-space:nowrap;transition:background .15s,opacity .15s;}
+  .jh-dropdown-link:hover{background:rgba(41,39,36,.06);color:#A97852;}
+
+  /* Desktop full-width mega panel — spans the entire header, no card/shadow, sits flush like a second nav strip */
+  .jh-mega-mobile-only{display:none;}
+  .jh-mega-panel{display:none;position:absolute;left:0;right:0;top:100%;background:#F9F6EF;border-top:1px solid rgba(41,39,36,.08);box-shadow:0 10px 20px rgba(41,39,36,.06);z-index:55;}
+  .jh-mega-panel.jh-open{display:block;}
+  .jh-mega-inner{max-width:1400px;margin:0 auto;padding:28px 32px;display:flex;gap:40px;flex-wrap:wrap;}
+  .jh-mega-tile{display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;width:92px;flex-shrink:0;}
+  .jh-mega-img{display:block;width:88px;height:88px;overflow:hidden;background:none;}
+  .jh-mega-img img{width:100%;height:100%;object-fit:contain;display:block;}
+  .jh-mega-img-placeholder{display:block;width:100%;height:100%;border:1px dashed rgba(41,39,36,.2);border-radius:8px;}
+  .jh-mega-label{font-size:12px;color:{{ section.settings.text_color }};text-align:center;line-height:1.35;white-space:normal;}
+  .jh-mega-tile:hover .jh-mega-label{color:#A97852;}
+
+  @media(max-width:768px){
+    .jh-top{height:56px;padding:0 16px;grid-template-columns:1fr 100px 1fr;gap:8px;}
+    .jh-menu-toggle{display:inline-flex;}
+
+    .jh-nav{display:none;position:fixed;top:0;right:0;bottom:0;left:0;width:100%;height:100%;z-index:2147483647;background:#F9F6EF;padding:0;margin:0;max-width:none;overflow-y:scroll;overflow-x:hidden;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior:contain;color:#292724;box-sizing:border-box;}
+    .jh-nav.open{display:block;}
+    .jh-nav-scrim{display:none;}
+
+    .jh-nav-mobile-top{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid rgba(41,39,36,.08);width:100%;box-sizing:border-box;}
+    .jh-nav-close{background:none;border:0;padding:6px;color:#292724;cursor:pointer;display:inline-flex;flex-shrink:0;}
+    .jh-nav-mobile-logo{flex:1;display:flex;justify-content:center;padding:0 12px;min-width:0;}
+    .jh-nav-mobile-logo img{width:auto;max-width:100%;display:block;}
+    .jh-nav-mobile-logo span{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:#292724;white-space:nowrap;}
+    .jh-nav-mobile-icons{display:flex;align-items:center;gap:16px;color:#292724;flex-shrink:0;}
+    .jh-nav-mobile-icons a{color:#292724;display:inline-flex;}
+
+    .jh-nav-links{display:block;padding:8px 18px;width:100%;box-sizing:border-box;overflow-x:hidden;}
+    .jh-nav-link{padding:16px 2px;width:100%;text-align:left;border-bottom:1px solid rgba(41,39,36,.06);font-size:16px;box-sizing:border-box;display:block;}
+    .jh-nav-item{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;width:100%;position:relative;border-bottom:1px solid rgba(41,39,36,.06);box-sizing:border-box;}
+    .jh-nav-item .jh-nav-parent{flex:0 1 auto;text-align:left;padding:16px 2px;border-bottom:0;font-size:16px;}
+    .jh-caret-btn{position:static;padding:14px 8px 14px 6px;margin-left:2px;}
+    .jh-caret-btn svg{transform:rotate(-90deg);}
+    .jh-nav-item.jh-open .jh-caret{transform:rotate(-180deg);}
+    .jh-dropdown{position:static;display:none;transform:none;margin:0 0 8px;box-shadow:none;border:0;border-radius:0;background:rgba(41,39,36,.03);width:100%;flex-basis:100%;padding:0;}
+    .jh-nav-item.jh-open .jh-dropdown{display:flex;}
+    .jh-dropdown-link{padding:12px 2px 12px 16px;text-align:left;border-radius:0;border-bottom:1px solid rgba(41,39,36,.04);font-size:14px;}
+
+    /* On mobile, hide the desktop full-width panel entirely and show plain text links instead of image tiles */
+    .jh-mega-panel{display:none !important;}
+    .jh-mega-mobile-only{position:static;display:none;transform:none;margin:0 0 8px;box-shadow:none;border:0;border-radius:0;background:rgba(41,39,36,.03);width:100%;flex-basis:100%;padding:0;flex-direction:column;flex-wrap:nowrap;gap:0;}
+    .jh-nav-item.jh-open .jh-mega-mobile-only{display:flex;}
+    .jh-mega-mobile-only .jh-mega-tile{flex-direction:row;width:100%;align-items:center;padding:12px 2px 12px 16px;border-bottom:1px solid rgba(41,39,36,.04);}
+    .jh-mega-mobile-only .jh-mega-img{display:none;}
+    .jh-mega-mobile-only .jh-mega-label{font-size:14px;text-align:left;}
+
+    .jh-nav-mobile-bottom{display:flex;flex-direction:column;gap:14px;align-items:center;padding:20px 18px 28px;background:#E9E2D5;width:100%;box-sizing:border-box;}
+    .jh-nav-login{color:#292724;font-size:14px;text-decoration:none;align-self:flex-start;}
+    .jh-nav-socials{display:flex;gap:18px;align-items:center;color:#292724;}
+    .jh-nav-socials a{color:#292724;display:inline-flex;}
+
+    .jh-announce-wrap{padding:10px 8px;}
+    .jh-ann-slide{font-size:10px;line-height:1.4;}
+    .jh-right{gap:4px;}
+    .jh-icon{padding:6px;}
+    .jh-logo{width:100px;}
+    .jh-logo img{max-width:calc(100vw - 160px);height:calc({{ logo_h }}px * 0.7) !important;}
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('.jh-announce-wrap').forEach(function(wrap){
+      var slides = wrap.querySelectorAll('.jh-ann-slide');
+      if(slides.length < 2) return;
+      var idx = 0;
+      function show(i){
+        slides.forEach(function(s,si){ s.classList.toggle('is-active', si===i); });
+      }
+      var prev = wrap.querySelector('.jh-ann-prev');
+      var next = wrap.querySelector('.jh-ann-next');
+      if(prev) prev.addEventListener('click', function(){ idx = (idx-1+slides.length)%slides.length; show(idx); });
+      if(next) next.addEventListener('click', function(){ idx = (idx+1)%slides.length; show(idx); });
+      setInterval(function(){ idx = (idx+1)%slides.length; show(idx); }, 5000);
+    });
+
+    var navEl = document.querySelector('.jh-nav');
+    document.querySelectorAll('[data-jh-menu-open]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        navEl.classList.add('open');
+      });
+    });
+    document.querySelectorAll('[data-jh-menu-close]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        navEl.classList.remove('open');
+      });
+    });
+
+    function closeAllMega(){
+      document.querySelectorAll('.jh-nav-item.jh-open').forEach(function(i){ i.classList.remove('jh-open'); i.querySelectorAll('[aria-expanded]').forEach(function(b){ b.setAttribute('aria-expanded','false'); }); });
+      document.querySelectorAll('.jh-mega-panel.jh-open').forEach(function(p){ p.classList.remove('jh-open'); });
+    }
+
+    document.querySelectorAll('.jh-caret-btn, .jh-mega-trigger').forEach(function(btn){
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var item = btn.closest('.jh-nav-item');
+        var wasOpen = item.classList.contains('jh-open');
+        closeAllMega();
+        if(!wasOpen){
+          item.classList.add('jh-open');
+          item.querySelectorAll('[aria-expanded]').forEach(function(b){ b.setAttribute('aria-expanded','true'); });
+          var targetId = btn.getAttribute('data-mega-target');
+          if(targetId){
+            var panel = document.getElementById(targetId);
+            if(panel) panel.classList.add('jh-open');
+          }
+        }
+      });
+    });
+    document.addEventListener('click', function(e){
+      if(!e.target.closest('.jh-nav-item') && !e.target.closest('.jh-mega-panel')){
+        closeAllMega();
+      }
+    });
+  });
+</script>
+{% schema %}
+{"name":"Jack Studio Header","settings":[
+{"type":"header","content":"Appearance"},
+{"type":"color","id":"bg_color","label":"Background color","default":"#F5F1E8"},
+{"type":"color","id":"text_color","label":"Text color","default":"#292724"},
+{"type":"header","content":"Logo"},
+{"type":"paragraph","content":"拖 slider 调 logo 整体大小（等比例缩放），不会影响 header 高度或盖到两旁图标。" },
+{"type":"image_picker","id":"logo","label":"Logo image"},
+{"type":"range","id":"logo_scale","label":"Logo size (%)","min":50,"max":400,"step":10,"default":100,"unit":"%"},
+{"type":"text","id":"logo_text","label":"Fallback logo text","default":"JACK STUDIO"},
+{"type":"header","content":"Menu Items"},
+{"type":"paragraph","content":"每行格式 Label|URL。若要做纯文字下拉菜单（无图片），第三段用 子标题:链接 并以分号分隔多个子项。若某个菜单项在下方 Blocks 里加了 Mega menu item 且 Parent 名字对上，桌面端会显示横跨整页的图片下拉条（像 Bellroy 那样），手机端显示为菜单内嵌小图（现已改为手机端纯文字列表，不显示图片）。" },
+{"type":"textarea","id":"menu_items","label":"Menu items","default":"Home|/\nAbout Us|/pages/品牌故事-brand-story-design-draft\nProduct Collection|/pages/产品系列-product-series-design-draft\nCorporate Solution|/pages/corporate-solution\nOutlets|/pages/outlets-design-draft\nContact|/pages/contact"},
+{"type":"header","content":"Icons"},
+{"type":"checkbox","id":"show_search","label":"Search icon","default":true},
+{"type":"checkbox","id":"show_account","label":"Account icon","default":true},
+{"type":"checkbox","id":"show_wishlist","label":"Wishlist icon","default":true},
+{"type":"url","id":"wishlist_url","label":"Wishlist link (defaults to /pages/wishlist)"},
+{"type":"header","content":"Mobile menu socials"},
+{"type":"paragraph","content":"只在手机展开菜单底部显示，留空则不显示该图标。"},
+{"type":"url","id":"social_fb_url","label":"Facebook URL"},
+{"type":"url","id":"social_ig_url","label":"Instagram URL"},
+{"type":"url","id":"social_tt_url","label":"TikTok URL"},
+{"type":"url","id":"social_yt_url","label":"YouTube URL"},
+{"type":"header","content":"Announcement bar"},
+{"type":"paragraph","content":"在下面 Add block 加多条 Announcement，每条可以单独设链接。多条时会自动轮播+左右箭头切换。" },
+{"type":"checkbox","id":"show_announcement","label":"Show announcement bar","default":true},
+{"type":"color","id":"announce_bg","label":"Announcement background","default":"#8da68a"},
+{"type":"color","id":"announce_text","label":"Announcement text color","default":"#ffffff"}],
+"blocks":[
+{"type":"announcement","name":"Announcement","settings":[
+{"type":"text","id":"text","label":"Text","default":"New Arrival — Shop the Latest Now"},
+{"type":"url","id":"link","label":"Link (optional)"},
+{"type":"checkbox","id":"show_arrow","label":"Show arrow (only if link is set)","default":true}
+]},
+{"type":"mega_item","name":"Mega menu item","settings":[
+{"type":"paragraph","content":"Parent 要跟上面 Menu items 里某一行的名字完全一致（例如 About Us），这一项才会出现在它的下拉里。"},
+{"type":"text","id":"parent_label","label":"Parent nav item","default":"About Us"},
+{"type":"image_picker","id":"image","label":"Image"},
+{"type":"text","id":"title","label":"Title","default":"Our Story"},
+{"type":"url","id":"url","label":"Link"}
+]}
+],
+"max_blocks":16}
+{% endschema %}

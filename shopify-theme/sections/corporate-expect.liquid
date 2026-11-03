@@ -1,0 +1,80 @@
+<section class="wye-wrap" style="background:{{ section.settings.bg_color }};" {{ section.shopify_attributes }}>
+  {% if section.settings.eyebrow != blank %}<span class="wye-eyebrow">{{ section.settings.eyebrow }}</span>{% endif %}
+  <div class="wye-items">
+    {% for block in section.blocks %}
+      <div class="wye-item" {{ block.shopify_attributes }}>
+        <span class="wye-icon">
+          {%- case block.settings.icon -%}
+          {%- when 'leaf' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 4C10 4 4 10 4 18c8 0 14-6 14-14z"/><path d="M8 18C8 12 12 8 18 6"/></svg>
+          {%- when 'gift' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="9" width="18" height="12" rx="1"/><path d="M3 9h18M12 9v12M8 9c-1.5 0-2.5-.8-2.5-2.2S6.5 4.5 8 4.5c1.2 0 2.5 1.6 3.5 2.5-.8 0-2.5 2-3.5 2zM16 9c1.5 0 2.5-.8 2.5-2.2S15.5 4.5 14 4.5c-1.2 0-2.5 1.6-3.5 2.5.8 0 2.5 2 3.5 2z"/></svg>
+          {%- when 'star' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77 5.82 21.0 7 14.14 2 9.27l6.91-1.01z"/></svg>
+          {%- when 'calendar' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/></svg>
+          {%- when 'group' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><path d="M15 14c2.8 0 5 2 5 5"/></svg>
+          {%- else -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/></svg>
+          {%- endcase -%}
+        </span>
+        <strong class="wye-title">{{ block.settings.title }}</strong>
+        <span class="wye-desc">{{ block.settings.desc }}</span>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  .wye-wrap{padding:52px 6vw;text-align:center;}
+  .wye-eyebrow{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#C4823A;font-weight:700;margin-bottom:32px;}
+  .wye-items{display:flex;max-width:1300px;margin:0 auto;flex-wrap:wrap;}
+  .wye-item{flex:1 1 200px;padding:0 20px;border-left:1px solid rgba(64,20,16,.12);display:flex;flex-direction:column;align-items:center;}
+  .wye-item:first-child{border-left:0;}
+  .wye-icon{width:30px;height:30px;color:#2B2420;margin-bottom:16px;}
+  .wye-icon svg{width:100%;height:100%;}
+  .wye-title{font-size:13.5px;letter-spacing:.5px;text-transform:uppercase;font-weight:700;color:#2B2420;margin-bottom:8px;}
+  .wye-desc{font-size:13px;color:#7A7263;line-height:1.6;max-width:190px;}
+
+  @media(max-width:900px){
+    .wye-items{gap:28px 0;}
+    .wye-item{flex:1 1 45%;border-left:0;padding:0 12px;}
+  }
+  @media(max-width:520px){
+    .wye-items{flex-wrap:nowrap;gap:0;}
+    .wye-item{flex:1 1 0;border-left:1px solid rgba(64,20,16,.12);padding:0 4px;padding-bottom:0;margin-bottom:0;border-bottom:0;}
+    .wye-item:first-child{border-left:0;}
+    .wye-icon{width:18px;height:18px;margin-bottom:6px;}
+    .wye-title{font-size:8px;letter-spacing:.15px;margin-bottom:3px;line-height:1.2;}
+    .wye-desc{display:none;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "CORPORATE — Expect",
+  "settings": [
+    {"type":"color","id":"bg_color","label":"Background","default":"#F4EFDC"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"What You Can Expect"}
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {"type":"select","id":"icon","label":"Icon","default":"leaf","options":[{"value":"leaf","label":"Leaf"},{"value":"gift","label":"Gift"},{"value":"star","label":"Star"},{"value":"calendar","label":"Calendar"},{"value":"group","label":"Group"}]},
+        {"type":"text","id":"title","label":"Title","default":"Premium Materials"},
+        {"type":"textarea","id":"desc","label":"Description","default":"Top-grade leather and carefully selected materials."}
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "CORPORATE — Expect",
+      "blocks": [
+        {"type":"item","settings":{"icon":"leaf","title":"Premium Materials","desc":"Top-grade leather and carefully selected materials."}},
+        {"type":"item","settings":{"icon":"gift","title":"Thoughtful Packaging","desc":"Elegant packaging that elevates every gift."}},
+        {"type":"item","settings":{"icon":"star","title":"Brand Representation","desc":"Your brand, presented with style and integrity."}},
+        {"type":"item","settings":{"icon":"calendar","title":"On-Time Delivery","desc":"We respect your timeline and deliver as promised."}},
+        {"type":"item","settings":{"icon":"group","title":"Long-Term Relationships","desc":"Built on trust, quality and meaningful collaboration."}}
+      ]
+    }
+  ]
+}
+{% endschema %}

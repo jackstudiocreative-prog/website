@@ -1,0 +1,49 @@
+[
+  {
+    "name": "Jack Studio Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "cream",
+        "label": "Cream",
+        "default": "#F4EFDC"
+      },
+      {
+        "type": "color",
+        "id": "cream_card",
+        "label": "Cream card",
+        "default": "#F9F4E3"
+      },
+      {
+        "type": "color",
+        "id": "ink",
+        "label": "Ink",
+        "default": "#401410"
+      },
+      {
+        "type": "color",
+        "id": "muted",
+        "label": "Muted",
+        "default": "#7A7263"
+      },
+      {
+        "type": "color",
+        "id": "sage",
+        "label": "Sage",
+        "default": "#8DA68A"
+      },
+      {
+        "type": "color",
+        "id": "gold",
+        "label": "Gold",
+        "default": "#C4823A"
+      },
+      {
+        "type": "color",
+        "id": "taupe",
+        "label": "Taupe",
+        "default": "#C9C2AC"
+      }
+    ]
+  }
+]

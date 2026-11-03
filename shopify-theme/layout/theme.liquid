@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ page_title }}{% unless page_title contains shop.name %} — {{ shop.name }}{% endunless %}</title>
+
+  {%- comment -%} SEO: Search Console verification, description, canonical, social sharing {%- endcomment -%}
+  <meta name="google-site-verification" content="5xaRK-QEaqU9lj3vz2zC18yu3xPQ649SCpxRuJzrsNQ">
+  {%- if page_description != blank %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {%- endif %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  {%- liquid
+    assign og_title = page_title | default: shop.name
+    assign og_description = page_description | default: shop.description | default: shop.name
+    assign og_type = 'website'
+    if request.page_type == 'product'
+      assign og_type = 'product'
+    elsif request.page_type == 'article'
+      assign og_type = 'article'
+    endif
+    assign og_image = page_image | default: shop.brand.cover_image
+  -%}
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:title" content="{{ og_title | escape }}">
+  <meta property="og:type" content="{{ og_type }}">
+  <meta property="og:description" content="{{ og_description | escape }}">
+  {%- if og_image %}
+  <meta property="og:image" content="https:{{ og_image | image_url: width: 1200 }}">
+  <meta property="og:image:secure_url" content="https:{{ og_image | image_url: width: 1200 }}">
+  {%- endif %}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ og_title | escape }}">
+  <meta name="twitter:description" content="{{ og_description | escape }}">
+
+  {{ content_for_header }}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  {{ 'jack-studio-1to1.css' | asset_url | stylesheet_tag }}
+</head>
+<body>
+  {% section 'jack-header' %}
+  <main id="MainContent">{{ content_for_layout }}</main>
+  {% section 'jack-footer' %}
+  {{ 'jack-studio.js' | asset_url | script_tag }}
+</body>
+</html>

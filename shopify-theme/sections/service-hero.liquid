@@ -1,0 +1,130 @@
+{%- liquid
+  assign media_ar = 1.7778
+  if section.settings.video != blank and section.settings.video.aspect_ratio
+    assign media_ar = section.settings.video.aspect_ratio
+  elsif section.settings.youtube_url == blank and section.settings.image
+    assign media_ar = section.settings.image.aspect_ratio
+  endif
+  assign media_w = section.settings.media_width | default: 40
+-%}
+<section class="svh svh--{{ section.settings.media_layout | default: 'right' }}" style="--svh-bg:{{ section.settings.bg_color }};--svh-w:{{ media_w }}%;--svh-wn:{{ media_w }};--svh-ar:{{ media_ar }};" {{ section.shopify_attributes }}>
+  <div class="svh-media">
+    {%- assign has_motion = false -%}
+    {%- if section.settings.video != blank -%}
+      {%- assign has_motion = true -%}
+      {{ section.settings.video | video_tag: autoplay: true, muted: true, loop: true, playsinline: true, preload: 'auto', class: 'svh-video', image_size: '1800x' }}
+    {%- elsif section.settings.youtube_url != blank and section.settings.youtube_url.type == 'youtube' -%}
+      {%- assign has_motion = true -%}
+      {%- assign yt_id = section.settings.youtube_url.id -%}
+      <iframe class="svh-yt" src="https://www.youtube.com/embed/{{ yt_id }}?autoplay=1&mute=1&loop=1&playlist={{ yt_id }}&controls=0&rel=0&playsinline=1&modestbranding=1&disablekb=1&iv_load_policy=3&enablejsapi=1" title="{{ section.settings.heading | escape }}" allow="autoplay; encrypted-media; picture-in-picture" tabindex="-1"></iframe>
+    {%- elsif section.settings.image -%}
+      {{ section.settings.image | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600,900,1200,1500,1800', sizes: '(max-width: 900px) 100vw, 80vw', alt: section.settings.image.alt }}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'svh-ph' }}
+    {%- endif -%}
+    {%- if has_motion -%}
+      <button type="button" class="svh-sound" data-svh-sound aria-pressed="false" aria-label="Turn sound on">
+        <span class="svh-sound-icon" aria-hidden="true">
+          <svg class="svh-sound-off" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>
+          <svg class="svh-sound-on" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+        </span>
+      </button>
+    {%- endif -%}
+  </div>
+  <div class="svh-inner">
+    {%- if section.settings.eyebrow != blank -%}<p class="svh-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h1 class="svh-heading">{{ section.settings.heading }}</h1>
+    {%- if section.settings.text != blank -%}<p class="svh-text">{{ section.settings.text | newline_to_br }}</p>{%- endif -%}
+    {%- if section.settings.tagline != blank -%}<p class="svh-tagline">{{ section.settings.tagline }}</p>{%- endif -%}
+  </div>
+</section>
+
+<style>
+  /* Section height follows the video's shape so the video is never cropped and leaves no gap */
+  .svh{position:relative;display:flex;align-items:center;min-height:max(380px,calc(var(--svh-wn,40) * 1vw / var(--svh-ar,1.7778)));background:var(--svh-bg);overflow:hidden;}
+  .svh--full{min-height:max(380px,calc(100vw / var(--svh-ar,1.7778)));}
+  .svh-media{position:absolute;top:0;right:0;bottom:0;width:var(--svh-w,40%);overflow:hidden;container-type:size;z-index:2;}
+  .svh-media img,.svh-media video,.svh-media .svh-ph{width:100%;height:100%;object-fit:cover;display:block;}
+  .svh-media .svh-ph{background:#E9E0CF;}
+  .svh-yt{position:absolute;top:50%;left:50%;width:max(100cqw,177.78cqh);height:max(100cqh,56.25cqw);transform:translate(-50%,-50%);border:0;pointer-events:none;}
+  .svh--full .svh-media{width:100%;z-index:0;}
+  .svh-sound{position:absolute;inset:0;z-index:2;display:block;width:100%;height:100%;padding:0;margin:0;border:0;background:transparent;cursor:pointer;}
+  .svh-sound:focus-visible{outline:2px solid #C38239;outline-offset:-3px;}
+  .svh-sound-icon{position:absolute;right:16px;bottom:16px;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(251,248,240,.88);color:#401410;transition:background .25s;}
+  .svh-sound:hover .svh-sound-icon{background:#FBF8F0;}
+  .svh-sound svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+  .svh-sound-on,.svh-sound[aria-pressed="true"] .svh-sound-off{display:none;}
+  .svh-sound[aria-pressed="true"] .svh-sound-on{display:block;}
+  .svh-inner{position:relative;z-index:1;width:100%;max-width:1440px;margin:0 auto;padding:64px clamp(20px,6vw,88px);pointer-events:none;}
+  .svh--full .svh-inner{z-index:3;}
+  .svh-inner>*{max-width:min(440px,calc(100vw - var(--svh-w,40%) - 120px));pointer-events:auto;}
+  .svh--full .svh-inner>*{max-width:440px;}
+  .svh-eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 18px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:#A9672C;}
+  .svh-eyebrow::after{content:"";width:56px;height:1px;background:currentColor;opacity:.7;}
+  .svh-heading{margin:0 0 20px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(52px,6vw,88px);line-height:.95;letter-spacing:.01em;color:#401410;}
+  .svh-text{margin:0;font-family:'Inter',sans-serif;font-size:16px;font-weight:400;line-height:1.7;color:#3B2A22;}
+  .svh-tagline{margin:30px 0 0;font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:#401410;}
+
+  @media(max-width:900px){
+    .svh,.svh--full{display:block;min-height:0;}
+    .svh-media,.svh--full .svh-media{position:relative;width:100%;height:auto;aspect-ratio:var(--svh-ar,1.7778);}
+    .svh-sound-icon{right:12px;bottom:12px;}
+    .svh-inner{padding:28px 20px 48px;}
+    .svh-inner>*{max-width:none;}
+    .svh-text{font-size:15px;}
+  }
+</style>
+
+<script>
+  (function () {
+    if (window.__svhSoundBound2) return;
+    window.__svhSoundBound2 = true;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.svh-video').forEach(function (v) { v.pause(); });
+    }
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-svh-sound]');
+      if (!btn) return;
+      var on = btn.getAttribute('aria-pressed') !== 'true';
+      var media = btn.closest('.svh-media');
+      var v = media.querySelector('video');
+      if (v) {
+        v.muted = !on;
+        v.play().catch(function () {});
+      }
+      var f = media.querySelector('.svh-yt');
+      if (f) {
+        if (on) {
+          /* Reload the player with sound: browsers pause a YouTube video that is unmuted remotely */
+          f.src = f.src.replace(/([?&])mute=\d/, '$1mute=0');
+        } else if (f.contentWindow) {
+          f.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'mute', args: [] }), '*');
+        }
+      }
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.setAttribute('aria-label', on ? 'Turn sound off' : 'Turn sound on');
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Service — Hero",
+  "settings": [
+    {"type":"color","id":"bg_color","label":"Background","default":"#F5EFE3"},
+    {"type":"video","id":"video","label":"Video","info":"Autoplays muted on loop. Replaces the image when set."},
+    {"type":"video_url","id":"youtube_url","label":"Or YouTube link","accept":["youtube"],"info":"Used when no Shopify video is uploaded. Autoplays muted on loop."},
+    {"type":"image_picker","id":"image","label":"Image","info":"Used when no video is set."},
+    {"type":"select","id":"media_layout","label":"Video / image area","default":"right","options":[
+      {"value":"right","label":"Right side"},
+      {"value":"full","label":"Full section background"}
+    ]},
+    {"type":"range","id":"media_width","label":"Video / image width (right side)","min":20,"max":80,"step":5,"unit":"%","default":40,"info":"The section height adjusts to the video's shape so it is not cropped."},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Service"},
+    {"type":"text","id":"heading","label":"Heading","default":"Our Service"},
+    {"type":"textarea","id":"text","label":"Text","default":"We're here to support you through every journey, so your Jack Studio pieces stay with you for a lifetime."},
+    {"type":"text","id":"tagline","label":"Tagline","default":"People / Craft / A Longer Journey"}
+  ],
+  "presets": [{"name":"Service — Hero"}]
+}
+{% endschema %}

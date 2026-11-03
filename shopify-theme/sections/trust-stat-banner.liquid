@@ -1,0 +1,152 @@
+<section class="tsb-wrap" style="background:{{ section.settings.bg_color }};" {{ section.shopify_attributes }}>
+  <div class="tsb-left">
+    <span class="tsb-eyebrow">{{ section.settings.eyebrow }}</span>
+    <div class="tsb-fc-row" data-tsb-flap>
+      {%- assign num_str = section.settings.stat_number | strip -%}
+      {%- assign chars = num_str | split: '' -%}
+      {%- for ch in chars -%}
+        {%- if ch == ',' -%}
+          <div class="tsb-fc-comma">,</div>
+        {%- else -%}
+          <div class="tsb-fc-cell" style="transition-delay:{{ forloop.index0 | times: 100 }}ms;">
+            <div class="tsb-fc-back">{{ ch }}</div>
+            <div class="tsb-fc-line"></div>
+            <div class="tsb-fc-flap"></div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <span class="tsb-stat-label">{{ section.settings.stat_label }}</span>
+    <span class="tsb-divider"></span>
+    <p class="tsb-tagline">{{ section.settings.tagline }}</p>
+    {% if section.settings.link_text != blank %}
+      <a class="tsb-link" href="{{ section.settings.link }}">{{ section.settings.link_text }} &rarr;</a>
+    {% endif %}
+  </div>
+
+  <div class="tsb-image">
+    {% if section.settings.image %}{{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy' }}{% endif %}
+  </div>
+
+  <div class="tsb-icons">
+    {% for block in section.blocks %}
+      <div class="tsb-icon-item" {{ block.shopify_attributes }}>
+        <span class="tsb-icon">
+          {%- case block.settings.icon -%}
+          {%- when 'care' -%}<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 4h6v6h-6zM10 10h12v18a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z"/><path d="M14 18h4M14 22h4"/></svg>
+          {%- when 'personalisation' -%}<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 26h16M12 22l2-14h4l2 14"/></svg>
+          {%- when 'gift' -%}<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="12" width="22" height="14" rx="1"/><path d="M5 17h22M16 12v14M12 12c-2 0-3-1-3-3s1-3 3-3c1.5 0 3 2 4 3-1 0-3.5 3-4 3zM20 12c2 0 3-1 3-3s-1-3-3-3c-1.5 0-3 2-4 3 1 0 3.5 3 4 3z"/></svg>
+          {%- when 'delivery' -%}<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="17" height="12" rx="1"/><path d="M20 15h6l3 4v4h-9z"/><circle cx="9" cy="27" r="2.2"/><circle cx="24" cy="27" r="2.2"/></svg>
+          {%- else -%}<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="12"/></svg>
+          {%- endcase -%}
+        </span>
+        <div class="tsb-icon-body">
+          <strong class="tsb-icon-title">{{ block.settings.title }}</strong>
+          <span class="tsb-icon-sub">{{ block.settings.subtitle }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  .tsb-wrap{display:flex;align-items:stretch;flex-wrap:wrap;}
+  .tsb-left{flex:0 0 300px;display:flex;flex-direction:column;justify-content:center;padding:40px 32px;}
+  .tsb-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7A7263;font-weight:700;margin-bottom:16px;}
+  .tsb-fc-row{display:flex;align-items:center;gap:4px;margin-bottom:12px;}
+  .tsb-fc-cell{position:relative;width:38px;height:60px;perspective:340px;flex-shrink:0;}
+  .tsb-fc-back{position:absolute;inset:0;background:#EAE2D3;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:34px;color:#8B7A4A;line-height:1;box-shadow:0 3px 8px rgba(74,41,34,.08);}
+  .tsb-fc-line{position:absolute;left:5px;right:5px;top:50%;height:1px;background:rgba(74,41,34,.15);z-index:3;transform:translateY(-.5px);}
+  .tsb-fc-flap{position:absolute;inset:0;background:#EAE2D3;border-radius:6px;transform-origin:top center;transform:rotateX(0deg);backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 3px 8px rgba(74,41,34,.08);z-index:2;transition:transform 1.2s cubic-bezier(.45,0,.2,1);}
+  .tsb-fc-row.in-view .tsb-fc-cell .tsb-fc-flap{transform:rotateX(-180deg);}
+  .tsb-fc-comma{font-family:'Bebas Neue',sans-serif;font-size:34px;color:#8B7A4A;align-self:flex-end;line-height:1;padding:0 2px 8px;flex-shrink:0;}
+  .tsb-stat-label{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#2B2420;font-weight:700;margin-bottom:18px;}
+  .tsb-divider{display:block;width:32px;height:2px;background:#2B2420;margin-bottom:16px;}
+  .tsb-tagline{font-size:12.5px;line-height:1.7;color:#5A4E3F;margin:0 0 14px;max-width:220px;}
+  .tsb-link{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#2B2420;text-decoration:underline;width:fit-content;}
+
+  .tsb-image{flex:1 1 400px;min-height:320px;overflow:hidden;}
+  .tsb-image img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  .tsb-icons{flex:0 0 240px;display:flex;flex-direction:column;justify-content:center;gap:26px;padding:32px 28px;border-left:1px solid rgba(64,20,16,.08);}
+  .tsb-icon-item{display:flex;align-items:flex-start;gap:12px;}
+  .tsb-icon{width:26px;height:26px;color:#2B2420;flex-shrink:0;}
+  .tsb-icon svg{width:100%;height:100%;}
+  .tsb-icon-body{display:flex;flex-direction:column;gap:3px;}
+  .tsb-icon-title{font-family:'Bebas Neue',sans-serif;font-size:12.5px;letter-spacing:1px;color:#2B2420;}
+  .tsb-icon-sub{font-size:11px;color:#7A7263;line-height:1.5;}
+
+  @media(prefers-reduced-motion: reduce){
+    .tsb-fc-flap{transition:none !important;}
+  }
+
+  @media(max-width:1024px){
+    .tsb-left{flex:1 1 100%;padding:36px 24px 0;}
+    .tsb-image{flex:1 1 100%;min-height:280px;}
+    .tsb-icons{flex:1 1 100%;flex-direction:row;flex-wrap:wrap;border-left:0;border-top:1px solid rgba(64,20,16,.08);justify-content:center;gap:22px 32px;}
+    .tsb-icon-item{flex:0 1 220px;}
+  }
+  @media(max-width:520px){
+    .tsb-fc-cell{width:28px;height:46px;}
+    .tsb-fc-back,.tsb-fc-comma{font-size:26px;}
+    .tsb-icons{flex-direction:column;align-items:flex-start;padding:28px 24px;}
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('[data-tsb-flap]').forEach(function(row){
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(reduceMotion){ row.classList.add('in-view'); return; }
+      if(!('IntersectionObserver' in window)){ row.classList.add('in-view'); return; }
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            row.classList.add('in-view');
+            observer.unobserve(row);
+          }
+        });
+      }, { threshold: 0.4 });
+      observer.observe(row);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Trust Stat Banner",
+  "settings": [
+    {"type":"color","id":"bg_color","label":"Background","default":"#F4EFDC"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Trusted By Thousands"},
+    {"type":"text","id":"stat_number","label":"Stat number","default":"185,249"},
+    {"type":"text","id":"stat_label","label":"Stat label","default":"Customers Served in 2025"},
+    {"type":"textarea","id":"tagline","label":"Tagline","default":"Thank you for letting Jack Studio be part of your everyday."},
+    {"type":"text","id":"link_text","label":"Link text","default":"Learn More"},
+    {"type":"url","id":"link","label":"Link URL"},
+    {"type":"image_picker","id":"image","label":"Product image"}
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {"type":"select","id":"icon","label":"Icon","default":"care","options":[{"value":"care","label":"Care"},{"value":"personalisation","label":"Personalisation"},{"value":"gift","label":"Gift"},{"value":"delivery","label":"Delivery"}]},
+        {"type":"text","id":"title","label":"Title","default":"CARE"},
+        {"type":"textarea","id":"subtitle","label":"Subtitle","default":"Short description."}
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Trust Stat Banner",
+      "blocks": [
+        {"type":"item","settings":{"icon":"care","title":"CARE","subtitle":"Free polish care for every purchase"}},
+        {"type":"item","settings":{"icon":"personalisation","title":"PERSONALISE","subtitle":"Free name engraving & embossing"}},
+        {"type":"item","settings":{"icon":"gift","title":"GIFT","subtitle":"Exquisite gift packaging included"}},
+        {"type":"item","settings":{"icon":"delivery","title":"DELIVER","subtitle":"Free shipping above RM99 (EM & WM)"}}
+      ]
+    }
+  ]
+}
+{% endschema %}

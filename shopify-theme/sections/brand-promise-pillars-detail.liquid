@@ -1,0 +1,90 @@
+<section class="bpd-wrap" {{ section.shopify_attributes }}>
+  <div class="bpd-row">
+    {% for block in section.blocks %}
+      <div class="bpd-pair" {{ block.shopify_attributes }}>
+        <div class="bpd-img">
+          {% if block.settings.image %}{{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy' }}{% endif %}
+        </div>
+        <div class="bpd-content">
+          <div class="bpd-top">
+            <span class="bpd-num">{{ block.settings.num }}</span>
+            <span class="bpd-icon">
+              {%- case block.settings.icon -%}
+              {%- when 'shield' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l8 3v6c0 5.5-3.5 9.5-8 11-4.5-1.5-8-5.5-8-11V6z"/><path d="M12 8l1.5 3 3.3.4-2.4 2.3.6 3.3L12 15.5 8.9 17l.6-3.3-2.4-2.3 3.3-.4z"/></svg>
+              {%- when 'compass' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6z"/></svg>
+              {%- when 'heart' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20.5s-7-4.4-7-9.8A4.2 4.2 0 0 1 12 8a4.2 4.2 0 0 1 7 2.7c0 5.4-7 9.8-7 9.8z"/></svg>
+              {%- else -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/></svg>
+              {%- endcase -%}
+            </span>
+          </div>
+          <h3 class="bpd-title">{{ block.settings.title }}</h3>
+          <p class="bpd-tagline">{{ block.settings.tagline }}</p>
+          <ul class="bpd-list">
+            {%- assign bullets = block.settings.bullets | strip | split: '
+' -%}
+            {%- for b in bullets -%}
+              {%- if b != blank -%}<li>{{ b | strip }}</li>{%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  .bpd-wrap{background:#EFE7D8;padding:0;}
+  .bpd-row{display:flex;flex-wrap:wrap;align-items:stretch;}
+  .bpd-pair{flex:1 1 0;min-width:280px;display:flex;flex-direction:column;}
+  .bpd-img{width:100%;aspect-ratio:4/3;overflow:hidden;position:relative;}
+  .bpd-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .bpd-content{padding:28px 24px 36px;display:flex;flex-direction:column;justify-content:flex-start;background:#EFE7D8;}
+  .bpd-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+  .bpd-num{font-family:'Bebas Neue',sans-serif;font-size:24px;color:#C38239;line-height:1;}
+  .bpd-icon{width:26px;height:26px;color:#2B2420;flex-shrink:0;}
+  .bpd-icon svg{width:100%;height:100%;}
+  .bpd-title{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:1px;color:#2B2420;margin:0 0 8px;}
+  .bpd-tagline{font-size:13.5px;color:#5A4E3F;margin:0 0 14px;}
+  .bpd-list{list-style:none;margin:0;padding:0;}
+  .bpd-list li{font-size:13px;color:#5A4E3F;line-height:1.7;padding-left:20px;position:relative;}
+  .bpd-list li:before{content:'\2713';position:absolute;left:0;color:#C38239;font-weight:700;font-size:11px;}
+
+  @media(max-width:900px){
+    .bpd-pair{min-width:100%;}
+    .bpd-content{padding:24px 24px 36px;}
+    .bpd-num{font-size:22px;}
+    .bpd-title{font-size:16px;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Brand Promise Pillars",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        {"type":"image_picker","id":"image","label":"Image"},
+        {"type":"text","id":"num","label":"Number","default":"01"},
+        {"type":"select","id":"icon","label":"Icon","default":"shield","options":[{"value":"shield","label":"Shield (Trust)"},{"value":"compass","label":"Compass (Relevant)"},{"value":"heart","label":"Heart (Personal)"}]},
+        {"type":"text","id":"title","label":"Title","default":"More Trust"},
+        {"type":"text","id":"tagline","label":"Tagline","default":"You can count on what we make."},
+        {"type":"textarea","id":"bullets","label":"Bullet points (one per line)","default":"Premium materials carefully selected\nThoughtful construction\nReliable for everyday use"}
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Brand Promise Pillars",
+      "blocks": [
+        {"type":"pillar","settings":{"num":"01","icon":"shield","title":"More Trust","tagline":"You can count on what we make.","bullets":"Premium materials carefully selected\nThoughtful construction\nReliable for everyday use"}},
+        {"type":"pillar","settings":{"num":"02","icon":"compass","title":"More Relevant","tagline":"Made for the way you live.","bullets":"Designed for everyday essentials\nMade for work, travel and urban life\nFunctional details that matter"}},
+        {"type":"pillar","settings":{"num":"03","icon":"heart","title":"More Personal","tagline":"Made to become yours.","bullets":"Personalisation & engraving\nThoughtful service\nYour own experience"}}
+      ]
+    }
+  ]
+}
+{% endschema %}

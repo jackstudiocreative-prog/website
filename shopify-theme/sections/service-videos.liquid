@@ -1,0 +1,193 @@
+<section class="svv" style="--svv-bg:{{ section.settings.bg_color }};" {{ section.shopify_attributes }}>
+  <div class="svv-inner">
+    <div class="svv-head">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="svv-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="svv-heading">{{ section.settings.heading }}</h2>{%- endif -%}
+      </div>
+      {%- if section.settings.text != blank -%}<p class="svv-side">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    <div class="svv-grid{% if section.blocks.size == 1 %} svv-grid--single{% endif %}">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign vtype = 'none'
+          if block.settings.video != blank
+            assign vtype = 'shopify'
+          elsif block.settings.video_url != blank
+            assign vtype = block.settings.video_url.type
+          endif
+        -%}
+        <div class="svv-card" data-svv-card data-autoplay="{{ section.settings.autoplay }}" {{ block.shopify_attributes }}>
+          {%- case vtype -%}
+            {%- when 'shopify' -%}
+              {%- if section.settings.autoplay -%}
+                {{ block.settings.video | video_tag: autoplay: true, muted: true, loop: true, playsinline: true, preload: 'metadata', class: 'svv-media', image_size: '1200x' }}
+              {%- else -%}
+                {{ block.settings.video | video_tag: muted: true, playsinline: true, preload: 'metadata', class: 'svv-media', image_size: '1200x' }}
+              {%- endif -%}
+            {%- else -%}
+              {%- if block.settings.image -%}
+                {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '500,800,1200', sizes: '(max-width: 749px) 100vw, 50vw', class: 'svv-media svv-cover', alt: '' }}
+              {%- elsif vtype == 'youtube' -%}
+                <img class="svv-media svv-cover" src="https://i.ytimg.com/vi/{{ block.settings.video_url.id }}/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
+              {%- else -%}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'svv-media svv-cover svv-ph' }}
+              {%- endif -%}
+              {%- liquid
+                assign embed_src = ''
+                if vtype == 'youtube'
+                  assign embed_src = 'https://www.youtube.com/embed/' | append: block.settings.video_url.id | append: '?autoplay=1&rel=0&playsinline=1'
+                elsif vtype == 'vimeo'
+                  assign embed_src = 'https://player.vimeo.com/video/' | append: block.settings.video_url.id | append: '?autoplay=1&playsinline=1'
+                endif
+              -%}
+              {%- if embed_src != blank -%}
+                <template data-svv-embed>
+                  <iframe class="svv-media svv-embed" src="{{ embed_src }}" title="{{ block.settings.title | default: 'Video' | escape }}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>
+                </template>
+              {%- endif -%}
+          {%- endcase -%}
+
+          {%- if vtype != 'none' -%}
+            <button type="button" class="svv-play" data-svv-play aria-label="Play video: {{ block.settings.title | escape }}">
+              <span class="svv-play-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
+            </button>
+          {%- endif -%}
+          <span class="svv-meta">
+            <span>
+              {%- if block.settings.title != blank -%}<span class="svv-title">{{ block.settings.title }}</span>{%- endif -%}
+              {%- if block.settings.subtitle != blank -%}<span class="svv-sub">{{ block.settings.subtitle }}</span>{%- endif -%}
+            </span>
+            {%- if block.settings.duration != blank -%}<span class="svv-time">{{ block.settings.duration }}</span>{%- endif -%}
+          </span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .svv{background:var(--svv-bg);padding:clamp(24px,2.5vw,32px) 0 clamp(16px,1.5vw,20px);}
+  .svv-inner{max-width:1440px;margin:0 auto;padding:0 clamp(20px,5vw,72px);}
+  .svv-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding:clamp(14px,1.4vw,20px) 0 0 clamp(0px,2vw,20px);margin-bottom:clamp(14px,1.4vw,20px);border-top:1px solid rgba(64,20,16,.12);}
+  .svv-eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 14px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:#401410;}
+  .svv-eyebrow::after{content:"";width:36px;height:1px;background:currentColor;opacity:.6;}
+  .svv-heading{margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(40px,4.4vw,60px);line-height:1;color:#401410;}
+  .svv-side{max-width:250px;margin:0 0 auto;padding-top:clamp(6px,1.5vw,20px);font-family:'Inter',sans-serif;font-size:13px;line-height:1.6;color:#3B2A22;}
+  .svv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(10px,1.2vw,16px);}
+  .svv-grid--single{grid-template-columns:minmax(0,960px);justify-content:center;}
+  .svv-grid--single .svv-card{aspect-ratio:16/9;}
+  .svv-card{position:relative;display:block;width:100%;aspect-ratio:2.33;overflow:hidden;background:#1E120C;color:#FBF8F0;}
+  .svv-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;display:block;}
+  .svv-ph{background:#5A3A28;}
+  .svv-card::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(40,18,10,.75) 0%,rgba(40,18,10,.1) 55%,rgba(40,18,10,.15) 100%);pointer-events:none;}
+  .svv-play{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;width:100%;padding:0;border:0;background:none;cursor:pointer;}
+  .svv-play:focus-visible{outline:2px solid #C38239;outline-offset:-2px;}
+  .svv-play-icon{display:flex;align-items:center;justify-content:center;width:clamp(42px,4.2vw,54px);height:clamp(42px,4.2vw,54px);border-radius:50%;background:rgba(251,248,240,.82);transition:background .3s,transform .3s;}
+  .svv-play:hover .svv-play-icon{background:#FBF8F0;transform:scale(1.06);}
+  .svv-play-icon svg{width:42%;height:42%;margin-left:6%;fill:#401410;}
+  .svv-meta{position:absolute;left:clamp(16px,1.8vw,20px);right:clamp(16px,1.8vw,20px);bottom:clamp(14px,1.6vw,18px);z-index:1;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;pointer-events:none;}
+  .svv-title{display:block;margin-bottom:6px;font-family:'Inter',sans-serif;font-weight:500;font-size:clamp(16px,1.5vw,19px);line-height:1.25;}
+  .svv-sub,.svv-time{display:block;font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;}
+  .svv-time{letter-spacing:.05em;font-size:11px;}
+
+  .svv-card.is-playing::after,.svv-card.is-playing .svv-play,.svv-card.is-playing .svv-meta,.svv-card.is-playing .svv-cover{display:none;}
+  .svv-card.is-playing video.svv-media{object-fit:contain;}
+
+  @media(max-width:749px){
+    .svv-head{display:block;}
+    .svv-side{max-width:none;margin-top:12px;padding-top:0;}
+    .svv-grid{grid-template-columns:1fr;}
+    .svv-card{aspect-ratio:16/9;}
+  }
+</style>
+
+<script>
+  (function () {
+    if (window.__svvBound) return;
+    window.__svvBound = true;
+
+    function muteHero() {
+      document.querySelectorAll('[data-svh-sound][aria-pressed="true"]').forEach(function (b) { b.click(); });
+    }
+
+    function reset(card) {
+      card.classList.remove('is-playing');
+      var v = card.querySelector('video');
+      if (v) {
+        v.pause();
+        v.controls = false;
+        v.muted = true;
+        v.loop = true;
+        if (card.dataset.autoplay === 'true') v.play().catch(function () {});
+      }
+      var f = card.querySelector('.svv-embed');
+      if (f) f.remove();
+    }
+
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-svv-play]');
+      if (!btn) return;
+      var card = btn.closest('[data-svv-card]');
+      muteHero();
+      document.querySelectorAll('[data-svv-card].is-playing').forEach(function (c) {
+        if (c !== card) reset(c);
+      });
+      var v = card.querySelector('video');
+      if (v) {
+        card.classList.add('is-playing');
+        v.loop = false;
+        v.controls = true;
+        v.muted = false;
+        v.currentTime = 0;
+        v.play().catch(function () { v.muted = true; v.play().catch(function () {}); });
+        return;
+      }
+      var tpl = card.querySelector('template[data-svv-embed]');
+      if (tpl) {
+        card.appendChild(tpl.content.cloneNode(true));
+        card.classList.add('is-playing');
+      }
+    });
+
+    /* Also mute the hero when a playing card video is resumed from its own controls */
+    document.addEventListener('play', function (e) {
+      var v = e.target;
+      if (v.closest && v.closest('[data-svv-card].is-playing') && !v.muted) muteHero();
+    }, true);
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-svv-card] video[autoplay]').forEach(function (v) { v.pause(); });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Service — Videos",
+  "settings": [
+    {"type":"color","id":"bg_color","label":"Background","default":"#F5EFE3"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Introduction"},
+    {"type":"text","id":"heading","label":"Heading","default":"Our Stories In Motion"},
+    {"type":"textarea","id":"text","label":"Side text","default":"A closer look at the care, craftsmanship, and people behind our service."},
+    {"type":"checkbox","id":"autoplay","label":"Autoplay muted preview (Shopify videos)","default":true}
+  ],
+  "blocks": [
+    {
+      "type":"video",
+      "name":"Video",
+      "settings":[
+        {"type":"video","id":"video","label":"Shopify-hosted video"},
+        {"type":"video_url","id":"video_url","label":"Or YouTube / Vimeo URL","accept":["youtube","vimeo"]},
+        {"type":"image_picker","id":"image","label":"Cover image (optional)","info":"Not needed for Shopify videos or YouTube."},
+        {"type":"text","id":"title","label":"Title","default":"Service Introduction"},
+        {"type":"text","id":"subtitle","label":"Subtitle","default":"How we care for your journey"},
+        {"type":"text","id":"duration","label":"Duration","default":"02:18"}
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{"name":"Service — Videos"}]
+}
+{% endschema %}

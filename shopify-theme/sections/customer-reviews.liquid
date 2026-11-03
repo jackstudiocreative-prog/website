@@ -1,0 +1,75 @@
+<div class="cr-wrap">
+  <div class="cr-eyebrow">{{ section.settings.eyebrow }}</div>
+  <h2>{{ section.settings.heading }}</h2>
+  <p class="cr-sub">{{ section.settings.subtitle }}</p>
+  <div class="cr-stat">
+    <div class="cr-stat-num">{{ section.settings.stat_number }}</div>
+    <div class="cr-stat-copy"><strong>{{ section.settings.stat_label }}</strong><span>{{ section.settings.stat_source }}</span></div>
+  </div>
+  <div class="cr-stars">★★★★★</div>
+  <div class="cr-grid">
+    {% for block in section.blocks %}
+      <div class="cr-card" {{ block.shopify_attributes }}>
+        <div class="cr-card-stars">★★★★★</div>
+        <p>{{ block.settings.quote }}</p>
+        <span>{{ block.settings.source }}</span>
+      </div>
+    {% endfor %}
+  </div>
+  {% if section.settings.viewall_link != blank %}
+    <a class="cr-viewall" href="{{ section.settings.viewall_link }}" target="_blank" rel="noopener">{{ section.settings.viewall_text }} &rarr;</a>
+  {% endif %}
+</div>
+<style>
+  .cr-wrap{padding:48px 24px;text-align:center;background:#F4EFDC;color:#2B2420;}
+  .cr-eyebrow{font-size:10px;letter-spacing:2.8px;text-transform:uppercase;color:#7A7263;margin-bottom:8px;}
+  .cr-wrap h2{font-size:19px;margin:0 0 10px;}
+  .cr-sub{color:#7A7263;font-size:13px;max-width:480px;margin:0 auto 24px;}
+  .cr-stat{display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:6px;}
+  .cr-stat-num{font-size:28px;font-weight:700;}
+  .cr-stat-copy{text-align:left;font-size:11px;color:#7A7263;}
+  .cr-stat-copy strong{display:block;color:#2B2420;font-size:13px;}
+  .cr-stars{color:#C4823A;margin-bottom:32px;}
+  .cr-grid{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;}
+  .cr-card{flex:1 1 240px;max-width:280px;background:#F9F4E3;border-radius:6px;padding:20px;text-align:left;}
+  .cr-card-stars{color:#C4823A;font-size:13px;margin-bottom:8px;}
+  .cr-card p{font-size:13px;margin-bottom:10px;}
+  .cr-card span{font-size:11px;color:#7A7263;}
+  .cr-viewall{display:inline-block;margin-top:32px;color:#2B2420;font-weight:600;font-size:13px;text-decoration:underline;}
+</style>
+{% schema %}
+{
+  "name": "Customer reviews",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "小标签", "default": "Customer Love" },
+    { "type": "text", "id": "heading", "label": "标题", "default": "WHAT OUR CUSTOMERS SAY" },
+    { "type": "textarea", "id": "subtitle", "label": "副标题" },
+    { "type": "text", "id": "stat_number", "label": "统计数字", "default": "5,000+" },
+    { "type": "text", "id": "stat_label", "label": "统计标签", "default": "5-Star Reviews" },
+    { "type": "text", "id": "stat_source", "label": "统计来源说明" },
+    { "type": "url", "id": "viewall_link", "label": "查看更多评价链接" },
+    { "type": "text", "id": "viewall_text", "label": "查看更多按钮文字", "default": "View Reviews" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "评价",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "评价内容" },
+        { "type": "text", "id": "source", "label": "来源标签" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Customer reviews",
+      "blocks": [
+        { "type": "review", "settings": { "quote": "Quality products and attentive service.", "source": "Customer Experience" } },
+        { "type": "review", "settings": { "quote": "Made for meaningful moments.", "source": "Brand Experience" } },
+        { "type": "review", "settings": { "quote": "Focus on quality and support.", "source": "Customer Service" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

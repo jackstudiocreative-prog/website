@@ -1,0 +1,88 @@
+<section class="cpr-wrap" {{ section.shopify_attributes }}>
+  {% if section.settings.eyebrow != blank %}<span class="cpr-eyebrow">{{ section.settings.eyebrow }}</span>{% endif %}
+  <h2 class="cpr-heading">{{ section.settings.heading }}</h2>
+  {% if section.settings.subtitle != blank %}<p class="cpr-subtitle">{{ section.settings.subtitle }}</p>{% endif %}
+  <div class="cpr-row">
+    {% for block in section.blocks %}
+      {% unless forloop.first %}<span class="cpr-connector"></span>{% endunless %}
+      <div class="cpr-step" {{ block.shopify_attributes }}>
+        <span class="cpr-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+        <span class="cpr-icon-circle">
+          {%- case block.settings.icon -%}
+          {%- when 'chat' -%}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          {%- when 'bag' -%}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8h12l1 13H5z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+          {%- when 'pencil' -%}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20l1-4L15 6l3 3L8 19l-4 1z"/><path d="M13 8l3 3"/></svg>
+          {%- when 'doc' -%}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5M9 13h6M9 17h6"/></svg>
+          {%- when 'check' -%}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+          {%- when 'truck' -%}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="8" width="13" height="9" rx="1"/><path d="M15 11h4l3 3v3h-7z"/><circle cx="7" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/></svg>
+          {%- else -%}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/></svg>
+          {%- endcase -%}
+        </span>
+        <strong class="cpr-title">{{ block.settings.title }}</strong>
+        <span class="cpr-desc">{{ block.settings.desc }}</span>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  .cpr-wrap{background:{{ section.settings.bg_color }};padding:52px 6vw;text-align:center;}
+  .cpr-eyebrow{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#C4823A;font-weight:700;margin-bottom:14px;}
+  .cpr-heading{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,3.2vw,40px);letter-spacing:1px;color:#2B2420;margin:0 0 14px;}
+  .cpr-subtitle{font-size:13.5px;color:#7A7263;max-width:480px;margin:0 auto 40px;line-height:1.6;}
+  .cpr-row{display:flex;align-items:flex-start;justify-content:center;max-width:1200px;margin:0 auto;flex-wrap:wrap;}
+  .cpr-connector{flex:1 1 30px;height:1px;background:repeating-linear-gradient(to right,#C9BFA6 0,#C9BFA6 4px,transparent 4px,transparent 8px);margin-top:52px;min-width:20px;}
+  .cpr-step{display:flex;flex-direction:column;align-items:center;gap:8px;width:170px;}
+  .cpr-num{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:#C4823A;margin-bottom:6px;}
+  .cpr-icon-circle{width:64px;height:64px;border-radius:50%;border:1.5px solid #2B2420;color:#2B2420;display:flex;align-items:center;justify-content:center;margin-bottom:12px;flex-shrink:0;}
+  .cpr-title{font-size:13.5px;letter-spacing:.5px;text-transform:uppercase;font-weight:700;color:#2B2420;}
+  .cpr-desc{font-size:13px;color:#7A7263;line-height:1.5;}
+
+  @media(max-width:768px){
+    .cpr-heading{font-size:17px;}
+    .cpr-row{flex-direction:row;flex-wrap:nowrap;align-items:flex-start;justify-content:space-between;gap:4px;}
+    .cpr-connector{display:none;}
+    .cpr-step{width:auto;flex:1 1 0;gap:4px;}
+    .cpr-num{font-size:9px;margin-bottom:1px;}
+    .cpr-icon-circle{width:32px;height:32px;margin-bottom:3px;border-width:1px;}
+    .cpr-icon-circle svg{width:14px;height:14px;}
+    .cpr-title{font-size:8.5px;letter-spacing:.2px;line-height:1.2;}
+    .cpr-desc{display:none;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "CORPORATE — Process",
+  "settings": [
+    {"type":"color","id":"bg_color","label":"Background","default":"#F4EFDC"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Our Corporate Process"},
+    {"type":"text","id":"heading","label":"Heading","default":"From Brief To Delivery"},
+    {"type":"textarea","id":"subtitle","label":"Subtitle","default":"A simple, seamless process to create corporate gifts that represent your brand with purpose."}
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {"type":"select","id":"icon","label":"Icon","default":"chat","options":[{"value":"chat","label":"Chat"},{"value":"bag","label":"Bag"},{"value":"pencil","label":"Pencil"},{"value":"doc","label":"Document"},{"value":"check","label":"Checkmark"},{"value":"truck","label":"Truck"}]},
+        {"type":"text","id":"title","label":"Title","default":"Discover"},
+        {"type":"text","id":"desc","label":"Description","default":"Tell us your requirements"}
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "CORPORATE — Process",
+      "blocks": [
+        {"type":"step","settings":{"icon":"chat","title":"Discover","desc":"Tell us your requirements"}},
+        {"type":"step","settings":{"icon":"bag","title":"Select","desc":"Choose the right products"}},
+        {"type":"step","settings":{"icon":"pencil","title":"Customise","desc":"Personalise with logo, engraving & packaging"}},
+        {"type":"step","settings":{"icon":"check","title":"Approve","desc":"Review and confirm your sample"}},
+        {"type":"step","settings":{"icon":"truck","title":"Deliver","desc":"We produce and deliver with care"}}
+      ]
+    }
+  ]
+}
+{% endschema %}

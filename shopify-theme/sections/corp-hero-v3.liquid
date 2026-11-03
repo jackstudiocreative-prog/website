@@ -1,0 +1,76 @@
+<section class="ch3" style="--ch3-bg:{{ section.settings.bg_color }};" {{ section.shopify_attributes }}>
+  <div class="ch3-inner">
+    <div class="ch3-copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="ch3-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h1 class="ch3-heading">{{ section.settings.heading | newline_to_br }}</h1>
+      {%- if section.settings.text != blank -%}<p class="ch3-text">{{ section.settings.text }}</p>{%- endif -%}
+      <div class="ch3-actions">
+        {%- if section.settings.btn1_label != blank -%}
+          <a class="ch3-btn ch3-btn--fill" href="{{ section.settings.btn1_link | default: '#' }}">
+            {{ section.settings.btn1_label }}
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 7l5 5-5 5"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.btn2_label != blank -%}
+          <a class="ch3-btn ch3-btn--line" href="{{ section.settings.btn2_link | default: '#' }}"{% if section.settings.btn2_link contains 'http' %} target="_blank" rel="noopener"{% endif %}>
+            {{ section.settings.btn2_label }}
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16L16 8M9 8h7v7"/></svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="ch3-media">
+      {%- if section.settings.image -%}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600,900,1200,1600', sizes: '(max-width: 900px) 100vw, 50vw', alt: section.settings.image.alt }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'ch3-ph' }}
+      {%- endif -%}
+      {%- if section.settings.caption != blank -%}<p class="ch3-caption">{{ section.settings.caption }}</p>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ch3{background:var(--ch3-bg);}
+  .ch3-inner{max-width:1440px;margin:0 auto;padding:clamp(48px,6vw,88px) clamp(20px,5vw,72px);display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,5vw,72px);align-items:center;}
+  .ch3-eyebrow{margin:0 0 18px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#B87635;}
+  .ch3-heading{margin:0 0 22px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(52px,6.2vw,92px);line-height:.92;color:#401410;}
+  .ch3-text{max-width:400px;margin:0 0 30px;font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;color:#5A4E3F;}
+  .ch3-actions{display:flex;flex-wrap:wrap;gap:12px;}
+  .ch3-btn{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 24px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:background .25s,color .25s,border-color .25s;}
+  .ch3-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .ch3-btn--fill{background:#B87635;border:1px solid #B87635;color:#FBF8F0;}
+  .ch3-btn--fill:hover{background:#9E622A;border-color:#9E622A;}
+  .ch3-btn--line{border:1px solid rgba(64,20,16,.45);color:#401410;background:transparent;}
+  .ch3-btn--line:hover{background:#401410;color:#FBF8F0;border-color:#401410;}
+  .ch3-btn:focus-visible{outline:2px solid #C38239;outline-offset:3px;}
+  .ch3-media{position:relative;aspect-ratio:1.44;overflow:hidden;background:#E9E0CF;}
+  .ch3-media img,.ch3-media .ch3-ph{width:100%;height:100%;object-fit:cover;display:block;}
+  .ch3-caption{position:absolute;right:12px;bottom:12px;margin:0;padding:9px 14px;background:rgba(245,237,224,.92);font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:14px;color:#401410;}
+
+  @media(max-width:900px){
+    .ch3-inner{grid-template-columns:1fr;}
+    .ch3-media{order:-1;}
+    .ch3-caption{font-size:12px;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Corporate — Hero",
+  "settings": [
+    {"type":"color","id":"bg_color","label":"Background","default":"#F5EDE0"},
+    {"type":"image_picker","id":"image","label":"Image"},
+    {"type":"text","id":"caption","label":"Image caption","default":"Made for meaningful connections."},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Corporate Gifting by Jack Studio"},
+    {"type":"textarea","id":"heading","label":"Heading","default":"Gifts that\nmean more."},
+    {"type":"textarea","id":"text","label":"Text","default":"Thoughtful leather goods for the people, moments and partnerships that matter to your business."},
+    {"type":"header","content":"Buttons"},
+    {"type":"text","id":"btn1_label","label":"Primary label","default":"Explore Collections"},
+    {"type":"url","id":"btn1_link","label":"Primary link"},
+    {"type":"text","id":"btn2_label","label":"Secondary label","default":"WhatsApp Us"},
+    {"type":"url","id":"btn2_link","label":"Secondary link"}
+  ],
+  "presets": [{"name":"Corporate — Hero"}]
+}
+{% endschema %}

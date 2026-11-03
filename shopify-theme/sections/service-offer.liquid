@@ -1,0 +1,91 @@
+<section class="svo" style="--svo-bg:{{ section.settings.bg_color }};" {{ section.shopify_attributes }}>
+  <div class="svo-inner">
+    {%- if section.settings.eyebrow != blank -%}<p class="svo-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    {%- if section.settings.heading != blank -%}<h2 class="svo-heading">{{ section.settings.heading }}</h2>{%- endif -%}
+    <div class="svo-grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign tag = 'div'
+          if block.settings.link != blank
+            assign tag = 'a'
+          endif
+        -%}
+        <{{ tag }} class="svo-card"{% if tag == 'a' %} href="{{ block.settings.link }}"{% endif %} {{ block.shopify_attributes }}>
+          {%- if block.settings.image -%}
+            {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '500,800,1200', sizes: '(max-width: 749px) 100vw, 50vw', class: 'svo-img', alt: '' }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'svo-img svo-ph' }}
+          {%- endif -%}
+          <span class="svo-body">
+            <span class="svo-icon" aria-hidden="true">
+              {%- case block.settings.icon -%}
+                {%- when 'letter' -%}<span class="svo-letter">{{ block.settings.letter | default: 'A' }}</span>
+                {%- when 'gift' -%}<svg viewBox="0 0 24 24"><rect x="3.5" y="8" width="17" height="4" rx=".6"/><path d="M5 12v8.5h14V12M12 8v12.5M12 8S10.6 3.5 8 4.1c-2 .5-1.3 3.9 4 3.9zm0 0s1.4-4.5 4-3.9c2 .5 1.3 3.9-4 3.9z"/></svg>
+                {%- when 'tools' -%}<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/><path d="M4 4l6.5 6.5M3 6.5L6.5 3"/></svg>
+                {%- when 'shield' -%}<svg viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.5c0 4.6-3.1 8.2-7.5 9.5-4.4-1.3-7.5-4.9-7.5-9.5V6z"/><path d="M8.8 12l2.2 2.2 4.2-4.4"/></svg>
+                {%- else -%}<svg viewBox="0 0 24 24"><path d="M10 4l1.6 4.6L16 10l-4.4 1.4L10 16l-1.6-4.6L4 10l4.4-1.4z"/><path d="M17.5 13.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8zM17 3.5l.5 1.5 1.5.5-1.5.5-.5 1.5-.5-1.5L15 5.5l1.5-.5z"/></svg>
+              {%- endcase -%}
+            </span>
+            <span class="svo-title">{{ block.settings.title | newline_to_br }}</span>
+          </span>
+        </{{ tag }}>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .svo{background:var(--svo-bg);padding:clamp(40px,4.5vw,64px) 0 clamp(24px,2.5vw,32px);}
+  .svo-inner{max-width:1440px;margin:0 auto;padding:0 clamp(20px,5vw,72px);}
+  .svo-eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 14px;padding-left:clamp(0px,2vw,20px);font-family:'Inter',sans-serif;font-size:11px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:#401410;}
+  .svo-eyebrow::after{content:"";width:36px;height:1px;background:currentColor;opacity:.6;}
+  .svo-heading{margin:0 0 20px;padding-left:clamp(0px,2vw,20px);font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(40px,4.4vw,60px);line-height:1;color:#401410;}
+  .svo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(10px,1.2vw,16px);}
+  .svo-card{position:relative;display:block;aspect-ratio:1.72;overflow:hidden;background:#3A2418;color:#FBF8F0;text-decoration:none;}
+  .svo-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+  .svo-ph{background:#5A3A28;}
+  a.svo-card:hover .svo-img{transform:scale(1.04);}
+  a.svo-card:focus-visible{outline:2px solid #C38239;outline-offset:3px;}
+  .svo-card::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(40,18,10,.72) 0%,rgba(40,18,10,.15) 45%,transparent 70%);pointer-events:none;}
+  .svo-body{position:absolute;left:clamp(16px,2vw,24px);right:clamp(16px,2vw,24px);bottom:clamp(16px,2vw,24px);z-index:1;display:flex;align-items:center;}
+  .svo-icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:clamp(46px,4.2vw,58px);height:clamp(46px,4.2vw,58px);margin-right:clamp(14px,1.6vw,20px);border-radius:50%;background:#B87635;box-shadow:0 0 0 2px rgba(251,248,240,.45);color:#FBF8F0;}
+  .svo-icon svg{width:46%;height:46%;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;}
+  .svo-letter{font-family:'Inter',sans-serif;font-weight:500;font-size:clamp(20px,1.8vw,26px);line-height:1;}
+  .svo-title{padding-left:clamp(14px,1.6vw,20px);border-left:1px solid rgba(251,248,240,.55);font-family:'Inter',sans-serif;font-weight:500;font-size:clamp(16px,1.5vw,20px);line-height:1.3;min-height:40px;display:flex;align-items:center;}
+
+  @media(max-width:749px){
+    .svo-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Service — Offer Grid",
+  "settings": [
+    {"type":"color","id":"bg_color","label":"Background","default":"#F5EFE3"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"What We Offer"},
+    {"type":"text","id":"heading","label":"Heading","default":"Our Services"}
+  ],
+  "blocks": [
+    {
+      "type":"service",
+      "name":"Service",
+      "settings":[
+        {"type":"image_picker","id":"image","label":"Image"},
+        {"type":"select","id":"icon","label":"Icon","default":"sparkle","options":[
+          {"value":"sparkle","label":"Sparkle (polish)"},
+          {"value":"letter","label":"Letter (engraving)"},
+          {"value":"gift","label":"Gift (packaging)"},
+          {"value":"tools","label":"Tools (repair)"},
+          {"value":"shield","label":"Shield (warranty)"}
+        ]},
+        {"type":"text","id":"letter","label":"Letter (for Letter icon)","default":"A"},
+        {"type":"textarea","id":"title","label":"Title","default":"Free Polish Care"},
+        {"type":"url","id":"link","label":"Link (optional)"}
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [{"name":"Service — Offer Grid"}]
+}
+{% endschema %}

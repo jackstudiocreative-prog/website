@@ -1,0 +1,54 @@
+{% doc %}
+  @prompt
+    title and content
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-policy-content-{{ ai_gen_id }} { display: block; width: {{ block.settings.desktop_width_percent }}%; max-width: 100%; margin: 0 auto; padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px; background: {{ block.settings.background_color }}; color: {{ block.settings.text_color }}; border-radius: {{ block.settings.border_radius }}px; box-sizing: border-box; }
+  .ai-policy-content-{{ ai_gen_id }}__inner { width: 100%; max-width: {{ block.settings.content_max_width }}px; margin: 0 auto; }
+  .ai-policy-content-{{ ai_gen_id }}__title { margin: 0 0 18px; color: {{ block.settings.heading_color }}; font-size: {{ block.settings.heading_size }}px; line-height: 1.15; letter-spacing: -0.02em; text-align: {{ block.settings.text_alignment }}; }
+  .ai-policy-content-{{ ai_gen_id }}__body { color: {{ block.settings.text_color }}; font-size: {{ block.settings.body_size }}px; line-height: 1.75; text-align: {{ block.settings.text_alignment }}; }
+  .ai-policy-content-{{ ai_gen_id }}__body p { margin: 0 0 1em; }
+  .ai-policy-content-{{ ai_gen_id }}__body p:last-child { margin-bottom: 0; }
+  .ai-policy-content-{{ ai_gen_id }}__body a { color: {{ block.settings.link_color }}; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  @media screen and (max-width: 749px) { .ai-policy-content-{{ ai_gen_id }} { width: 100%; padding: {{ block.settings.mobile_padding_vertical }}px {{ block.settings.mobile_padding_horizontal }}px; } .ai-policy-content-{{ ai_gen_id }}__title { font-size: {{ block.settings.mobile_heading_size }}px; } }
+{% endstyle %}
+
+<div class="ai-policy-content-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-policy-content-{{ ai_gen_id }}__inner">
+    {% if block.settings.title != blank %}<h1 class="ai-policy-content-{{ ai_gen_id }}__title">{{ block.settings.title | escape }}</h1>{% endif %}
+    {% if block.settings.content != blank %}<div class="ai-policy-content-{{ ai_gen_id }}__body">{{ block.settings.content }}</div>{% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Title and content",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Refund policy" },
+    { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Add your refund, return and exchange information here.</p>" },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "select", "id": "text_alignment", "label": "Alignment", "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }], "default": "left" },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 500, "max": 1200, "step": 50, "unit": "px", "default": 800 },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_vertical", "label": "Vertical padding", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 50 },
+    { "type": "range", "id": "padding_horizontal", "label": "Horizontal padding", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 30 },
+    { "type": "range", "id": "mobile_padding_vertical", "label": "Mobile vertical padding", "min": 0, "max": 60, "step": 5, "unit": "px", "default": 35 },
+    { "type": "range", "id": "mobile_padding_horizontal", "label": "Mobile horizontal padding", "min": 0, "max": 60, "step": 5, "unit": "px", "default": 20 },
+    { "type": "range", "id": "border_radius", "label": "Corner radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 0 },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 24, "max": 64, "step": 2, "unit": "px", "default": 42 },
+    { "type": "range", "id": "mobile_heading_size", "label": "Mobile heading size", "min": 22, "max": 48, "step": 2, "unit": "px", "default": 32 },
+    { "type": "range", "id": "body_size", "label": "Body size", "min": 14, "max": 24, "step": 1, "unit": "px", "default": 16 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#F4EFDC" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#2B2420" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#2B2420" },
+    { "type": "color", "id": "link_color", "label": "Links", "default": "#7A3F25" }
+  ],
+  "presets": [{ "name": "Title and content" }],
+  "tag": null,
+  "class": "title-content-block"
+}
+{% endschema %}

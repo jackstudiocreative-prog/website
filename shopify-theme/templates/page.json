@@ -1,0 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1786927473ebeec19c": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_f49b20f_gkJ6tb": {
+          "type": "ai_gen_block_f49b20f",
+          "settings": {
+            "eyebrow": "",
+            "title": "Privacy Policy",
+            "content": "<p><strong>Collected Information</strong><br/>We only collect the information that needed for the registration procedure at our website or when fill up the registration form on the site. The information that we gathered are voluntarily submitted by the customers to us. We collect customer's personal information during the account registration on our site.</p><p><br/><strong>Personal Identification Details</strong><br/>Your personal identification details are used to process your order of the products, customize your profile information, internal usage with legal requirements, update your status of online shopping in our site and also to update our customers with our latest news of updates/changes, promotions and events.<br/><br/><strong>Confidentiality </strong><br/>Your personal information such as credit cards details, bank account numbers are well kept <strong>secret and confidential</strong> with us. We will never share any of your personal details to any third party. Our sites do apply appropriate security application in order to keep all the customers information safe at all time.<br/><br/><strong>Changes to our Privacy Policy</strong></p><p>Jack Studio has the rights to do any changes/updates Privacy Policy contents without giving prior notice to the customers. Do keep track on the Privacy Policy page on our website.</p><p> <br/><strong>Security </strong><br/>Our company website do apply appropriate security application in order to prevent the customers' personal identification details from leaking to the third parties, illegal disclosure and hackers. However, bear in mind that any information transmitted through Internet is not 100% guaranteed safe and secured.</p>",
+            "text_alignment": "left",
+            "desktop_width_percent": 100,
+            "content_width": 750,
+            "vertical_padding": 60,
+            "horizontal_padding": 40,
+            "mobile_vertical_padding": 40,
+            "heading_size": 52,
+            "mobile_heading_size": 36,
+            "body_size": 17,
+            "mobile_body_size": 16,
+            "background_color": "#F8F4EA",
+            "heading_color": "#401410",
+            "text_color": "#401410",
+            "eyebrow_color": "#7a7263"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_f49b20f_gkJ6tb"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "1786927473ebeec19c"
+  ]
+}
+

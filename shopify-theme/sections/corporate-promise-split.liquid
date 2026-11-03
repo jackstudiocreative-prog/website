@@ -1,0 +1,152 @@
+<section class="cps-wrap">
+
+  <div class="cps-row" style="background:{{ section.settings.left_bg }};">
+    <div class="cps-row-img">
+      {% if section.settings.left_image %}{{ section.settings.left_image | image_url: width: 1000 | image_tag: loading: 'lazy' }}{% endif %}
+    </div>
+    <div class="cps-row-text">
+      <h2 class="cps-heading">{{ section.settings.left_heading }}</h2>
+      <p class="cps-desc">{{ section.settings.left_desc | newline_to_br }}</p>
+      {% if section.settings.left_link != blank %}<a class="cps-btn" href="{{ section.settings.left_link }}">{{ section.settings.left_link_text }} &rarr;</a>{% endif %}
+    </div>
+  </div>
+
+  <div class="cps-stat-row" style="background:{{ section.settings.stat_bg }};">
+    <div class="cps-stat-left">
+      <span class="cps-stat-eyebrow">{{ section.settings.stat_eyebrow }}</span>
+      {%- assign num_str = section.settings.stat_number | strip -%}
+      {%- assign chars = num_str | split: '' -%}
+      <div class="cps-stat-fc-row" data-cps-stat-flap>
+        {%- for ch in chars -%}
+          {%- if ch == ',' -%}
+            <div class="cps-stat-fc-comma">,</div>
+          {%- else -%}
+            <div class="cps-stat-fc-cell" style="transition-delay:{{ forloop.index0 | times: 100 }}ms;">
+              <div class="cps-stat-fc-back">{{ ch }}</div>
+              <div class="cps-stat-fc-line"></div>
+              <div class="cps-stat-fc-flap"></div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <span class="cps-stat-label">{{ section.settings.stat_label }}</span>
+      <span class="cps-stat-divider"></span>
+      <p class="cps-stat-tagline">{{ section.settings.stat_tagline }}</p>
+      {% if section.settings.stat_link_text != blank %}
+        <a class="cps-stat-link" href="{{ section.settings.stat_link }}">{{ section.settings.stat_link_text }} &rarr;</a>
+      {% endif %}
+    </div>
+
+    <div class="cps-stat-image">
+      <div class="cps-stat-image-fade" style="background:linear-gradient(to right, {{ section.settings.stat_bg }} 0%, {{ section.settings.stat_bg }}CC 25%, {{ section.settings.stat_bg }}00 100%);"></div>
+      {% if section.settings.stat_image %}{{ section.settings.stat_image | image_url: width: 1400 | image_tag: loading: 'lazy' }}{% endif %}
+    </div>
+  </div>
+
+</section>
+<style>
+  .cps-wrap{background:#F5F1E8;padding:24px 24px;display:flex;flex-direction:column;gap:12px;}
+  .cps-row{display:grid;grid-template-columns:1fr 1fr;border-radius:12px;overflow:hidden;max-width:1100px;margin:0 auto;width:100%;height:170px;}
+  .cps-row-img{overflow:hidden;height:170px;}
+  .cps-row-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .cps-row-text{display:flex;flex-direction:column;justify-content:center;padding:16px 3vw;overflow:hidden;}
+  .cps-heading{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,1.7vw,20px);letter-spacing:.5px;color:#292724;margin:0 0 6px;line-height:1.05;}
+  .cps-desc{color:#716B63;font-size:13px;line-height:1.4;margin:0 0 10px;max-width:320px;}
+  .cps-btn{display:inline-block;width:fit-content;background:#C38239;color:#fff;text-decoration:none;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;padding:8px 14px;border-radius:4px;}
+  .cps-btn:hover{background:#A8702F;}
+
+  .cps-stat-row{display:flex;border-radius:12px;overflow:hidden;max-width:1100px;margin:0 auto;width:100%;height:220px;}
+  .cps-stat-left{flex:0 0 48%;height:220px;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:10px 5%;box-sizing:border-box;position:relative;z-index:1;}
+  .cps-stat-eyebrow{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:#D8CDBD;font-weight:700;margin-bottom:6px;}
+  .cps-stat-fc-row{display:flex;align-items:center;gap:3px;margin-bottom:5px;}
+  .cps-stat-fc-cell{position:relative;width:34px;height:54px;perspective:300px;flex-shrink:0;}
+  .cps-stat-fc-back{position:absolute;inset:0;background:#F0EAD9;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:31px;color:#4A382E;line-height:1;box-shadow:0 3px 7px rgba(0,0,0,.18);}
+  .cps-stat-fc-line{position:absolute;left:4px;right:4px;top:50%;height:1px;background:rgba(74,56,46,.15);z-index:3;transform:translateY(-.5px);}
+  .cps-stat-fc-flap{position:absolute;inset:0;background:#F0EAD9;border-radius:5px;transform-origin:top center;transform:rotateX(0deg);backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 3px 7px rgba(0,0,0,.18);z-index:2;transition:transform 1.1s cubic-bezier(.45,0,.2,1);}
+  .cps-stat-fc-row.in-view .cps-stat-fc-cell .cps-stat-fc-flap{transform:rotateX(-180deg);}
+  .cps-stat-fc-comma{font-family:'Bebas Neue',sans-serif;font-size:31px;color:#F5F1E8;align-self:flex-end;line-height:1;padding:0 2px 6px;flex-shrink:0;}
+  .cps-stat-label{display:block;font-size:10.5px;letter-spacing:1.1px;text-transform:uppercase;color:#F5F1E8;font-weight:700;margin-bottom:5px;}
+  .cps-stat-divider{display:block;width:20px;height:2px;background:#A97852;margin-bottom:5px;}
+  .cps-stat-tagline{font-size:12.5px;line-height:1.3;color:#D8CDBD;margin:0 0 5px;max-width:320px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .cps-stat-link{display:inline-block;width:fit-content;background:#C38239;color:#fff;text-decoration:none;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;padding:8px 15px;border-radius:4px;}
+  .cps-stat-link:hover{background:#A8702F;}
+
+  .cps-stat-image{position:relative;flex:1 1 auto;height:220px;overflow:hidden;margin-left:-70px;}
+  .cps-stat-image img{width:100%;height:100%;object-fit:cover;display:block;}
+  .cps-stat-image-fade{position:absolute;left:0;top:0;bottom:0;width:150px;z-index:2;pointer-events:none;}
+
+  @media(prefers-reduced-motion: reduce){
+    .cps-stat-fc-flap{transition:none !important;}
+  }
+
+  @media(max-width:900px){
+    .cps-row{grid-template-columns:1fr;height:auto;}
+    .cps-row-img{height:160px;}
+    .cps-row-text{padding:20px 20px;}
+
+    .cps-stat-row{flex-direction:column;height:auto;}
+    .cps-stat-left{flex:1 1 100%;height:auto;padding:32px 24px;}
+    .cps-stat-eyebrow{font-size:11px;}
+    .cps-stat-fc-cell{width:30px;height:48px;}
+    .cps-stat-fc-back,.cps-stat-fc-comma{font-size:26px;}
+    .cps-stat-label{font-size:11px;}
+    .cps-stat-tagline{font-size:13px;max-width:none;-webkit-line-clamp:unset;margin-bottom:14px;}
+    .cps-stat-image{flex:1 1 100%;height:280px;margin-left:0;}
+    .cps-stat-image-fade{display:none;}
+  }
+</style>
+
+<script>
+  (function(){
+    function initCpsStatFlap(){
+      document.querySelectorAll('[data-cps-stat-flap]').forEach(function(row){
+        if(row.getAttribute('data-cps-stat-inited')) return;
+        row.setAttribute('data-cps-stat-inited', '1');
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if(reduceMotion){ row.classList.add('in-view'); return; }
+        if(!('IntersectionObserver' in window)){ row.classList.add('in-view'); return; }
+        var observer = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if(entry.isIntersecting){
+              row.classList.add('in-view');
+            } else {
+              row.classList.remove('in-view');
+            }
+          });
+        }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
+        observer.observe(row);
+      });
+    }
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', initCpsStatFlap);
+    } else {
+      initCpsStatFlap();
+    }
+  })();
+</script>
+
+{% schema %}
+{"name":"Corporate + Promise","tag":"section","settings":[
+{"type":"header","content":"Row 1: Corporate"},
+{"type":"color","id":"left_bg","label":"Background","default":"#E9E2D5"},
+{"type":"image_picker","id":"left_image","label":"Image"},
+{"type":"text","id":"left_heading","label":"Heading","default":"CORPORATE SOLUTION"},
+{"type":"textarea","id":"left_desc","label":"Description","default":"Custom leather gifts and premium solutions for your business."},
+{"type":"text","id":"left_link_text","label":"Button text","default":"Discover More"},
+{"type":"url","id":"left_link","label":"Button link"},
+{"type":"header","content":"Row 2: Customers Stat"},
+{"type":"color","id":"stat_bg","label":"Background","default":"#4A382E"},
+{"type":"text","id":"stat_eyebrow","label":"Eyebrow","default":"Trusted By Thousands"},
+{"type":"text","id":"stat_number","label":"Stat number","default":"185,249"},
+{"type":"text","id":"stat_label","label":"Stat label","default":"Customers Served in 2025"},
+{"type":"textarea","id":"stat_tagline","label":"Tagline","default":"Thank you for letting Jack Studio be part of your everyday."},
+{"type":"text","id":"stat_link_text","label":"Button text","default":"Learn More"},
+{"type":"url","id":"stat_link","label":"Button link"},
+{"type":"image_picker","id":"stat_image","label":"Product image"}],
+"blocks":[{"type":"item","name":"Icon item (unused)","settings":[
+{"type":"select","id":"icon","label":"Icon","default":"care","options":[{"value":"care","label":"Care"},{"value":"personalisation","label":"Personalisation"},{"value":"gift","label":"Gift"},{"value":"delivery","label":"Delivery"}]},
+{"type":"text","id":"title","label":"Title","default":"CARE"},
+{"type":"textarea","id":"subtitle","label":"Subtitle","default":"Short description."}]}],
+"max_blocks":4,
+"presets":[{"name":"Corporate + Promise"}]}
+{% endschema %}

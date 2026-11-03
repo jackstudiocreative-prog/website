@@ -1,0 +1,160 @@
+{
+  "sections": {
+    "hero_1": {
+      "type": "hero-banner",
+      "settings": {
+        "eyebrow": "From Everyday Essentials",
+        "eyebrow_color": "#ffffff",
+        "heading": "To Every Journey",
+        "heading_image_size": 240,
+        "body": "Thoughtful design. Trusted quality. Care beyond every purchase.",
+        "tagline": "FROM EVERYDAY ESSENTIALS TO EVERY JOURNEY",
+        "image": "shopify://shop_images/JACK_STUDIO.png",
+        "button_text": "Explore Collections",
+        "button_link": "/collections/all"
+      }
+    },
+    "trust_1": {
+      "type": "service-icons-row",
+      "blocks": {
+        "t1": {"type": "item", "settings": {"icon": "shield", "title": "MORE TRUST", "subtitle": "Quality craftsmanship you can rely on."}},
+        "t2": {"type": "item", "settings": {"icon": "target", "title": "MORE RELEVANT", "subtitle": "Designed for the way you live today."}},
+        "t3": {"type": "item", "settings": {"icon": "group", "title": "MORE PERSONAL", "subtitle": "Personalisation that makes it yours."}}
+      },
+      "block_order": ["t1", "t2", "t3"],
+      "settings": {"heading": "", "bg_color": "#e9e2d5", "size": "large"}
+    },
+    "categories_1": {
+      "type": "category-cards",
+      "blocks": {
+        "c1": {"type": "card", "settings": {"image": "shopify://shop_images/Urban_Carry__Five_bags_on_stone_plinths.png", "image_url": "", "title": "URBAN CARRY", "subtitle": "Carry smart. Move freely.", "accent": "#767c82", "url": "/pages/产品系列-product-series-design-draft"}},
+        "c2": {"type": "card", "settings": {"image": "shopify://shop_images/Craft_Heritage__Owl-Inspired_Leather_Bags.png", "image_url": "", "title": "CRAFT HERITAGE", "subtitle": "Crafted with character.", "accent": "#9a6542", "url": "/pages/产品系列-product-series-design-draft"}},
+        "c3": {"type": "card", "settings": {"image": "shopify://shop_images/584206f1-ce65-4172-abc1-89e865cde249.png", "image_url": "", "title": "TRAVEL MOVEMENT", "subtitle": "Made for every journey.", "accent": "#d1a15d", "url": "/pages/产品系列-product-series-design-draft"}},
+        "c4": {"type": "card", "settings": {"image": "shopify://shop_images/Professional_Leather_Bags_Display.png", "image_url": "", "title": "PROFESSIONAL", "subtitle": "Made for work. Built with purpose.", "accent": "#536b78", "url": "/pages/产品系列-product-series-design-draft"}},
+        "c5": {"type": "card", "settings": {"image": "shopify://shop_images/b19d9b6c-fe1d-49b4-abec-89ee40b64742.png", "image_url": "", "title": "ESSENTIAL", "subtitle": "Made for everyday ease.", "accent": "#b8a98f", "url": "/pages/产品系列-product-series-design-draft"}},
+        "c6": {"type": "card", "settings": {"image": "shopify://shop_images/Make_It_Personal_Gift_Set_Ad.png", "image_url": "", "title": "MAKE IT PERSONAL", "subtitle": "Crafted for you.", "accent": "#a84c3e", "url": "/pages/产品系列-product-series-design-draft"}},
+        "c7": {"type": "card", "settings": {"image": "shopify://shop_images/Craft_Innovative_Wallet_Collection.png", "image_url": "", "title": "CRAFT INNOVATIVE", "subtitle": "Smart by design.", "accent": "#65756b", "url": "/pages/产品系列-product-series-design-draft"}}
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7"],
+      "settings": {"bg_color": "#f5f1e8", "heading": "Explore Our Collections", "viewall_text": "View All", "viewall_link": "/pages/产品系列-product-series-design-draft"}
+    },
+    "cps_1": {
+      "type": "corporate-promise-split",
+      "blocks": {
+        "e1": {"type": "item", "settings": {"icon": "care", "title": "CARE", "subtitle": "Free polish care for every purchase"}},
+        "e2": {"type": "item", "settings": {"icon": "personalisation", "title": "PERSONALISE", "subtitle": "Free name engraving & embossing"}},
+        "e3": {"type": "item", "settings": {"icon": "gift", "title": "GIFT", "subtitle": "Exquisite gift packaging included"}},
+        "e4": {"type": "item", "settings": {"icon": "delivery", "title": "DELIVER", "subtitle": "Free shipping above RM99 (EM & WM)"}}
+      },
+      "block_order": ["e1", "e2", "e3", "e4"],
+      "settings": {
+        "left_bg": "#e9e2d5",
+        "left_image": "shopify://shop_images/0d028c55-75f7-42dd-9ab6-65d56e534576.jpg",
+        "left_heading": "CORPORATE SOLUTION",
+        "left_desc": "Custom leather gifts and premium solutions for your business.",
+        "left_link_text": "Discover More",
+        "left_link": "/pages/企业方案-corporate-solution-design-draft",
+        "stat_bg": "#4a382e",
+        "stat_eyebrow": "Trusted By Thousands",
+        "stat_number": "185,249",
+        "stat_label": "Customers Served in 2025",
+        "stat_tagline": "Thank you for letting Jack Studio be part of your everyday.",
+        "stat_link_text": "Learn More",
+        "stat_link": "/pages/brand-promise",
+        "stat_image": "shopify://shop_images/414c56ca828c42ada2278e6ef01428ec.png"
+      }
+    },
+    "catalog_1": {
+      "type": "catalog-tabs",
+      "blocks": {
+        "k1": {"type": "tab", "settings": {"label": "Wallet | Card Holder", "collection": "walletcardholder"}},
+        "k2": {"type": "tab", "settings": {"label": "Leather Bag", "collection": "men-sling-bag"}},
+        "k3": {"type": "tab", "settings": {"label": "Leather Belt", "collection": "leather-belt"}},
+        "k4": {"type": "tab", "settings": {"label": "Travel Bags", "collection": "travel-backpack"}},
+        "k5": {"type": "tab", "settings": {"label": "Gift Set", "collection": "gift-set"}}
+      },
+      "block_order": ["k1", "k2", "k3", "k4", "k5"],
+      "settings": {"heading": "BEST SELLER", "bg_color": "#f5f1e8", "image_bg_color": "#ffffff", "accent_color": "#c4823a"}
+    },
+    "crafted_1": {
+      "type": "crafted-intention",
+      "settings": {
+        "bg_color": "#e9e2d5",
+        "image": "shopify://shop_images/f8330fd6-c7ce-409a-9bec-cada3369fca7.jpg",
+        "heading": "From Everyday Essentials to Every Journey",
+        "desc": "Built around how you live, work and travel — with trusted quality, thoughtful design and care beyond every purchase.",
+        "link_text": "JACK STUDIO BRAND STORY",
+        "link": "/pages/品牌故事-brand-story-design-draft"
+      }
+    },
+    "showroom_1": {
+      "type": "virtual-showroom",
+      "settings": {
+        "bg_color": "#f5f1e8",
+        "side_padding": 40,
+        "eyebrow": "Virtual Showroom",
+        "heading": "Step Into Jack Studio",
+        "text": "",
+        "autoload": true,
+        "button_text": "Enter Showroom",
+        "hint": "Drag to look around · tap the floor to walk",
+        "fullscreen_text": "Full Screen"
+      }
+    },
+    "lifestyle_1": {
+      "type": "lifestyle-movement",
+      "disabled": true,
+      "settings": {
+        "bg_color": "#f5f1e8",
+        "eyebrow": "Lifestyle Movement",
+        "heading": "Built For Movement. Made For Life.",
+        "text": "From the daily commute to the next flight out — Jack Studio moves with you.",
+        "button_text": "Explore Lifestyle",
+        "button_link": "/pages/产品系列-product-series-design-draft",
+        "image_1": "shopify://shop_images/JACK_STUDIO_1.png",
+        "tile_1_num": "01",
+        "tile_1_title": "Urban Carry",
+        "tile_1_desc": "Urban  Modern  Smart  Functional",
+        "tile_1_link": "/collections/urban-carry",
+        "image_2": "shopify://shop_images/watermarked_img_1140669613459896118.jpg",
+        "tile_2_num": "02",
+        "tile_2_title": "Professional",
+        "tile_2_desc": "Professional inside and out.",
+        "tile_2_link": "/collections/professional",
+        "image_3": "shopify://shop_images/JACK_STUDIO_Travel_Movement_fc162789-ac99-42b1-98d2-2909d5a46d2b.png",
+        "tile_3_num": "03",
+        "tile_3_title": "Travel Movement",
+        "tile_3_desc": "Ready for every journey ahead.",
+        "tile_3_link": "/collections/travel-movement",
+        "image_4": "shopify://shop_images/download.png",
+        "tile_4_num": "04",
+        "tile_4_title": "Craft innovative",
+        "tile_4_desc": "Smart by design",
+        "tile_4_link": "/collections/essential"
+      }
+    },
+    "services_1": {
+      "type": "service-icons-row",
+      "disabled": true,
+      "blocks": {
+        "s1": {"type": "item", "settings": {"icon": "care", "title": "CARE", "subtitle": "Free polish care for every purchase"}},
+        "s2": {"type": "item", "settings": {"icon": "personalisation", "title": "PERSONALISE", "subtitle": "Free name engraving & embossing"}},
+        "s3": {"type": "item", "settings": {"icon": "delivery", "title": "DELIVER", "subtitle": "Free shipping above RM99 (EM & WM)"}},
+        "s4": {"type": "item", "settings": {"icon": "gift", "title": "GIFT", "subtitle": "Exquisite gift packaging included"}}
+      },
+      "block_order": ["s1", "s2", "s3", "s4"],
+      "settings": {"heading": "Care Beyond Every Purchase", "bg_color": "#f5f1e8", "size": "medium"}
+    },
+    "outlets_1": {
+      "type": "our-outlets",
+      "blocks": {
+        "o1": {"type": "outlet", "settings": {"outlet": "aeon-bukit-tinggi"}},
+        "o2": {"type": "outlet", "settings": {"outlet": "paradigm-mall"}},
+        "o3": {"type": "outlet", "settings": {"outlet": "main-place-mall-usj"}}
+      },
+      "block_order": ["o1", "o2", "o3"],
+      "settings": {"bg_color": "#e9e2d5", "heading": "Our Outlets", "subtitle": "Discover a boutique near you.", "viewall_link": "shopify://pages/outlets-design-draft"}
+    }
+  },
+  "order": ["hero_1", "trust_1", "categories_1", "cps_1", "catalog_1", "crafted_1", "showroom_1", "lifestyle_1", "services_1", "outlets_1"]
+}
