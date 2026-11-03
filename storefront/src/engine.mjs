@@ -3,11 +3,12 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve, dirname, sep } from 'node:path';
 import { Liquid } from 'liquidjs';
-import { THEME_DIR, SHOP } from './config.mjs';
+import { THEME_DIR, DATA_DIR, SHOP } from './config.mjs';
 import { shopImage, shopUrl } from './data.mjs';
 
 // ---------- Shopify-only tags handled before parsing ----------
 const schemas = new Map(); // section type -> parsed {% schema %}
+const videos = JSON.parse(readFileSync(resolve(DATA_DIR, 'content/videos.json'), 'utf8'));
 
 function preprocess(src, file) {
   return src
@@ -112,7 +113,7 @@ export function createEngine() {
     const src = typeof video === 'object' ? video?.src || video?.url : video;
     if (!src) return '';
     const flags = ['autoplay', 'loop', 'muted', 'controls', 'playsinline'].filter((k) => o[k]).join(' ');
-    return `<video ${flags}${o.class ? ` class="${esc(o.class)}"` : ''}><source src="${esc(src)}"></video>`;
+    return `<video ${flags}${o.class ? ` class="${esc(o.class)}"` : ''}${o.preload ? ` preload="${esc(o.preload)}"` : ''}${video.poster ? ` poster="${esc(video.poster)}"` : ''}><source src="${esc(src)}" type="video/mp4"></video>`;
   });
   engine.registerFilter('t', (key) => key);
 
@@ -157,6 +158,7 @@ function resolveSettings(defs = [], values = {}, store) {
     let v = d.id in values ? values[d.id] : d.default;
     switch (d.type) {
       case 'image_picker': v = shopImage(v); break;
+      case 'video': v = videos[v] || (/^https:\/\//.test(v || '') ? { src: v } : null); break;
       case 'collection': v = v ? store.collections.get(v) || null : null; break;
       case 'collection_list': v = (v || []).map((h) => store.collections.get(h)).filter(Boolean); break;
       case 'product': v = v ? store.products.get(v) || null : null; break;
@@ -201,7 +203,9 @@ export async function renderTemplate(engine, name, ctx, store) {
   for (const key of tpl.order) {
     const s = tpl.sections[key];
     if (!s || s.disabled) continue;
-    parts.push(await renderSection(engine, { id: `template--${name}__${key}`, type: s.type, data: s }, ctx, store));
+    // IDs are also interpolated into CSS selectors by the original theme.
+    // A template suffix separator (.) must not become a CSS class selector.
+    parts.push(await renderSection(engine, { id: `template--${name.replace(/[^a-zA-Z0-9_-]/g, '-')}__${key}`, type: s.type, data: s }, ctx, store));
   }
   return parts.join('\n');
 }

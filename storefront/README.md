@@ -45,4 +45,6 @@ Policy page text and blog articles are copied from the live Shopify site by
 - Only products that are active and published on Shopify are shown; drafts return 404
 - Temporary: images load from the Shopify CDN; `/cart.js` is an empty stub; forms post to `/forms/*` (not wired yet)
 - Sorting by date uses collection order (the product export has no creation dates)
-- Next: content pages (About, Corporate, Outlets, Contact, policies, blog), then cart and checkout (eGHL)
+- Content routes, blogs and policy pages are implemented. Outlets receive the exported 13 store records; template IDs are CSS-safe; service videos resolve through `data/content/videos.json`.
+- Service video URLs and posters were copied from the live Our Service page on 3 Nov 2026. They still depend on the Shopify site and must migrate before the domain is switched or Shopify is closed.
+- Remaining: full visual comparison and content completeness, cart, forms and checkout (eGHL). The live service page also links to four service detail pages that are absent from the current page export.

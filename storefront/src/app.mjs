@@ -18,7 +18,9 @@ const stripHtml = (s) => String(s || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g
 
 function baseContext(url, pageType, title, description) {
   return {
-    shop: { name: SHOP.name, url: SHOP.url, description: SHOP.description, currency: SHOP.currency, brand: {} },
+    shop: { name: SHOP.name, url: SHOP.url, description: SHOP.description, currency: SHOP.currency, brand: {},
+      metaobjects: Object.fromEntries(Object.entries(store.metaobjects).map(([type, records]) =>
+        [type, { ...Object.fromEntries(records), values: [...records.values()] }])) },
     routes: {
       root_url: '/', cart_url: '/cart', search_url: '/search', account_url: '/account',
       account_login_url: '/account/login', collections_url: '/collections', all_products_collection_url: '/collections/all',
