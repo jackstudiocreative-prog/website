@@ -12,6 +12,10 @@ const themeSettings = {};
 for (const group of JSON.parse(readFileSync(resolve(THEME_DIR, 'config/settings_schema.json'), 'utf8'))) {
   for (const s of group.settings || []) if (s.id) themeSettings[s.id] = s.default;
 }
+const savedSettings = JSON.parse(readFileSync(resolve(THEME_DIR, 'config/settings_data.json'), 'utf8')).current;
+for (const key of Object.keys(themeSettings)) {
+  if (Object.hasOwn(savedSettings, key)) themeSettings[key] = savedSettings[key];
+}
 
 const templateExists = (name) => existsSync(resolve(THEME_DIR, 'templates', `${name}.json`));
 const stripHtml = (s) => String(s || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();

@@ -99,6 +99,10 @@ export function createEngine() {
   });
   engine.registerFilter('money_with_currency', (cents) => engine.filters.money.call(null, cents));
   engine.registerFilter('asset_url', (name) => `/assets/${name}`);
+  engine.registerFilter('absolute_url', (url) => {
+    if (!url) return '';
+    return new URL(String(url), SHOP.url).href;
+  });
   engine.registerFilter('stylesheet_tag', (url) => `<link href="${esc(url)}" rel="stylesheet" type="text/css" media="all">`);
   engine.registerFilter('script_tag', (url) => `<script src="${esc(url)}" type="text/javascript"></script>`);
   engine.registerFilter('handleize', (s) => String(s ?? '').toLowerCase().trim()
@@ -213,6 +217,10 @@ export async function renderTemplate(engine, name, ctx, store) {
 export async function renderLayout(engine, ctx, store, contentForLayout) {
   const settingsData = JSON.parse(readFileSync(resolve(THEME_DIR, 'config/settings_data.json'), 'utf8')).current;
   let src = preprocess(readFileSync(resolve(THEME_DIR, 'layout/theme.liquid'), 'utf8'));
+  // Shopify returns protocol-relative image URLs; our adapter returns HTTPS URLs.
+  // Normalize only the layout's explicit prefix, keeping the exported theme intact.
+  src = src.replace(/https:\{\{\s*(og_image\s*\|\s*image_url:[^}]+)\}\}/g,
+    '{{ $1 | absolute_url | escape }}');
   const staticSections = {};
   for (const [, type] of src.matchAll(/\{%-?\s*section\s+'([^']+)'\s*-?%\}/g)) {
     staticSections[type] = await renderSection(engine, { id: type, type, data: settingsData.sections?.[type] || {} }, ctx, store);

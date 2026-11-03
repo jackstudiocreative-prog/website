@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "test": "node --test",
     "build": "node src/build.mjs",
     "dev": "node src/server.mjs",
     "preview": "npm run build && npm run dev"

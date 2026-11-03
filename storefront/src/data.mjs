@@ -120,7 +120,7 @@ function makeCollection(c, list) {
     seo_title: c.seo_title || '', seo_description: c.seo_description || '',
     image: makeImage(c.image), products: list, all_products: list,
     products_count: list.length, all_products_count: list.length,
-    sort_by: '', default_sort_by: 'manual', filters: [],
+    sort_by: '', default_sort_by: c.default_sort_by || 'manual', filters: [],
   };
 }
 
@@ -131,7 +131,7 @@ function loadCollections(products) {
     map.set(c.handle, makeCollection(c, list));
   }
   // /collections/all: every visible product
-  map.set('all', makeCollection({ handle: 'all', title: 'Products' }, [...products.values()].filter((p) => p.visible)));
+  map.set('all', makeCollection({ handle: 'all', title: 'Products', default_sort_by: 'title-ascending' }, [...products.values()].filter((p) => p.visible)));
   return map;
 }
 
