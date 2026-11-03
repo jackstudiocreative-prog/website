@@ -1,6 +1,6 @@
 // Loads the exported store data (../data) and turns it into Shopify-style
 // objects that the original theme's Liquid can read unchanged.
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { parse } from 'csv-parse/sync';
 import { DATA_DIR, CDN_FILES } from './config.mjs';
 
@@ -150,6 +150,18 @@ function loadOutlets() {
   return map;
 }
 
+// ---------- pages ----------
+function loadPages() {
+  const map = new Map();
+  for (const p of readJSON('content/pages.json').pages) {
+    let content = '';
+    const file = `${DATA_DIR}/content/pages/${p.handle}.html`;
+    if (existsSync(file)) content = readFileSync(file, 'utf8');
+    map.set(p.handle, { ...p, id: p.handle, url: `/pages/${p.handle}`, content, template_suffix: p.template_suffix || '' });
+  }
+  return map;
+}
+
 // ---------- URL redirects (Shopify: Navigation > URL redirects) ----------
 function loadRedirects() {
   const rows = parse(readFileSync(`${DATA_DIR}/redirects/redirects_export.csv`), { columns: true, bom: true, skip_empty_lines: true });
@@ -168,5 +180,5 @@ export function loadStore() {
   const products = loadProducts();
   const collections = loadCollections(products);
   const outlets = loadOutlets();
-  return { products, collections, metaobjects: { outlet: outlets }, redirects: loadRedirects() };
+  return { products, collections, pages: loadPages(), metaobjects: { outlet: outlets }, redirects: loadRedirects() };
 }

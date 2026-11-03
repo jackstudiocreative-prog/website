@@ -11,6 +11,7 @@ const schemas = new Map(); // section type -> parsed {% schema %}
 
 function preprocess(src, file) {
   return src
+    .replace(/\{%-?\s*doc\s*-?%\}[\s\S]*?\{%-?\s*enddoc\s*-?%\}/g, '')
     .replace(/\{%-?\s*schema\s*-?%\}([\s\S]*?)\{%-?\s*endschema\s*-?%\}/g, (_, json) => {
       if (file) {
         try { schemas.set(file, JSON.parse(json)); } catch { schemas.set(file, {}); }
@@ -117,16 +118,34 @@ export function createEngine() {
   return engine;
 }
 
-// ---------- sections ----------
-export function sectionSchema(type) {
-  const file = resolve(THEME_DIR, 'sections', `${type}.liquid`);
+// ---------- sections and theme blocks ----------
+function schemaOf(dir, type) {
+  const file = resolve(THEME_DIR, dir, `${type}.liquid`);
   if (!schemas.has(file)) preprocess(readFileSync(file, 'utf8'), file);
   return schemas.get(file) || {};
 }
+export const sectionSchema = (type) => schemaOf('sections', type);
 
-function sectionSource(type) {
-  const file = resolve(THEME_DIR, 'sections', `${type}.liquid`);
+function sourceOf(dir, type) {
+  const file = resolve(THEME_DIR, dir, `${type}.liquid`);
   return preprocess(readFileSync(file, 'utf8'), file);
+}
+const sectionSource = (type) => sourceOf('sections', type);
+
+// Shopify's built-in "_blocks" section: renders theme blocks from blocks/*.liquid one after another.
+async function renderThemeBlocks(engine, data, ctx, store, section) {
+  const order = data.block_order || Object.keys(data.blocks || {});
+  const out = [];
+  for (const bid of order) {
+    const b = data.blocks?.[bid];
+    if (!b || b.disabled || !existsSync(resolve(THEME_DIR, 'blocks', `${b.type}.liquid`))) continue;
+    const schema = schemaOf('blocks', b.type);
+    const block = { id: bid, type: b.type, shopify_attributes: '', settings: resolveSettings(schema.settings, b.settings, store) };
+    const html = await engine.parseAndRender(sourceOf('blocks', b.type), { ...ctx, section, block });
+    out.push(schema.tag === null ? html
+      : `<${schema.tag || 'div'} id="shopify-block-${bid}" class="${esc(schema.class || '')}">${html}</${schema.tag || 'div'}>`);
+  }
+  return out.join('');
 }
 
 // Turn stored JSON settings into the objects Liquid expects, using the schema's setting types.
@@ -153,6 +172,11 @@ function resolveSettings(defs = [], values = {}, store) {
 }
 
 export async function renderSection(engine, { id, type, data = {} }, ctx, store) {
+  if (type === 'apps') return ''; // app blocks (e.g. Collabs) have no theme code to render
+  if (type === '_blocks') {
+    const section = { id, type, blocks: [], settings: data.settings || {} };
+    return `<div id="shopify-section-${id}" class="shopify-section">${await renderThemeBlocks(engine, data, ctx, store, section)}</div>`;
+  }
   const schema = sectionSchema(type);
   const blockDefs = Object.fromEntries((schema.blocks || []).map((b) => [b.type, b.settings || []]));
   const order = data.block_order || Object.keys(data.blocks || {});

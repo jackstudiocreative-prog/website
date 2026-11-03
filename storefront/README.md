@@ -28,6 +28,13 @@ npm run build      # dist/ + bundle/
 npm run dev        # http://localhost:4173
 ```
 
+## Content import
+
+Policy page text and blog articles are copied from the live Shopify site by
+`scripts/import-content.mjs`, run by the GitHub Actions workflow **Import content from Shopify**
+(daily, or manually from the Actions tab). It writes `data/content/pages/*.html` and
+`data/content/blogs.json`. Disable the workflow once the site no longer runs on Shopify.
+
 ## Before going live
 
 - Remove the `X-Robots-Tag: noindex` header from `vercel.json` (it keeps the preview out of Google while jackstudio.com.my is still on Shopify).

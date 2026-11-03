@@ -29,6 +29,7 @@ function baseContext(url, pageType, title, description) {
     customer: null,
     collections: Object.fromEntries(store.collections),
     all_products: Object.fromEntries(store.products),
+    pages: Object.fromEntries(store.pages),
     page_title: title,
     page_description: description || SHOP.description,
     canonical_url: SHOP.url + url.pathname,
@@ -146,6 +147,29 @@ async function productPage(url, handle) {
   });
 }
 
+async function contentPage(url, handle) {
+  const pg = store.pages.get(handle);
+  if (!pg || !pg.published) return null;
+  const suffix = pg.template_suffix && templateExists(`page.${pg.template_suffix}`) ? `.${pg.template_suffix}` : '';
+  return page(url, {
+    template: `page${suffix}`, type: 'page', title: pg.title,
+    description: stripHtml(pg.content).slice(0, 320) || undefined,
+    extra: { page: pg },
+  });
+}
+
+function searchPage(url) {
+  const q = (url.searchParams.get('q') || '').trim();
+  const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+  const results = terms.length
+    ? [...store.products.values()].filter((p) => p.visible && terms.every((t) =>
+        `${p.title} ${p.type} ${p.tags.join(' ')} ${p.variants.map((v) => v.sku).join(' ')}`.toLowerCase().includes(t)))
+    : [];
+  const items = results.map((p) => ({ ...p, object_type: 'product' }));
+  const search = { performed: terms.length > 0, terms: q, results: items, results_count: items.length, types: ['product'] };
+  return page(url, { template: 'search', type: 'search', title: q ? `Search: ${q}` : 'Search', extra: { search } });
+}
+
 // ---------- router ----------
 export async function render(rawUrl) {
   const url = new URL(rawUrl, SHOP.url);
@@ -157,6 +181,15 @@ export async function render(rawUrl) {
   let m;
   if (path === '/') {
     return page(url, { template: 'index', type: 'index', title: SHOP.home_title });
+  }
+  if (path === '/collections') {
+    return page(url, { template: 'list-collections', type: 'list-collections', title: 'Collections' });
+  }
+  if (path === '/cart') return page(url, { template: 'cart', type: 'cart', title: 'Your Shopping Cart' });
+  if (path === '/search') return searchPage(url);
+  if ((m = path.match(/^\/pages\/([^/]+)$/))) {
+    const res = await contentPage(url, m[1]);
+    if (res) return res;
   }
   if ((m = path.match(/^\/collections\/([^/]+)$/))) {
     const res = await collectionPage(url, m[1]);

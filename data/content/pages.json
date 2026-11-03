@@ -1,0 +1,33 @@
+{
+  "_source": "Shopify Admin API, exported 2026-11-03. Page metadata only; most pages are built from theme sections. Body HTML for the policy pages is imported separately.",
+  "pages": [
+    { "handle": "contact", "title": "Contact Us", "template_suffix": "contact-us", "published": true },
+    { "handle": "privacy-policy", "title": "Privacy Policy", "template_suffix": "contact", "published": true },
+    { "handle": "terms-and-condition", "title": "Terms of Services", "template_suffix": "contact", "published": true },
+    { "handle": "about-us", "title": "About Us", "template_suffix": "about-us", "published": true },
+    { "handle": "blog-post", "title": "Blog Post", "template_suffix": "", "published": false },
+    { "handle": "shipping", "title": "Shipping", "template_suffix": "contact", "published": true },
+    { "handle": "return-and-exchanges", "title": "Refund Policy", "template_suffix": "contact", "published": true },
+    { "handle": "search-results-v-next", "title": "Search Results", "template_suffix": null, "published": false },
+    { "handle": "jackstudio", "title": "Collabs", "template_suffix": "collabs", "published": true },
+    { "handle": "pushdaddy-faq-1", "title": "FAQs", "template_suffix": null, "published": true },
+    { "handle": "corporate", "title": "Corporate", "template_suffix": "corporate", "published": true },
+    { "handle": "b2b-terms-of-services", "title": "B2B Terms Of Services", "template_suffix": "contact", "published": true },
+    { "handle": "首页-home-design-draft", "title": "首页 Home (Design Draft)", "template_suffix": null, "published": false },
+    { "handle": "品牌故事-brand-story-design-draft", "title": "Brand Story", "template_suffix": "brand-story", "published": true },
+    { "handle": "企业方案-corporate-solution-design-draft", "title": "Corporate Solution", "template_suffix": "corporate-solution", "published": true },
+    { "handle": "产品系列-product-series-design-draft", "title": "Product Collection", "template_suffix": "product-series", "published": true },
+    { "handle": "outlets-design-draft", "title": "Outlets", "template_suffix": "outlets", "published": true },
+    { "handle": "privacy-policy-draft", "title": "Privacy Policy", "template_suffix": "privacy-policy-draft", "published": true },
+    { "handle": "refund-policy-draft", "title": "Refund Policy", "template_suffix": "refund-policy-draft", "published": true },
+    { "handle": "shipping-policy-draft", "title": "Shipping & Delivery", "template_suffix": "shipping-policy-draft", "published": true },
+    { "handle": "terms-of-service-draft", "title": "Terms of Service", "template_suffix": "terms-of-service-draft", "published": true },
+    { "handle": "wishlist", "title": "Wishlist", "template_suffix": "wishlist", "published": true },
+    { "handle": "brand-promise", "title": "Brand Promise", "template_suffix": "brand-promise", "published": true },
+    { "handle": "executive-gifts", "title": "Executive Gifts", "template_suffix": "executive-gifts", "published": true },
+    { "handle": "employee-rewards", "title": "Employee Rewards", "template_suffix": "employee-rewards", "published": true },
+    { "handle": "event-merchandise", "title": "Event Merchandise", "template_suffix": "event-merchandise", "published": true },
+    { "handle": "promotional-items", "title": "Promotional Items", "template_suffix": "promotional-items", "published": true },
+    { "handle": "our-service", "title": "Our Service", "template_suffix": "our-service", "published": true }
+  ]
+}

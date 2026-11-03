@@ -1,0 +1,33 @@
+name: Import content from Shopify
+
+# Copies policy page text and blog articles from the live jackstudio.com.my into data/content.
+# Run it from the Actions tab ("Run workflow"); it also runs daily while the site is still on Shopify.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 19 * * *' # 03:17 Malaysia time
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Import pages and blog
+        run: node storefront/scripts/import-content.mjs
+      - name: Commit changes
+        run: |
+          git config user.name "Jack Studio Content Import"
+          git config user.email "jackstudiocreative@gmail.com"
+          git add data/content
+          if git diff --cached --quiet; then
+            echo "No content changes"
+          else
+            git commit -m "Import content from jackstudio.com.my"
+            git push
+          fi
