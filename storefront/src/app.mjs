@@ -26,8 +26,8 @@ function baseContext(url, pageType, title, description) {
       metaobjects: Object.fromEntries(Object.entries(store.metaobjects).map(([type, records]) =>
         [type, { ...Object.fromEntries(records), values: [...records.values()] }])) },
     routes: {
-      root_url: '/', cart_url: '/cart', search_url: '/search', account_url: '/account',
-      account_login_url: '/account/login', collections_url: '/collections', all_products_collection_url: '/collections/all',
+      root_url: '/', cart_url: '/cart', search_url: '/search', account_url: SHOP.membership_url,
+      account_login_url: SHOP.membership_url, collections_url: '/collections', all_products_collection_url: '/collections/all',
     },
     request: { path: url.pathname, page_type: pageType, design_mode: false, locale: { iso_code: 'en' } },
     settings: themeSettings,

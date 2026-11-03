@@ -17,6 +17,7 @@ export const OUT_DIR = resolve(ROOT, 'dist');
 export const CDN_FILES = 'https://cdn.shopify.com/s/files/1/0745/2550/7871/files/';
 
 export const SHOP = {
+  membership_url: 'https://js-customer-portal-staging-qkns26jte-troy-tan.vercel.app/',
   name: 'Jack Studio Marketing Sdn Bhd',
   url: 'https://www.jackstudio.com.my',
   currency: 'MYR',
