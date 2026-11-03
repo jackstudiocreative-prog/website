@@ -30,6 +30,7 @@ function baseContext(url, pageType, title, description) {
     collections: Object.fromEntries(store.collections),
     all_products: Object.fromEntries(store.products),
     pages: Object.fromEntries(store.pages),
+    blogs: Object.fromEntries(store.blogs),
     page_title: title,
     page_description: description || SHOP.description,
     canonical_url: SHOP.url + url.pathname,
@@ -158,6 +159,23 @@ async function contentPage(url, handle) {
   });
 }
 
+function blogPage(url, handle) {
+  const blog = store.blogs.get(handle);
+  if (!blog) return null;
+  return page(url, { template: 'blog', type: 'blog', title: blog.title, extra: { blog } });
+}
+
+function articlePage(url, blogHandle, handle) {
+  const blog = store.blogs.get(blogHandle);
+  const article = blog?.articles.find((a) => a.handle === handle);
+  if (!article) return null;
+  return page(url, {
+    template: 'article', type: 'article', title: article.title,
+    description: (stripHtml(article.excerpt) || stripHtml(article.content)).slice(0, 320),
+    extra: { blog, article, page_image: article.image },
+  });
+}
+
 function searchPage(url) {
   const q = (url.searchParams.get('q') || '').trim();
   const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
@@ -189,6 +207,14 @@ export async function render(rawUrl) {
   if (path === '/search') return searchPage(url);
   if ((m = path.match(/^\/pages\/([^/]+)$/))) {
     const res = await contentPage(url, m[1]);
+    if (res) return res;
+  }
+  if ((m = path.match(/^\/blogs\/([^/]+)$/))) {
+    const res = await blogPage(url, m[1]);
+    if (res) return res;
+  }
+  if ((m = path.match(/^\/blogs\/([^/]+)\/([^/]+)$/))) {
+    const res = await articlePage(url, m[1], m[2]);
     if (res) return res;
   }
   if ((m = path.match(/^\/collections\/([^/]+)$/))) {

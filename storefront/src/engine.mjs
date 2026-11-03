@@ -63,6 +63,7 @@ export function createEngine() {
     cache: true,
     jsTruthy: false,
     ownPropertyOnly: false,
+    timezoneOffset: 'Asia/Kuala_Lumpur', // Shopify formats dates in the shop's time zone
   });
 
   // image_url: accepts an image object or a URL string; returns a URL that remembers its alt text.

@@ -162,6 +162,23 @@ function loadPages() {
   return map;
 }
 
+// ---------- blogs (imported by scripts/import-content.mjs) ----------
+function loadBlogs() {
+  const map = new Map();
+  if (!existsSync(`${DATA_DIR}/content/blogs.json`)) return map;
+  for (const b of readJSON('content/blogs.json').blogs) {
+    // Atom feed titles are "<shop name> - <blog name>"
+    const blog = { handle: b.handle, title: b.title.replace(/^.*? - /, ''), url: `/blogs/${b.handle}`, articles: [] };
+    blog.articles = b.articles.map((a) => ({
+      ...a, id: `${b.handle}/${a.handle}`, url: `/blogs/${b.handle}/${a.handle}`, blog,
+      image: makeImage(a.image, a.title), published_at: a.published_at, created_at: a.published_at,
+    }));
+    blog.articles_count = blog.articles.length;
+    map.set(b.handle, blog);
+  }
+  return map;
+}
+
 // ---------- URL redirects (Shopify: Navigation > URL redirects) ----------
 function loadRedirects() {
   const rows = parse(readFileSync(`${DATA_DIR}/redirects/redirects_export.csv`), { columns: true, bom: true, skip_empty_lines: true });
@@ -180,5 +197,5 @@ export function loadStore() {
   const products = loadProducts();
   const collections = loadCollections(products);
   const outlets = loadOutlets();
-  return { products, collections, pages: loadPages(), metaobjects: { outlet: outlets }, redirects: loadRedirects() };
+  return { products, collections, pages: loadPages(), blogs: loadBlogs(), metaobjects: { outlet: outlets }, redirects: loadRedirects() };
 }
