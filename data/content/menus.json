@@ -1,0 +1,106 @@
+{
+  "_source": "Shopify Admin API, exported 2026-11-03",
+  "menus": [
+    { "handle": "main-menu", "title": "No Using", "items": [] },
+    { "handle": "footer", "title": "Info", "items": [
+      { "title": "About Us", "type": "PAGE", "url": "/pages/about-us" },
+      { "title": "Contact Us", "type": "PAGE", "url": "/pages/contact" },
+      { "title": "Search", "type": "SEARCH", "url": "/search" },
+      { "title": "Corporate Gift", "type": "PAGE", "url": "/pages/corporate" }
+    ]},
+    { "handle": "menu-02", "title": "Menu 02", "items": [
+      { "title": "Our Story", "type": "PAGE", "url": "/pages/about-us", "items": [
+        { "title": "Contact Us", "type": "PAGE", "url": "/pages/contact" },
+        { "title": "About Us", "type": "PAGE", "url": "/pages/about-us" }
+      ]},
+      { "title": "Customer Services", "type": "PAGE", "url": "/pages/privacy-policy", "items": [
+        { "title": "Privacy Policy", "type": "PAGE", "url": "/pages/privacy-policy" },
+        { "title": "Terms of Services", "type": "PAGE", "url": "/pages/terms-and-condition" },
+        { "title": "Shipping", "type": "PAGE", "url": "/pages/shipping" },
+        { "title": "Refund Policy", "type": "PAGE", "url": "/pages/return-and-exchanges" }
+      ]},
+      { "title": "Corporate Gift", "type": "PAGE", "url": "/pages/corporate", "items": [
+        { "title": "Corporate Gift", "type": "PAGE", "url": "/pages/corporate" },
+        { "title": "B2B Terms & Condition", "type": "PAGE", "url": "/pages/b2b-terms-of-services" }
+      ]},
+      { "title": "Perfect Gift For You", "type": "COLLECTION", "url": "/collections/gift-set" },
+      { "title": "Catalog", "type": "CATALOG", "url": "/collections/all", "items": [
+        { "title": "Gift Product", "type": "COLLECTION", "url": "/collections/gift-set" },
+        { "title": "Leather Bag", "type": "COLLECTION", "url": "/collections/men-sling-bag" },
+        { "title": "Leather Belt", "type": "COLLECTION", "url": "/collections/leather-belt" },
+        { "title": "Travel Backpack", "type": "COLLECTION", "url": "/collections/travel-backpack" },
+        { "title": "Wallet Card Holder", "type": "COLLECTION", "url": "/collections/walletcardholder" }
+      ]},
+      { "title": "Blog Post", "type": "BLOG", "url": "/blogs/news" }
+    ]},
+    { "handle": "shop", "title": "Shop", "items": [
+      { "title": "All Product", "type": "CATALOG", "url": "/collections/all" },
+      { "title": "Wallet Card Holder", "type": "COLLECTION", "url": "/collections/walletcardholder" },
+      { "title": "Leather Bag", "type": "COLLECTION", "url": "/collections/men-sling-bag" },
+      { "title": "Leather Belt", "type": "COLLECTION", "url": "/collections/leather-belt" },
+      { "title": "Travel Backpack", "type": "COLLECTION", "url": "/collections/travel-backpack" },
+      { "title": "Gift Set", "type": "COLLECTION", "url": "/collections/gift-set" }
+    ]},
+    { "handle": "policies", "title": "Policies", "items": [
+      { "title": "Privacy Policy", "type": "PAGE", "url": "/pages/privacy-policy" },
+      { "title": "Refund Policy", "type": "PAGE", "url": "/pages/return-and-exchanges" },
+      { "title": "Shipping", "type": "PAGE", "url": "/pages/shipping" },
+      { "title": "Terms of Services", "type": "PAGE", "url": "/pages/terms-and-condition" }
+    ]},
+    { "handle": "customer-account-main-menu", "title": "Customer account main menu", "items": [
+      { "title": "Orders", "type": "CUSTOMER_ACCOUNT_PAGE", "url": "/account/orders" },
+      { "title": "Profile", "type": "CUSTOMER_ACCOUNT_PAGE", "url": "/account/profile" }
+    ]},
+    { "handle": "menu-02-copy", "title": "B2C", "items": [
+      { "title": "Catalog", "type": "CATALOG", "url": "/collections/all", "items": [
+        { "title": "Gift Product", "type": "COLLECTION", "url": "/collections/gift-set" },
+        { "title": "Leather Bag", "type": "COLLECTION", "url": "/collections/men-sling-bag" },
+        { "title": "Leather Belt", "type": "COLLECTION", "url": "/collections/leather-belt" },
+        { "title": "Travel Backpack", "type": "COLLECTION", "url": "/collections/travel-backpack" },
+        { "title": "Wallet Card Holder", "type": "COLLECTION", "url": "/collections/walletcardholder" }
+      ]},
+      { "title": "Our Story", "type": "PAGE", "url": "/pages/about-us", "items": [
+        { "title": "Contact Us", "type": "PAGE", "url": "/pages/contact" },
+        { "title": "About Us", "type": "PAGE", "url": "/pages/about-us" }
+      ]},
+      { "title": "Store Policies", "type": "PAGE", "url": "/pages/privacy-policy", "items": [
+        { "title": "Privacy Policy", "type": "SHOP_POLICY", "url": "/policies/privacy-policy" },
+        { "title": "Terms of Services", "type": "SHOP_POLICY", "url": "/policies/terms-of-service" },
+        { "title": "Shipping", "type": "SHOP_POLICY", "url": "/policies/shipping-policy" },
+        { "title": "Refund Policy", "type": "SHOP_POLICY", "url": "/policies/refund-policy" }
+      ]},
+      { "title": "Gift Sets", "type": "COLLECTION", "url": "/collections/gift-set", "items": [
+        { "title": "Perfect Gift For You", "type": "COLLECTION", "url": "/collections/gift-set" },
+        { "title": "Corporate Sets", "type": "PAGE", "url": "/pages/corporate", "items": [
+          { "title": "Corporate Gifts", "type": "PAGE", "url": "/pages/corporate" },
+          { "title": "Corporate Terms & Condition", "type": "PAGE", "url": "/pages/b2b-terms-of-services" }
+        ]}
+      ]},
+      { "title": "Blog Post", "type": "BLOG", "url": "/blogs/news" }
+    ]},
+    { "handle": "b2c-copy", "title": "B2C (copy)", "items": [
+      { "title": "Our Story", "type": "PAGE", "url": "/pages/about-us", "items": [
+        { "title": "Contact Us", "type": "PAGE", "url": "/pages/contact" },
+        { "title": "About Us", "type": "PAGE", "url": "/pages/about-us" }
+      ]},
+      { "title": "Shop", "type": "CATALOG", "url": "/collections/all", "items": [
+        { "title": "Gift Product", "type": "COLLECTION", "url": "/collections/gift-set" },
+        { "title": "Leather Bag", "type": "COLLECTION", "url": "/collections/men-sling-bag" },
+        { "title": "Leather Belt", "type": "COLLECTION", "url": "/collections/leather-belt" },
+        { "title": "Travel Backpack", "type": "COLLECTION", "url": "/collections/travel-backpack" },
+        { "title": "Wallet Card Holder", "type": "COLLECTION", "url": "/collections/walletcardholder" }
+      ]},
+      { "title": "Gift Sets", "type": "COLLECTION", "url": "/collections/gift-set", "items": [
+        { "title": "Perfect Gift For You", "type": "COLLECTION", "url": "/collections/gift-set" },
+        { "title": "Corporate Sets", "type": "PAGE", "url": "/pages/corporate", "items": [
+          { "title": "Corporate Gifts", "type": "PAGE", "url": "/pages/corporate" },
+          { "title": "Corporate Terms & Condition", "type": "PAGE", "url": "/pages/b2b-terms-of-services" }
+        ]}
+      ]},
+      { "title": "Blog Post", "type": "BLOG", "url": "/blogs/news", "items": [
+        { "title": "Promotion", "type": "BLOG", "url": "/blogs/promotions-genuine-leather-deals" },
+        { "title": "Newsletter", "type": "BLOG", "url": "/blogs/news" }
+      ]}
+    ]}
+  ]
+}
